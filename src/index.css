@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light dark;
+  color: #191c1d;
+  background-color: #f8f9fa;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+.btn-gradient {
+  background: linear-gradient(135deg, #ff5733 0%, #b72301 100%);
+}
+
+.glass-nav {
+  backdrop-filter: blur(24px);
+}
+
+.faq-item[open] .faq-icon {
+  transform: rotate(180deg);
+  color: #ff5733;
+}
+
+/* Hide default marker in details */
+summary::-webkit-details-marker {
+  display: none;
+}
