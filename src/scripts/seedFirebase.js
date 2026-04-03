@@ -63,31 +63,49 @@ const snackItems = [
 ];
 
 const barFeatured = [
-  { id: 1, title: 'Old Fashioned', price: 140, desc: 'Bourbon, amargos, azúcar y un toque cítrico. Servido sobre una esfera de hielo tallada a mano.', img: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b', badge: 'Selección The Reserve' },
-  { id: 2, title: 'Dry Martini', price: 160, desc: 'Ginebra London Dry, vermut seco y amargos de naranja. Agitado o revuelto a la perfección.', img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd', badge: 'Premium' },
-  { id: 3, title: 'Negroni', price: 150, desc: 'Partes iguales de ginebra, vermut dulce y Campari. Un equilibrio amargo-dulce de excelencia botánica.', img: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87', badge: 'Clásico' }
+  { id: 1, title: 'Old Fashioned', price: 140, desc: 'Bourbon, amargos, azúcar y un toque cítrico. Servido sobre una esfera de hielo tallada a mano.', img: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b', badge: 'Selección The Reserve', category: 'destacados' },
+  { id: 2, title: 'Dry Martini', price: 160, desc: 'Ginebra London Dry, vermut seco y amargos de naranja. Agitado o revuelto a la perfección.', img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd', badge: 'Premium', category: 'destacados' },
+  { id: 3, title: 'Negroni', price: 150, desc: 'Partes iguales de ginebra, vermut dulce y Campari. Un equilibrio amargo-dulce de excelencia botánica.', img: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87', badge: 'Clásico', category: 'destacados' }
 ];
 
 const barTequilas = [
-  { id: 1, name: 'Don Julio 70', cup: 180, bottle: 2800 },
-  { id: 2, name: 'Jose Cuervo Tradicional', cup: 120, bottle: 1600 },
-  { id: 3, name: 'Casa Dragones Blanco', cup: 210, bottle: 3200 },
-  { id: 4, name: 'Maestro Dobel Diamante', cup: 170, bottle: 2600 }
+  { id: 4, name: 'Don Julio 70', cup: 180, bottle: 2800, category: 'tequilas' },
+  { id: 5, name: 'Jose Cuervo Tradicional', cup: 120, bottle: 1600, category: 'tequilas' },
+  { id: 6, name: 'Casa Dragones Blanco', cup: 210, bottle: 3200, category: 'tequilas' },
+  { id: 7, name: 'Maestro Dobel Diamante', cup: 170, bottle: 2600, category: 'tequilas' }
 ];
 
 const barWhisky = [
-  { id: 1, name: 'Johnnie Walker Black Label', cup: 160, bottle: 2400 },
-  { id: 2, name: 'Jack Daniel\'s', cup: 130, bottle: 1800 },
-  { id: 3, name: 'Buchanan\'s 12', cup: 150, bottle: 2100 },
-  { id: 4, name: 'Macallan 12', cup: 240, bottle: 3800 }
+  { id: 8, name: 'Johnnie Walker Black Label', cup: 160, bottle: 2400, category: 'whisky' },
+  { id: 9, name: 'Jack Daniel\'s', cup: 130, bottle: 1800, category: 'whisky' },
+  { id: 10, name: 'Buchanan\'s 12', cup: 150, bottle: 2100, category: 'whisky' },
+  { id: 11, name: 'Macallan 12', cup: 240, bottle: 3800, category: 'whisky' }
 ];
 
 const barRon = [
-  { id: 1, name: 'Bacardí Blanco', cup: 90, bottle: 1100 },
-  { id: 2, name: 'Captain Morgan', cup: 100, bottle: 1300 },
-  { id: 3, name: 'Zacapa 23', cup: 220, bottle: 3200 },
-  { id: 4, name: 'Matusalem Platino', cup: 110, bottle: 1500 }
+  { id: 12, name: 'Bacardí Blanco', cup: 90, bottle: 1100, category: 'ron' },
+  { id: 13, name: 'Captain Morgan', cup: 100, bottle: 1300, category: 'ron' },
+  { id: 14, name: 'Zacapa 23', cup: 220, bottle: 3200, category: 'ron' },
+  { id: 15, name: 'Matusalem Platino', cup: 110, bottle: 1500, category: 'ron' }
 ];
+
+const cervezas = [
+  { id: 16, name: 'Corona Extra', origin: '355ml', price: 45, category: 'cervezas' },
+  { id: 17, name: 'Modelo Especial', origin: '355ml', price: 50, category: 'cervezas' },
+  { id: 18, name: 'Victoria', origin: '355ml', price: 45, category: 'cervezas' },
+  { id: 19, name: 'Artesanal IPA', origin: 'Boutique Brew', price: 85, category: 'cervezas' },
+  { id: 20, name: 'Stella Artois', origin: '330ml Importada', price: 65, category: 'cervezas' }
+];
+
+const sinAlcohol = [
+  { id: 21, name: 'Limonada Natural', desc: 'Recién exprimida', price: 45, category: 'sin-alcohol' },
+  { id: 22, name: 'Naranjada', desc: 'Con agua mineral o natural', price: 45, category: 'sin-alcohol' },
+  { id: 23, name: 'Refrescos Variados', desc: '355ml', price: 35, category: 'sin-alcohol' },
+  { id: 24, name: 'Agua Mineral Perrier', desc: '330ml', price: 65, category: 'sin-alcohol' },
+  { id: 25, name: 'Mocktail Frutos Rojos', desc: 'Mezcla cítrica artesanal', price: 85, category: 'sin-alcohol' }
+];
+
+const barItems = [...barFeatured, ...barTequilas, ...barWhisky, ...barRon, ...cervezas, ...sinAlcohol];
 
 async function seed() {
   console.log("Seeding started...");
@@ -102,21 +120,10 @@ async function seed() {
   }
   console.log("Snack items seeded.");
 
-  for (const item of barFeatured) {
-    await setDoc(doc(db, "bar_featured", `item_${item.id}`), item);
+  for (const item of barItems) {
+    await setDoc(doc(db, "bar_items", `item_${item.id}`), item);
   }
-  console.log("Bar Featured seeded.");
-
-  for (const item of barTequilas) {
-    await setDoc(doc(db, "bar_tequilas", `item_${item.id}`), item);
-  }
-  for (const item of barWhisky) {
-    await setDoc(doc(db, "bar_whisky", `item_${item.id}`), item);
-  }
-  for (const item of barRon) {
-    await setDoc(doc(db, "bar_ron", `item_${item.id}`), item);
-  }
-  console.log("Bar categories seeded.");
+  console.log("Bar unified items seeded.");
   
   console.log("Seeding complete! You can exit (Ctrl+C).");
   process.exit(0);

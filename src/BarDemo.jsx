@@ -13,24 +13,25 @@ export default function BarDemo({ onBack, onAdmin }) {
   const [featuredItems, setFeaturedItems] = useState([]);
   const [tequilas, setTequilas] = useState([]);
   const [whisky, setWhisky] = useState([]);
-  const [ron, setRon] = useState([]);
+  const [cervezas, setCervezas] = useState([]);
+  const [sinAlcohol, setSinAlcohol] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    let loadedCount = 0;
-    const checkLoading = () => {
-      loadedCount++;
-      if (loadedCount >= 4) setLoading(false);
-    };
+    const unsubscribe = onSnapshot(collection(db, "bar_items"), snap => {
+      const itemsData = snap.docs.map(doc => doc.data());
+      itemsData.sort((a,b) => a.id - b.id);
+      
+      setFeaturedItems(itemsData.filter(i => i.category === 'destacados'));
+      setTequilas(itemsData.filter(i => i.category === 'tequilas'));
+      setWhisky(itemsData.filter(i => i.category === 'whisky'));
+      setRon(itemsData.filter(i => i.category === 'ron'));
+      setCervezas(itemsData.filter(i => i.category === 'cervezas'));
+      setSinAlcohol(itemsData.filter(i => i.category === 'sin-alcohol'));
+      setLoading(false);
+    });
 
-    const s = (docs) => docs.map(d => d.data()).sort((a,b) => a.id - b.id);
-    
-    const u1 = onSnapshot(collection(db, "bar_featured"), snap => { setFeaturedItems(s(snap.docs)); checkLoading(); });
-    const u2 = onSnapshot(collection(db, "bar_tequilas"), snap => { setTequilas(s(snap.docs)); checkLoading(); });
-    const u3 = onSnapshot(collection(db, "bar_whisky"), snap => { setWhisky(s(snap.docs)); checkLoading(); });
-    const u4 = onSnapshot(collection(db, "bar_ron"), snap => { setRon(s(snap.docs)); checkLoading(); });
-
-    return () => { u1(); u2(); u3(); u4(); };
+    return () => unsubscribe();
   }, []);
 
   return (
@@ -143,19 +144,13 @@ export default function BarDemo({ onBack, onAdmin }) {
               <div className="space-y-4">
                 {activeTab === 'cervezas' && (
                   <div className="bg-[#121413] rounded-xl border border-[#1B4332]/20 divide-y divide-[#1B4332]/10">
-                    {[
-                      { name: 'Corona Extra', origin: '355ml', price: '$45' },
-                      { name: 'Modelo Especial', origin: '355ml', price: '$50' },
-                      { name: 'Victoria', origin: '355ml', price: '$45' },
-                      { name: 'Artesanal IPA', origin: 'Boutique Brew', price: '$85' },
-                      { name: 'Stella Artois', origin: '330ml Importada', price: '$65' }
-                    ].map((item, idx) => (
+                    {cervezas.map((item, idx) => (
                       <div key={idx} className="flex items-center justify-between p-4 group hover:bg-[#1B4332]/5 transition-colors">
                         <div>
-                          <p className="font-bold text-[#F3F4F1] text-sm">{item.name}</p>
-                          <p className="text-[#A5D0B9]/40 text-[10px] uppercase tracking-widest font-medium">{item.origin}</p>
+                          <p className="font-bold text-[#F3F4F1] text-sm">{item.name || item.title}</p>
+                          <p className="text-[#A5D0B9]/40 text-[10px] uppercase tracking-widest font-medium">{item.desc || item.origin}</p>
                         </div>
-                        <p className="font-['Plus_Jakarta_Sans'] font-bold text-[#E9C176] text-sm">{item.price}</p>
+                        <p className="font-['Plus_Jakarta_Sans'] font-bold text-[#E9C176] text-sm">${item.price}</p>
                       </div>
                     ))}
                   </div>
@@ -188,16 +183,10 @@ export default function BarDemo({ onBack, onAdmin }) {
 
                 {activeTab === 'sin-alcohol' && (
                   <div className="bg-[#121413] rounded-xl border border-[#1B4332]/20 divide-y divide-[#1B4332]/10">
-                    {[
-                      { name: 'Limonada Natural', desc: 'Recién exprimida', price: 45 },
-                      { name: 'Naranjada', desc: 'Con agua mineral o natural', price: 45 },
-                      { name: 'Refrescos Variados', desc: '355ml', price: 35 },
-                      { name: 'Agua Mineral Perrier', desc: '330ml', price: 65 },
-                      { name: 'Mocktail Frutos Rojos', desc: 'Mezcla cítrica artesanal', price: 85 }
-                    ].map((item, idx) => (
+                    {sinAlcohol.map((item, idx) => (
                       <div key={idx} className="flex justify-between items-center p-4 hover:bg-[#1B4332]/5 transition-colors">
                         <div>
-                          <p className="font-bold text-[#F3F4F1] text-sm">{item.name}</p>
+                          <p className="font-bold text-[#F3F4F1] text-sm">{item.name || item.title}</p>
                           <p className="text-[#A5D0B9]/40 text-[10px] uppercase tracking-widest font-medium">{item.desc}</p>
                         </div>
                         <span className="font-bold text-[#E9C176]">${item.price}</span>
@@ -223,7 +212,6 @@ export default function BarDemo({ onBack, onAdmin }) {
                 <p className="text-[10px] uppercase tracking-widest text-[#A5D0B9]/20">Powered by</p>
                 <div className="flex items-center gap-2">
                   <p className="font-['Plus_Jakarta_Sans'] font-bold text-[#A5D0B9]/40">MenusClic</p>
-                  <button onClick={onAdmin} className="text-[10px] uppercase font-bold text-[#A5D0B9]/20 hover:text-[#E9C176] transition-colors ml-2 bg-[#1B4332]/20 px-2 py-1 rounded">Admin</button>
                 </div>
               </div>
             </div>

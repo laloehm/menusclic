@@ -102,7 +102,6 @@ export default function SnackDemo({ onBack, onAdmin }) {
 
               <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#ff4b2b]/60 pb-4 flex justify-center items-center gap-4">
                 <span>© 2024 Snack Attack • Calidad & Sabor</span>
-                <button onClick={onAdmin} className="opacity-60 hover:opacity-100 hover:text-[#ff4b2b] transition-all px-2 py-1 cursor-pointer">Admin</button>
               </div>
             </div>
           </footer>

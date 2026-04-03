@@ -127,7 +127,6 @@ export default function RestaurantDemo({ onBack, onAdmin }) {
               </div>
               <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#9f402d] pb-4 flex justify-center items-center gap-4">
                 <span>© 2024 Bistro Experience • Maestría Culinaria</span>
-                <button onClick={onAdmin} className="opacity-40 hover:opacity-100 transition-opacity px-2 py-1 cursor-pointer">Admin</button>
               </div>
             </div>
           </footer>

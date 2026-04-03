@@ -9,10 +9,7 @@ export default function AdminDashboard({ onBack, domain }) {
   const allCollections = [
     { id: 'restaurant_items', label: 'Restaurante', domain: 'restaurant' },
     { id: 'snack_items', label: 'Snacks', domain: 'snack' },
-    { id: 'bar_featured', label: 'Bar: Destacados', domain: 'bar' },
-    { id: 'bar_tequilas', label: 'Bar: Tequilas', domain: 'bar' },
-    { id: 'bar_whisky', label: 'Bar: Whisky', domain: 'bar' },
-    { id: 'bar_ron', label: 'Bar: Ron', domain: 'bar' }
+    { id: 'bar_items', label: 'Menú del Bar', domain: 'bar' }
   ];
 
   const collections = allCollections.filter(c => c.domain === domain);
@@ -95,7 +92,7 @@ export default function AdminDashboard({ onBack, domain }) {
             placeholder="Contraseña" 
             value={password}
             onChange={e => setPassword(e.target.value)}
-            className="w-full border p-3 rounded mb-4"
+            className="w-full bg-white text-black border p-3 rounded mb-4"
           />
           <button type="submit" className="w-full bg-orange-600 text-white font-bold py-3 rounded">Ingresar</button>
         </form>
@@ -103,21 +100,20 @@ export default function AdminDashboard({ onBack, domain }) {
     );
   }
 
-  // Determine what fields to show based on collection
-  const isLiquor = activeTab.includes('tequilas') || activeTab.includes('whisky') || activeTab.includes('ron');
 
   return (
     <div className="min-h-screen bg-gray-50 font-inter antialiased">
       {/* Header */}
-      <header className="bg-white shadow px-6 py-4 flex justify-between items-center sticky top-0 z-50">
-        <div className="flex items-center gap-4">
-          <button onClick={onBack} className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100">
+      <header className="bg-white shadow px-4 md:px-6 py-4 flex flex-col md:flex-row justify-between items-center sticky top-0 z-50 gap-4 md:gap-0">
+        <div className="flex items-center justify-center md:justify-start w-full relative">
+          <button onClick={onBack} className="absolute left-0 md:static w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100">
             <span className="material-symbols-outlined">arrow_back</span>
           </button>
-          <h1 className="text-xl font-black">Panel de Administración</h1>
+          <h1 className="text-xl md:text-2xl font-black text-center w-full md:w-auto md:ml-2">Panel de Administración</h1>
         </div>
-        <button onClick={() => { setIsAdding(true); setEditingItem({}); }} className="bg-green-600 text-white px-4 py-2 rounded font-bold flex items-center gap-2">
-          <span className="material-symbols-outlined">add</span> Nuevo Platillo
+        <button onClick={() => { setIsAdding(true); setEditingItem({}); }} className="bg-green-600 hover:bg-green-700 text-white px-6 py-2.5 rounded-lg font-bold flex items-center justify-center gap-1 transition-colors shadow-sm w-full sm:w-auto">
+          <span className="material-symbols-outlined text-[24px] leading-none flex items-center justify-center mt-[-1px]">add</span> 
+          <span className="leading-none pt-[1px]">Nuevo Platillo</span>
         </button>
       </header>
 
@@ -148,24 +144,28 @@ export default function AdminDashboard({ onBack, domain }) {
             <div className="py-20 text-center text-gray-500 font-medium">Sincronizando con la nube...</div>
           ) : (
             <div className="flex flex-col gap-4">
-              {items.map(item => (
+              {items.map(item => {
+                const itemIsLiquor = ['tequilas', 'whisky', 'ron'].includes(item.category);
+                return (
                 <div key={item.docId} className="bg-white border md:border-gray-100 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center gap-4 shadow-sm hover:shadow-md transition-shadow">
                   
-                  {isLiquor ? (
+                  {itemIsLiquor ? (
                      <div className="flex-1 flex flex-col gap-1">
                        <h3 className="font-bold text-lg text-gray-900">{item.name}</h3>
                        <div className="flex gap-4 text-sm font-medium">
                          <span className="text-orange-600">Copa: ${item.cup}</span>
                          <span className="text-orange-600">Botella: ${item.bottle}</span>
                        </div>
+                       <span className="text-[10px] font-bold uppercase tracking-wider bg-gray-100 text-gray-500 w-max px-2 py-0.5 rounded mt-1">{item.category}</span>
                      </div>
                   ) : (
                     <div className="flex items-start sm:items-center gap-4 flex-1">
-                      <img src={item.img} alt={item.title} className="w-20 h-20 rounded-lg object-cover flex-shrink-0 shadow-sm" />
+                      {item.img && <img src={item.img} alt={item.title} className="w-20 h-20 rounded-lg object-cover flex-shrink-0 shadow-sm" />}
                       <div className="flex-1">
-                        <h3 className="font-bold text-lg text-gray-900 leading-tight mb-1">{item.title}</h3>
+                        <h3 className="font-bold text-lg text-gray-900 leading-tight mb-1">{item.title || item.name}</h3>
                         <p className="text-orange-600 font-black mb-1">${item.price}</p>
                         <p className="text-sm text-gray-500 line-clamp-2 md:line-clamp-none">{item.desc}</p>
+                        <span className="text-[10px] font-bold uppercase tracking-wider bg-gray-100 text-gray-500 w-max px-2 py-0.5 rounded mt-2 block">{item.category || 'Snack'}</span>
                       </div>
                     </div>
                   )}
@@ -181,7 +181,7 @@ export default function AdminDashboard({ onBack, domain }) {
                   </div>
 
                 </div>
-              ))}
+              )})}
               
               {items.length === 0 && (
                 <div className="p-8 text-center text-gray-500 bg-gray-50 rounded-xl border border-dashed">
@@ -200,7 +200,7 @@ export default function AdminDashboard({ onBack, domain }) {
             <h3 className="text-2xl font-bold mb-4">{isAdding ? 'Añadir Nuevo' : 'Editar Elemento'}</h3>
             <ItemForm 
               item={editingItem} 
-              isLiquor={isLiquor}
+              domain={domain}
               onSave={handleSave} 
               onCancel={() => { setEditingItem(null); setIsAdding(false); }} 
             />
@@ -211,8 +211,10 @@ export default function AdminDashboard({ onBack, domain }) {
   );
 }
 
-function ItemForm({ item, isLiquor, onSave, onCancel }) {
-  const [formData, setFormData] = useState(item || {});
+function ItemForm({ item, domain, onSave, onCancel }) {
+  const [formData, setFormData] = useState(item || (domain === 'restaurant' ? {category: 'desayunos'} : domain === 'bar' ? {category: 'destacados'} : {}));
+  
+  const isLiquor = ['tequilas', 'whisky', 'ron'].includes(formData.category);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -225,24 +227,52 @@ function ItemForm({ item, isLiquor, onSave, onCancel }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
+      {domain === 'restaurant' && (
+         <div>
+           <label className="block text-sm font-bold text-gray-700 mb-1">Categoría</label>
+           <select required name="category" value={formData.category || 'desayunos'} onChange={handleChange} className="w-full bg-white text-black border p-2 rounded text-sm">
+             <option value="desayunos">Desayunos</option>
+             <option value="entradas">Entradas</option>
+             <option value="comidas">Comidas</option>
+             <option value="cenas">Cenas</option>
+             <option value="postres">Postres</option>
+             <option value="bebidas">Bebidas</option>
+           </select>
+         </div>
+      )}
+      {domain === 'bar' && (
+         <div>
+           <label className="block text-sm font-bold text-gray-700 mb-1">Categoría del Bar</label>
+           <select required name="category" value={formData.category || 'destacados'} onChange={handleChange} className="w-full bg-white text-black border p-2 rounded text-sm">
+             <option value="destacados">Destacados / Cócteles</option>
+             <option value="cervezas">Cervezas</option>
+             <option value="tequilas">Tequilas</option>
+             <option value="whisky">Whisky</option>
+             <option value="ron">Ron</option>
+             <option value="sin-alcohol">Sin Alcohol</option>
+           </select>
+         </div>
+      )}
+
       {isLiquor ? (
         <>
-          <div><label className="block text-sm font-bold text-gray-700 mb-1">Nombre</label><input required type="text" name="name" value={formData.name || ''} onChange={handleChange} className="w-full border p-2 rounded" /></div>
+          <div><label className="block text-sm font-bold text-gray-700 mb-1">Nombre</label><input required type="text" name="name" value={formData.name || ''} onChange={handleChange} className="w-full bg-white text-black border p-2 rounded" /></div>
           <div className="flex gap-4">
-            <div className="w-1/2"><label className="block text-sm font-bold text-gray-700 mb-1">Precio Copa</label><input type="number" name="cup" value={formData.cup || ''} onChange={handleChange} className="w-full border p-2 rounded" /></div>
-            <div className="w-1/2"><label className="block text-sm font-bold text-gray-700 mb-1">Precio Botella</label><input type="number" name="bottle" value={formData.bottle || ''} onChange={handleChange} className="w-full border p-2 rounded" /></div>
+            <div className="w-1/2"><label className="block text-sm font-bold text-gray-700 mb-1">Precio Copa</label><input type="number" name="cup" value={formData.cup || ''} onChange={handleChange} className="w-full bg-white text-black border p-2 rounded" /></div>
+            <div className="w-1/2"><label className="block text-sm font-bold text-gray-700 mb-1">Precio Botella</label><input type="number" name="bottle" value={formData.bottle || ''} onChange={handleChange} className="w-full bg-white text-black border p-2 rounded" /></div>
           </div>
         </>
       ) : (
         <>
-          <div><label className="block text-sm font-bold text-gray-700 mb-1">Título</label><input required type="text" name="title" value={formData.title || ''} onChange={handleChange} className="w-full border p-2 rounded" /></div>
-          <div><label className="block text-sm font-bold text-gray-700 mb-1">Precio</label><input required type="number" name="price" value={formData.price || ''} onChange={handleChange} className="w-full border p-2 rounded" /></div>
-          <div><label className="block text-sm font-bold text-gray-700 mb-1">Descripción</label><textarea required name="desc" value={formData.desc || ''} onChange={handleChange} className="w-full border p-2 rounded h-24" /></div>
-          <div><label className="block text-sm font-bold text-gray-700 mb-1">URL Imagen (Unsplash)</label><input type="url" name="img" value={formData.img || ''} onChange={handleChange} className="w-full border p-2 rounded text-xs" /></div>
+          <div><label className="block text-sm font-bold text-gray-700 mb-1">Título / Nombre</label><input required type="text" name="title" value={formData.title || formData.name || ''} onChange={handleChange} className="w-full bg-white text-black border p-2 rounded" /></div>
           <div className="flex gap-4">
-             <div className="w-1/2"><label className="block text-sm font-bold text-gray-700 mb-1">Categoría (Restaurante)</label><input type="text" name="category" placeholder="ej. desayunos" value={formData.category || ''} onChange={handleChange} className="w-full border p-2 rounded text-sm" /></div>
-             <div className="w-1/2"><label className="block text-sm font-bold text-gray-700 mb-1">Etiqueta/Tag</label><input type="text" name="tag" placeholder="ej. Nuevo" value={formData.tag || formData.badge || ''} onChange={(e) => setFormData({...formData, tag: e.target.value, badge: e.target.value})} className="w-full border p-2 rounded text-sm" /></div>
+            <div className="w-1/2"><label className="block text-sm font-bold text-gray-700 mb-1">Precio</label><input required type="number" name="price" value={formData.price || ''} onChange={handleChange} className="w-full bg-white text-black border p-2 rounded" /></div>
+            {domain !== 'restaurant' && (
+              <div className="w-1/2"><label className="block text-sm font-bold text-gray-700 mb-1">Etiqueta/Tag</label><input type="text" name="tag" placeholder="ej. Nuevo" value={formData.tag || formData.badge || ''} onChange={(e) => setFormData({...formData, tag: e.target.value, badge: e.target.value})} className="w-full bg-white text-black border p-2 rounded text-sm" /></div>
+            )}
           </div>
+          <div><label className="block text-sm font-bold text-gray-700 mb-1">Descripción / Info</label><textarea name="desc" value={formData.desc || formData.origin || ''} onChange={(e) => setFormData({...formData, desc: e.target.value, origin: e.target.value})} className="w-full bg-white text-black border p-2 rounded h-24" /></div>
+          <div><label className="block text-sm font-bold text-gray-700 mb-1">URL Imagen (Unsplash)</label><input type="url" name="img" value={formData.img || ''} onChange={handleChange} className="w-full bg-white text-black border p-2 rounded text-xs" /></div>
         </>
       )}
       <div className="flex justify-end gap-2 pt-4 border-t mt-6">

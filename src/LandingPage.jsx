@@ -244,7 +244,6 @@ function Footer() {
         <div className="flex flex-wrap gap-6 md:justify-end">
           <a className="text-[12px] font-inter tracking-wide uppercase font-medium text-zinc-500 dark:text-zinc-400 hover:text-orange-500 transition-colors" href="#">Política de Privacidad</a>
           <a className="text-[12px] font-inter tracking-wide uppercase font-medium text-zinc-500 dark:text-zinc-400 hover:text-orange-500 transition-colors" href="#">Términos de Servicio</a>
-          <button onClick={() => window.location.hash = 'admin'} className="text-[12px] font-inter tracking-wide uppercase font-medium text-zinc-500 dark:text-zinc-400 hover:text-orange-500 transition-colors cursor-pointer">Admin</button>
         </div>
       </div>
     </footer>
