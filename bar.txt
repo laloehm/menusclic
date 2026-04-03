@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Reserve | Premium Digital Menu</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary-fixed-variant": "#274e3d",
+              "tertiary": "#c6c6c6",
+              "on-primary-container": "#86af99",
+              "on-secondary-fixed": "#261900",
+              "secondary": "#e9c176",
+              "on-background": "#e2e3e0",
+              "surface-container-low": "#1a1c1b",
+              "surface-container": "#1e201f",
+              "surface-bright": "#383a38",
+              "primary-fixed-dim": "#a5d0b9",
+              "tertiary-fixed": "#e2e2e2",
+              "secondary-container": "#604403",
+              "error-container": "#93000a",
+              "on-surface-variant": "#c1c8c2",
+              "primary": "#a5d0b9",
+              "secondary-fixed-dim": "#e9c176",
+              "on-error-container": "#ffdad6",
+              "surface-dim": "#121413",
+              "inverse-on-surface": "#2f312f",
+              "surface-container-highest": "#333534",
+              "on-primary": "#0e3727",
+              "on-tertiary": "#2f3131",
+              "surface": "#121413",
+              "surface-container-high": "#282a29",
+              "on-tertiary-fixed-variant": "#454747",
+              "primary-fixed": "#c1ecd4",
+              "tertiary-container": "#3a3c3c",
+              "on-secondary-container": "#dab36a",
+              "surface-variant": "#333534",
+              "background": "#121413",
+              "error": "#ffb4ab",
+              "on-tertiary-container": "#a5a6a6",
+              "on-error": "#690005",
+              "inverse-primary": "#3f6653",
+              "on-surface": "#e2e3e0",
+              "surface-tint": "#a5d0b9",
+              "surface-container-lowest": "#0d0f0e",
+              "on-secondary-fixed-variant": "#5d4201",
+              "on-tertiary-fixed": "#1a1c1c",
+              "on-secondary": "#412d00",
+              "primary-container": "#1b4332",
+              "outline": "#8b938d",
+              "secondary-fixed": "#ffdea5",
+              "tertiary-fixed-dim": "#c6c6c6",
+              "outline-variant": "#414844",
+              "on-primary-fixed": "#002114",
+              "inverse-surface": "#e2e3e0"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style type="text/tailwindcss">
+        .glass-panel {
+            background: rgba(30, 32, 31, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #121413;
+            color: #e2e3e0;
+            min-height: max(884px, 100dvh);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }#tab-beer:checked ~ #content-beer { display: block; }
+        #tab-non-alc:checked ~ #content-non-alc { display: block; }
+        #tab-snacks:checked ~ #content-snacks { display: block; }
+        .tab-label {
+            @apply border-b-2 border-transparent text-on-surface-variant/60 py-3 px-1 transition-all text-xs font-bold uppercase tracking-widest cursor-pointer whitespace-nowrap;
+        }
+        input[type="radio"]:checked + .tab-label {
+            @apply border-secondary text-secondary;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body selection:bg-primary/30">
+<nav class="fixed top-0 w-full z-50 bg-[#121413]/70 backdrop-blur-xl shadow-[0_20px_40px_rgba(0,0,0,0.4)]">
+<div class="flex justify-between items-center w-full px-6 py-4">
+<div class="flex items-center gap-4">
+<button class="text-[#a5d0b9] hover:bg-[#1b4332]/30 transition-colors duration-300 p-2 rounded-lg active:scale-95 duration-200 ease-in-out">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<span class="text-xl font-extrabold tracking-tighter text-[#e9c176] uppercase font-headline">The Reserve</span>
+</div>
+<button class="text-[#a5d0b9] hover:bg-[#1b4332]/30 transition-colors duration-300 p-2 rounded-lg active:scale-95 duration-200 ease-in-out">
+<span class="material-symbols-outlined">search</span>
+</button>
+</div>
+</nav>
+<main class="pt-16 pb-32">
+<section class="relative h-[380px] flex items-end px-6 pb-8 overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img alt="Signature Cocktail" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEt8tegJCXCin62Y0PHg38z3OQN7HoYsJWMo3X-aSHnH7uFushZF-b4JiD6X4dJYsA-F8paFoYfI_hSxAEIh1LfcZVIhGDwYKsatuqBeeS3KPOoTLiwdV1sg7vBDYCJ8TW1hcs1sv69gFmPvaRHHmp2-itNtMkFX5UKL8XYWq-23UVewiBptC56QTsJYx-eaklhXpNhznvIzGzQ03ig98pLVOby7KYkRKgINGzHPG7jzzSxcaG4ozpfhoTI76uvJb3KWgMxb6CyGU"/>
+<div class="absolute inset-0 bg-gradient-to-t from-[#121413] via-[#121413]/40 to-transparent"></div>
+</div>
+<div class="relative z-10 glass-panel p-6 rounded-xl border border-white/5 w-full">
+<h1 class="font-headline text-3xl font-extrabold text-[#e2e3e0] tracking-tight leading-tight mb-1">
+                    Cocktail &amp; <br/><span class="text-secondary">Spirit Lounge</span>
+</h1>
+<p class="text-on-surface-variant text-[10px] font-medium tracking-widest uppercase">Curated Excellence since 1924</p>
+</div>
+</section>
+<section class="mt-8">
+<div class="px-6 flex items-center justify-between mb-4">
+<h2 class="font-headline text-xl font-bold text-primary">Cocktails Clásicos</h2>
+<span class="text-[10px] text-on-surface-variant/40 uppercase tracking-widest">Swipe to explore</span>
+</div>
+<div class="flex overflow-x-auto hide-scrollbar snap-x snap-mandatory gap-4 px-6 pb-4">
+<div class="flex-none w-64 snap-start group">
+<div class="bg-surface-container-high rounded-xl overflow-hidden flex flex-col border border-white/5">
+<div class="h-44 relative overflow-hidden">
+<img alt="Old Fashioned" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNvRhL7Q7xyASDjKDrU9aaYbXDJ78MViJoSvYMMEpxeD8p9m9bsrDXV2s6Y5KkbKuCJJI-XG1fhxrd2YmVnmS2yY6ucSRztFi1Dt6zZrz9vgHBiUjd7yzsPtjxsyYzWnQx1zkPO_K7svT1P37HdtIwwMKL7Z5YuTUHIaBMmaApssA0e5_RxeciwCbDPF2PUeK39kcPg9r_m9ZgJs0WCgTqnoeVUwM-j3NYk3Zl9NATfndV0O5enR3P4Cuc7JcD7HYj-xK-AWqaP7E"/>
+<div class="absolute top-2 right-2">
+<span class="bg-surface-container-lowest/80 backdrop-blur-md text-secondary text-[8px] font-bold tracking-widest uppercase px-2 py-0.5 rounded-full border border-secondary/20">The Reserve Chip</span>
+</div>
+<div class="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/80 to-transparent">
+<div class="flex justify-between items-center">
+<h3 class="font-headline text-base font-bold text-white">Old Fashioned</h3>
+<span class="text-secondary font-bold text-sm">$14</span>
+</div>
+</div>
+</div>
+<div class="p-4">
+<p class="text-on-surface-variant text-xs leading-relaxed mb-3 line-clamp-2">Bourbon, bitters, sugar, and a twist of citrus. Served over a single hand-carved ice sphere.</p>
+<button class="w-full bg-secondary/10 border border-secondary/20 text-secondary font-bold py-2 rounded-lg hover:bg-secondary hover:text-on-secondary transition-all text-[10px] uppercase tracking-widest">Order Now</button>
+</div>
+</div>
+</div>
+<div class="flex-none w-64 snap-start group">
+<div class="bg-surface-container-high rounded-xl overflow-hidden flex flex-col border border-white/5">
+<div class="h-44 relative overflow-hidden">
+<img alt="Martini" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFA7RU5-9iHGRlNc68XJ-e4VjpHV9UrtIqDdGPIp4rz3UC3mFxobvwqtRYs-Ew8lNghSU7Z5_swJjXWr68LhnhmNHciasYLNBTjPZ3ESoLXRt4-od9J_2ndnGwgi-bLIveC_vPkOnVeuY0sVEGLuP-tfOOPkOXVNxrr7VdX7CJTrkhTNVCdDljIrNpDKvJCHZBnC5H4fq4zfiZ1Tzf7IosCOskJjIzg86iS4hnto8w4BtW5p6uDDuTAd5nHGzrbYpeazxy4os3SoA"/>
+<div class="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/80 to-transparent">
+<div class="flex justify-between items-center">
+<h3 class="font-headline text-base font-bold text-white">Dry Martini</h3>
+<span class="text-secondary font-bold text-sm">$16</span>
+</div>
+</div>
+</div>
+<div class="p-4">
+<p class="text-on-surface-variant text-xs leading-relaxed mb-3 line-clamp-2">London Dry Gin, dry vermouth, and a dash of orange bitters. Shaken or stirred to perfection.</p>
+<button class="w-full bg-secondary/10 border border-secondary/20 text-secondary font-bold py-2 rounded-lg hover:bg-secondary hover:text-on-secondary transition-all text-[10px] uppercase tracking-widest">Order Now</button>
+</div>
+</div>
+</div>
+<div class="flex-none w-64 snap-start group">
+<div class="bg-surface-container-high rounded-xl overflow-hidden flex flex-col border border-white/5">
+<div class="h-44 relative overflow-hidden">
+<img alt="Negroni" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCD35Ewd3ulwXxbp4Qomts2AcdbDVqDQuqgLvZ4TreSQCRvHsgcpSjcrT02P3vxl2_8mKF0QYHKEeoQD-DUjIWApMRbg9P-5PWsSiflixwdzZu_-sXE8iqUNO-S5r_czjxUkcLG8_vay1U6TdyRkAwBbG5mJ_JJCGyVJ5_Nisa_anzLM3Nn-xzKL_e-OBIo2rOq70paV6Bx2HMsfZtra2EGlZyW27DAoMxTtdxgDByxoYzHnOetKS0RrskVRQkiCw-C5mZhu3U42ek"/>
+<div class="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/80 to-transparent">
+<div class="flex justify-between items-center">
+<h3 class="font-headline text-base font-bold text-white">Negroni</h3>
+<span class="text-secondary font-bold text-sm">$15</span>
+</div>
+</div>
+</div>
+<div class="p-4">
+<p class="text-on-surface-variant text-xs leading-relaxed mb-3 line-clamp-2">Equal parts gin, sweet vermouth, and Campari. A bitter-sweet balance of botanical excellence.</p>
+<button class="w-full bg-secondary/10 border border-secondary/20 text-secondary font-bold py-2 rounded-lg hover:bg-secondary hover:text-on-secondary transition-all text-[10px] uppercase tracking-widest">Order Now</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="mt-8 px-6">
+<div class="relative">
+<div class="flex border-b border-outline-variant/20 mb-6 overflow-x-auto hide-scrollbar gap-6">
+<div class="relative">
+<input checked="" class="hidden" id="tab-beer" name="menu-tabs" type="radio"/>
+<label class="tab-label" for="tab-beer">Cervezas y Vinos</label>
+</div>
+<div class="relative">
+<input class="hidden" id="tab-non-alc" name="menu-tabs" type="radio"/>
+<label class="tab-label" for="tab-non-alc">Bebidas sin Alcohol</label>
+</div>
+<div class="relative">
+<input class="hidden" id="tab-snacks" name="menu-tabs" type="radio"/>
+<label class="tab-label" for="tab-snacks">Snacks</label>
+</div>
+</div>
+<div class="hidden space-y-4" id="content-beer">
+<div class="bg-surface-container-low rounded-xl border border-white/5 divide-y divide-outline-variant/10">
+<div class="flex items-center justify-between p-4 group">
+<div>
+<p class="font-bold text-on-surface text-sm">Reserva Especial Red</p>
+<p class="text-on-surface-variant text-[10px] uppercase tracking-widest">Tempranillo, Spain</p>
+</div>
+<p class="font-headline font-bold text-secondary text-sm">$12 / $45</p>
+</div>
+<div class="flex items-center justify-between p-4 group">
+<div>
+<p class="font-bold text-on-surface text-sm">Emerald Chardonnay</p>
+<p class="text-on-surface-variant text-[10px] uppercase tracking-widest">Napa Valley, CA</p>
+</div>
+<p class="font-headline font-bold text-secondary text-sm">$14 / $52</p>
+</div>
+<div class="flex items-center justify-between p-4 group">
+<div>
+<p class="font-bold text-on-surface text-sm">The Midnight Stout</p>
+<p class="text-on-surface-variant text-[10px] uppercase tracking-widest">Craft Beer, 7.5% ABV</p>
+</div>
+<p class="font-headline font-bold text-secondary text-sm">$9</p>
+</div>
+<div class="flex items-center justify-between p-4 group">
+<div>
+<p class="font-bold text-on-surface text-sm">Golden Pilsner</p>
+<p class="text-on-surface-variant text-[10px] uppercase tracking-widest">Imported, 5.0% ABV</p>
+</div>
+<p class="font-headline font-bold text-secondary text-sm">$8</p>
+</div>
+</div>
+</div>
+<div class="hidden space-y-4" id="content-non-alc">
+<div class="bg-secondary-container/20 rounded-xl border border-secondary/10 divide-y divide-secondary/5">
+<div class="flex justify-between items-center p-4">
+<div>
+<p class="font-bold text-on-surface text-sm">Emerald Mocktail</p>
+<p class="text-on-surface-variant text-[10px] uppercase tracking-widest">Cucumber, Lime, Mint</p>
+</div>
+<span class="font-bold text-secondary">$9</span>
+</div>
+<div class="flex justify-between items-center p-4">
+<div>
+<p class="font-bold text-on-surface text-sm">Yuzu Soda</p>
+<p class="text-on-surface-variant text-[10px] uppercase tracking-widest">House-made syrup</p>
+</div>
+<span class="font-bold text-secondary">$6</span>
+</div>
+<div class="flex justify-between items-center p-4">
+<div>
+<p class="font-bold text-on-surface text-sm">Sparkling Mineral</p>
+<p class="text-on-surface-variant text-[10px] uppercase tracking-widest">Chilled 330ml</p>
+</div>
+<span class="font-bold text-secondary">$5</span>
+</div>
+</div>
+</div>
+<div class="hidden space-y-4" id="content-snacks">
+<div class="bg-primary-container/20 rounded-xl border border-primary/10 divide-y divide-primary/5">
+<div class="flex justify-between items-center p-4">
+<div>
+<p class="font-bold text-on-surface text-sm">Truffle Fries</p>
+<p class="text-on-surface-variant text-[10px] uppercase tracking-widest">With Parmesan &amp; Herbs</p>
+</div>
+<span class="font-bold text-primary">$11</span>
+</div>
+<div class="flex justify-between items-center p-4">
+<div>
+<p class="font-bold text-on-surface text-sm">Artisan Olives</p>
+<p class="text-on-surface-variant text-[10px] uppercase tracking-widest">Marinated Citrus Blend</p>
+</div>
+<span class="font-bold text-primary">$8</span>
+</div>
+<div class="flex justify-between items-center p-4">
+<div>
+<p class="font-bold text-on-surface text-sm">Iberico Ham</p>
+<p class="text-on-surface-variant text-[10px] uppercase tracking-widest">Aged 36 Months</p>
+</div>
+<span class="font-bold text-primary">$22</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<footer class="mt-20 px-6 pt-12 pb-12 bg-surface-container-low border-t border-outline-variant/10">
+<div class="flex flex-col items-center text-center">
+<span class="text-2xl font-extrabold tracking-tighter text-[#e9c176] uppercase font-headline mb-4">The Reserve</span>
+<p class="text-on-surface-variant text-sm mb-8 max-w-xs">Elevating the art of the pour, one guest at a time.</p>
+<div class="flex gap-6 mb-10">
+<a class="w-12 h-12 flex items-center justify-center rounded-full bg-surface-container-highest text-secondary hover:bg-secondary hover:text-on-secondary transition-all" href="#">
+<span class="material-symbols-outlined">chat</span>
+</a>
+<a class="w-12 h-12 flex items-center justify-center rounded-full bg-surface-container-highest text-secondary hover:bg-secondary hover:text-on-secondary transition-all" href="#">
+<span class="material-symbols-outlined">share</span>
+</a>
+<a class="w-12 h-12 flex items-center justify-center rounded-full bg-surface-container-highest text-secondary hover:bg-secondary hover:text-on-secondary transition-all" href="#">
+<span class="material-symbols-outlined">location_on</span>
+</a>
+</div>
+<div class="flex flex-col gap-2">
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant/40">Powered by</p>
+<p class="font-headline font-bold text-on-surface-variant">MenusClic</p>
+</div>
+</div>
+</footer>
+</main>
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 bg-[#0d0f0e]/80 backdrop-blur-2xl border-t border-[#e9c176]/10 shadow-[0_-10px_30px_rgba(0,0,0,0.5)] z-50 rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-[#e9c176] bg-[#604403]/20 rounded-xl px-3 py-1.5 transition-all transform translate-y-[-2px]" href="#">
+<span class="material-symbols-outlined">local_bar</span>
+<span class="font-['Inter'] text-[11px] font-semibold uppercase tracking-widest mt-1">Cocktails</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#a5d0b9]/40 px-3 py-1.5 hover:text-[#a5d0b9] transition-all" href="#">
+<span class="material-symbols-outlined">wine_bar</span>
+<span class="font-['Inter'] text-[11px] font-semibold uppercase tracking-widest mt-1">Spirits</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#a5d0b9]/40 px-3 py-1.5 hover:text-[#a5d0b9] transition-all" href="#">
+<span class="material-symbols-outlined">restaurant</span>
+<span class="font-['Inter'] text-[11px] font-semibold uppercase tracking-widest mt-1">Snacks</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#a5d0b9]/40 px-3 py-1.5 hover:text-[#a5d0b9] transition-all" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-['Inter'] text-[11px] font-semibold uppercase tracking-widest mt-1">Order</span>
+</a>
+</nav>
+
+</body></html>

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MenusClic Bistro - Menú Digital</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&amp;family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-tertiary-fixed": "#1d1d03",
+              "inverse-surface": "#303221",
+              "tertiary-fixed": "#e6e5b9",
+              "surface-dim": "#dbdcc3",
+              "secondary-fixed": "#ffdbce",
+              "on-primary-fixed-variant": "#802918",
+              "surface-bright": "#fbfbe2",
+              "on-secondary-container": "#795c51",
+              "tertiary": "#60603e",
+              "surface-variant": "#e4e4cc",
+              "surface-tint": "#9f402d",
+              "on-primary": "#ffffff",
+              "primary-fixed": "#ffdad3",
+              "inverse-on-surface": "#f2f2d9",
+              "primary-container": "#e2725b",
+              "primary": "#9f402d",
+              "surface-container-lowest": "#ffffff",
+              "surface-container-highest": "#e4e4cc",
+              "on-error": "#ffffff",
+              "tertiary-fixed-dim": "#cac99f",
+              "error": "#ba1a1a",
+              "on-secondary-fixed": "#2b160f",
+              "on-primary-fixed": "#3e0500",
+              "secondary-container": "#fed7ca",
+              "on-surface-variant": "#56423e",
+              "inverse-primary": "#ffb4a5",
+              "on-tertiary-container": "#2d2d10",
+              "on-error-container": "#93000a",
+              "outline": "#89726d",
+              "on-primary-container": "#5a0d02",
+              "on-secondary-fixed-variant": "#5b4137",
+              "primary-fixed-dim": "#ffb4a5",
+              "surface-container-high": "#eaead1",
+              "surface": "#fbfbe2",
+              "outline-variant": "#ddc0ba",
+              "on-secondary": "#ffffff",
+              "on-background": "#1b1d0e",
+              "error-container": "#ffdad6",
+              "on-surface": "#1b1d0e",
+              "on-tertiary-fixed-variant": "#484828",
+              "tertiary-container": "#96956e",
+              "background": "#fbfbe2",
+              "surface-container-low": "#f5f5dc",
+              "surface-container": "#efefd7",
+              "secondary": "#75584d",
+              "on-tertiary": "#ffffff",
+              "secondary-fixed-dim": "#e4beb2"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#fbfbe2]/80 dark:bg-stone-900/80 backdrop-blur-md border-b border-[#ddc0ba]/15 flex justify-between items-center px-6 h-16 w-full">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#9f402d] dark:text-[#e2725b] active:scale-95 duration-200 cursor-pointer" data-icon="menu">menu</span>
+<h1 class="font-headline font-black text-xl text-[#1b1d0e] dark:text-[#fbfbe2] tracking-tighter">Terracotta Brew</h1>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#9f402d] dark:text-[#e2725b] active:scale-95 duration-200 cursor-pointer" data-icon="search">search</span>
+</div>
+</header>
+<main class="pt-16 pb-24">
+<!-- Hero Section -->
+<section class="relative h-[397px] w-full overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10"></div>
+<img alt="Sabores que Cuentan una Historia" class="w-full h-full object-cover" data-alt="Close-up of a steaming artisanal latte with intricate heart art sitting on a rustic wooden table with terracotta plates nearby in warm morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCN29S16oxTL3638G_fulIzzjNvlZ8Th1Zq-s9X5l9T4R8OiU5OaHTOklKDvpYhDT5UKXmnOdXtZTttiHdUIHUobOztP_CXeq-EB2r7ZuGra1khZOqEVkeTYoYjEpiz5KeGa3vA9czC1kRE9jGy0EVKDNU3uFXywEfuEGgEjIw1u0Hh1WCY7DOLEDzixSONN4XKRPLfedKcFh0juuWu5K1NQw7EcmLCAdQtFU-z66BXcpTCTEaY0YPQGkKcoVGl1WTUYnmO3olwc8"/>
+<div class="absolute bottom-0 left-0 p-6 z-20 w-full">
+<h2 class="font-headline text-4xl font-bold text-on-surface tracking-tight leading-none mb-2">Sabores que Cuentan una Historia</h2>
+<div class="w-12 h-1 bg-primary rounded-full"></div>
+</div>
+</section>
+<!-- Category Scroller -->
+<nav class="sticky top-16 z-40 bg-surface/95 backdrop-blur-sm py-4">
+<div class="flex overflow-x-auto no-scrollbar gap-3 px-6">
+<button class="flex-shrink-0 px-6 py-2.5 rounded-full bg-primary text-on-primary font-label text-sm font-bold tracking-wide">Todo el Menú</button>
+<button class="flex-shrink-0 px-6 py-2.5 rounded-full bg-surface-container-high text-on-surface-variant font-label text-sm font-bold tracking-wide hover:bg-surface-container-highest transition-colors">Entrantes</button>
+<button class="flex-shrink-0 px-6 py-2.5 rounded-full bg-surface-container-high text-on-surface-variant font-label text-sm font-bold tracking-wide hover:bg-surface-container-highest transition-colors">Platos Fuertes</button>
+<button class="flex-shrink-0 px-6 py-2.5 rounded-full bg-surface-container-high text-on-surface-variant font-label text-sm font-bold tracking-wide hover:bg-surface-container-highest transition-colors">Pizzas Artesanales</button>
+<button class="flex-shrink-0 px-6 py-2.5 rounded-full bg-surface-container-high text-on-surface-variant font-label text-sm font-bold tracking-wide hover:bg-surface-container-highest transition-colors">Postres</button>
+<button class="flex-shrink-0 px-6 py-2.5 rounded-full bg-surface-container-high text-on-surface-variant font-label text-sm font-bold tracking-wide hover:bg-surface-container-highest transition-colors">Bebidas</button>
+</div>
+</nav>
+<!-- Product List - Compact View -->
+<section class="px-6 py-4 flex flex-col divide-y divide-[#ddc0ba]/30">
+<!-- Item 1 -->
+<div class="flex gap-4 py-5 items-center">
+<div class="flex-shrink-0 w-24 h-24 rounded-lg overflow-hidden bg-surface-container-low border border-outline-variant/10">
+<img alt="Gourmet Truffle Burger" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlXXgtxaCSj7TtrHfk038-gSXnDGH5kKnUmolj0ZSKTSe-7PiayL4QkkLVFFtFD705cGJdjdGg7mzeqTKPxjFpVQ4cDo2b1iaecEeEHTHqJZixrBNTdJNcItTanhq9KRux1G3hkzes5iguHHd-J4ZBzRHFoVQrcdWZHxVIqVqDDyrCMGcMnJwuG76HoY4yNulfyjSYWu9VERhjnVmzAxcvnOD9amXCUg7fn8rEffo7U--tX-4vN-QUOJkp3XzqP5APgNPIboZ8DoI"/>
+</div>
+<div class="flex-1 flex flex-col justify-between">
+<div>
+<h3 class="font-headline font-bold text-base text-on-surface leading-tight">Gourmet Truffle Burger</h3>
+<p class="text-xs text-on-surface-variant mt-1 line-clamp-2">Carne Angus, trufa negra, queso brie fundido y rúcula orgánica.</p>
+</div>
+<div class="flex justify-between items-end mt-2">
+<span class="font-headline font-bold text-primary">$18.50</span>
+<button class="bg-secondary-container text-on-secondary-container rounded-lg px-3 py-1 font-label text-[10px] font-bold tracking-wider active:scale-90 transition-all uppercase">Añadir</button>
+</div>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="flex gap-4 py-5 items-center">
+<div class="flex-shrink-0 w-24 h-24 rounded-lg overflow-hidden bg-surface-container-low border border-outline-variant/10">
+<img alt="Argentine Ribeye" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFVCQY_sCnbLjlC2Ee8TdVmWZOzghP2-j76xeiD32qvNUAGg11gi_kbXgqeKDi0eEKdUqmap_58J88mIBC29Y1hlSsSFifdNvMRlFWTWDn2fko_xMCGMZhxEoWQnDXzvnwDY1E3Sbkjrhbih_ocAYaRgj3bd0P7n_NOvSxQenvn-0kv5lCCApPnmdvN0xVKWnc7d6rtcZ2Hckzq0jvsnsfdLXe7QAkIkWrgFXirFYa9mUBq970uk1VBV_swxYOpTHclHgYUpcUhMQ"/>
+</div>
+<div class="flex-1 flex flex-col justify-between">
+<div>
+<h3 class="font-headline font-bold text-base text-on-surface leading-tight">Argentine Ribeye</h3>
+<p class="text-xs text-on-surface-variant mt-1 line-clamp-2">350g corte premium con chimichurri casero y papas rústicas.</p>
+</div>
+<div class="flex justify-between items-end mt-2">
+<span class="font-headline font-bold text-primary">$32.00</span>
+<button class="bg-secondary-container text-on-secondary-container rounded-lg px-3 py-1 font-label text-[10px] font-bold tracking-wider active:scale-90 transition-all uppercase">Añadir</button>
+</div>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="flex gap-4 py-5 items-center">
+<div class="flex-shrink-0 w-24 h-24 rounded-lg overflow-hidden bg-surface-container-low border border-outline-variant/10">
+<img alt="Dark Chocolate Fondant" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuArdXA3_3D_PkED2e83TJ-Il7AzSLL8QCjyZd9SMQUDkUGqXUCqmjUEgjAu2Yitw9pyCy6IHjwUucf4KrcrVVKirZ2d5s2H7zdj-K8w2KkBtoEWlRToUVZBwj9MUFj7f_FJ1-jlcDYHx6aCBwBRzbi8r_A_1xHnAs3fMOgy4TY8bn_lW-cCXAhHfzHyUbs_OEA_apTWbLzfShuP1-5083kYBQl6byZI-_2IVOGyTayacU9CyLETRfJVjXQCIlFfaZsuH_DUdqGA_lQ"/>
+</div>
+<div class="flex-1 flex flex-col justify-between">
+<div>
+<h3 class="font-headline font-bold text-base text-on-surface leading-tight">Dark Chocolate Fondant</h3>
+<p class="text-xs text-on-surface-variant mt-1 line-clamp-2">Corazón líquido de cacao al 70% con helado artesanal de vainilla.</p>
+</div>
+<div class="flex justify-between items-end mt-2">
+<span class="font-headline font-bold text-primary">$9.50</span>
+<button class="bg-secondary-container text-on-secondary-container rounded-lg px-3 py-1 font-label text-[10px] font-bold tracking-wider active:scale-90 transition-all uppercase">Pedir</button>
+</div>
+</div>
+</div>
+<!-- Item 4 -->
+<div class="flex gap-4 py-5 items-center">
+<div class="flex-shrink-0 w-24 h-24 rounded-lg overflow-hidden bg-surface-container-low border border-outline-variant/10">
+<img alt="Pizza Margherita Especial" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCddBbiP5Aa4pfoZ9pEf1DAk9ez82Khymnru6lL0__mG2F_LSRsO53Rqc813vukEDDMjPEpDZGBXldzNncy1L18qPGkJx2rMlrdTWLTia7xwZhHo5Hf3clfHEEafmzPqChb0tQVdlEiLOYryrUf_z_qLE3K_yCR2sxSrGH1OUZi2WFOVc2smThQKbBkWl-xfGpdNzTCY55nKo5MQJewJ9qfnOQbG_R_77L1q7CZDR0QetqV-A2t34Ar_vugh_sCgOQalp17DrtYcFE"/>
+</div>
+<div class="flex-1 flex flex-col justify-between">
+<div>
+<h3 class="font-headline font-bold text-base text-on-surface leading-tight">Pizza Margherita Especial</h3>
+<p class="text-xs text-on-surface-variant mt-1 line-clamp-2">Masa madre 48h, tomates San Marzano y mozzarella de búfala.</p>
+</div>
+<div class="flex justify-between items-end mt-2">
+<span class="font-headline font-bold text-primary">$14.00</span>
+<button class="bg-secondary-container text-on-secondary-container rounded-lg px-3 py-1 font-label text-[10px] font-bold tracking-wider active:scale-90 transition-all uppercase">Añadir</button>
+</div>
+</div>
+</div>
+<!-- Item 5 -->
+<div class="flex gap-4 py-5 items-center">
+<div class="flex-shrink-0 w-24 h-24 rounded-lg overflow-hidden bg-surface-container-low border border-outline-variant/10">
+<img alt="Fresh Salmon Bowl" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8IVsiBAkMbNkZLlcvyoyLOa8DvmchDVJBjCmBa9asUt89Hj9-pok01JukNATGU7oY56Aytlas0T-D23pzXBv5fmVsekLvrGu5Ax1iRh3qGQiOF9tSvLnQHwesCO6ZfXExo_NkRcDOYuZf1XzSXkDwljBzYGt0LZuhIRYGU6eP4klDdfMZ1ori3puyvvZvBQbckOBlYWGfUUCUieFnp1pNL3_KmYwk6oHZUxRYU8URwhtQwhYTFFTZUJq9Lqior-d6aBueZAP1x9w"/>
+</div>
+<div class="flex-1 flex flex-col justify-between">
+<div>
+<h3 class="font-headline font-bold text-base text-on-surface leading-tight">Fresh Salmon Bowl</h3>
+<p class="text-xs text-on-surface-variant mt-1 line-clamp-2">Salmón fresco, aguacate, edamame, wakame y arroz de sushi.</p>
+</div>
+<div class="flex justify-between items-end mt-2">
+<span class="font-headline font-bold text-primary">$16.50</span>
+<button class="bg-secondary-container text-on-secondary-container rounded-lg px-3 py-1 font-label text-[10px] font-bold tracking-wider active:scale-90 transition-all uppercase">Añadir</button>
+</div>
+</div>
+</div>
+<!-- Item 6 -->
+<div class="flex gap-4 py-5 items-center">
+<div class="flex-shrink-0 w-24 h-24 rounded-lg overflow-hidden bg-surface-container-low border border-outline-variant/10">
+<img alt="Tacos de Pulpo Grill" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsmRSvNLPfvNlMaEQVpxF4zBF988ZV0weXY4DyM769Vkdka0pfxBhiDwZHnaqjBy8L23D3bnSEdlaKLr2KlqMoDxQo6NuYaM5yR113ZSrSXw8-AjgFemHHtfFzC93dZfqFWTtf9EB2pMo4Rg_NN8Su4OYnPRvOeFIXYVOfePNANLbM-rpSyghMC8RVVfryZHJIrGTDr8WOHrz-HsDfyFKtVJ-NM87ybb4c5hefyzVoF9CXFVdUwwIXYlhEfJTjPT1_qIYELLNcZCY"/>
+</div>
+<div class="flex-1 flex flex-col justify-between">
+<div>
+<h3 class="font-headline font-bold text-base text-on-surface leading-tight">Tacos de Pulpo Grill</h3>
+<p class="text-xs text-on-surface-variant mt-1 line-clamp-2">Tres tacos a la brasa en tortilla azul con alioli de chipotle.</p>
+</div>
+<div class="flex justify-between items-end mt-2">
+<span class="font-headline font-bold text-primary">$15.50</span>
+<button class="bg-secondary-container text-on-secondary-container rounded-lg px-3 py-1 font-label text-[10px] font-bold tracking-wider active:scale-90 transition-all uppercase">Pedir</button>
+</div>
+</div>
+</div>
+<!-- Item 7 -->
+<div class="flex gap-4 py-5 items-center">
+<div class="flex-shrink-0 w-24 h-24 rounded-lg overflow-hidden bg-surface-container-low border border-outline-variant/10">
+<img alt="Risotto de Hongos Silvestres" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdL_YGKID3h9wQ9PVvzl2XliT2gWWFG2IzH2pGh_KOeltizGmXjf6GujX6UWce76NJfO8P9VW3Fv4b40qYhAtynvdtWk0Hx1kqpTdMAn4nWSd9Sh3PhdwpGKOMv6GiUqafKI_Vi9UQr2WW6eAdpFC_34QaXlghgrhaDnRmSP-lacpGSaNn9Fzx3Sw-QShnzlLYF7zVT_fS0_IfMsurKUx1UmChb7BJT7wjBDzsS1oxw6_NgBSDu3plRB2NIzVZaFasqvgZLUr8DOQ"/>
+</div>
+<div class="flex-1 flex flex-col justify-between">
+<div>
+<h3 class="font-headline font-bold text-base text-on-surface leading-tight">Risotto de Hongos Silvestres</h3>
+<p class="text-xs text-on-surface-variant mt-1 line-clamp-2">Arroz carnaroli cremoso con aceite de trufa blanca.</p>
+</div>
+<div class="flex justify-between items-end mt-2">
+<span class="font-headline font-bold text-primary">$21.00</span>
+<button class="bg-secondary-container text-on-secondary-container rounded-lg px-3 py-1 font-label text-[10px] font-bold tracking-wider active:scale-90 transition-all uppercase">Añadir</button>
+</div>
+</div>
+</div>
+<!-- Item 8 -->
+<div class="flex gap-4 py-5 items-center">
+<div class="flex-shrink-0 w-24 h-24 rounded-lg overflow-hidden bg-surface-container-low border border-outline-variant/10">
+<img alt="Tagliatelle alla Carbonara" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsNudlfrlerxrsVZPm5MPMXbgqKdEmHIqIYRmA2AQ4wmBooeTVJYn7a4QRPmOJ1FE7ZLoV05ClF3io63Qa5IFUI0F9yyGdReq51-eVbW9Wp37Q0Wr4dJF3M3fn9i3J-NU8sBifsY2zUndIKNmfRjpCKEIgpyLhk49TmVtSxT7q6pU_nj-OG-VOgyVP3Tk6E5FJyoH8mM7u-pxrPIC_IsIKSqfeeQcYLJhR2uuWAKf8553f6uj3L6OR97CPyhpKfeHTDmjQGQAOQ2A"/>
+</div>
+<div class="flex-1 flex flex-col justify-between">
+<div>
+<h3 class="font-headline font-bold text-base text-on-surface leading-tight">Tagliatelle alla Carbonara</h3>
+<p class="text-xs text-on-surface-variant mt-1 line-clamp-2">Pasta fresca, guanciale crujiente y pecorino romano.</p>
+</div>
+<div class="flex justify-between items-end mt-2">
+<span class="font-headline font-bold text-primary">$17.00</span>
+<button class="bg-secondary-container text-on-secondary-container rounded-lg px-3 py-1 font-label text-[10px] font-bold tracking-wider active:scale-90 transition-all uppercase">Añadir</button>
+</div>
+</div>
+</div>
+<!-- Item 9 -->
+<div class="flex gap-4 py-5 items-center">
+<div class="flex-shrink-0 w-24 h-24 rounded-lg overflow-hidden bg-surface-container-low border border-outline-variant/10">
+<img alt="Cold Brew Tonic Signature" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBeBto5HNySmb97yWJP9VSKcE97f3OsomXV-OUBRAM6TUIgCRNc5vhPQ_03EKfNe0_1w3f0yOU-toXOFuVN4cWh2jC0LUgxgcGCG06UzCsIkTbjbFa3p-e0P2mHiXinXVajFRdPE9OwIXEI9vQQGW_PYWn5ci7TAfXvLybv6r1oH1FPeYuc8iJakD27qxMDCbeIanuen-3ySIMfg5sjMLnOwumhL46vdAGZ6nT8w5sclav0tAtYntylZ58u8n2YYKDPg4Gf_NqznoY"/>
+</div>
+<div class="flex-1 flex flex-col justify-between">
+<div>
+<h3 class="font-headline font-bold text-base text-on-surface leading-tight">Cold Brew Tonic Signature</h3>
+<p class="text-xs text-on-surface-variant mt-1 line-clamp-2">Extracción en frío de 18h con tónica premium y toque cítrico.</p>
+</div>
+<div class="flex justify-between items-end mt-2">
+<span class="font-headline font-bold text-primary">$6.50</span>
+<button class="bg-secondary-container text-on-secondary-container rounded-lg px-3 py-1 font-label text-[10px] font-bold tracking-wider active:scale-90 transition-all uppercase">Pedir</button>
+</div>
+</div>
+</div>
+<!-- Item 10 -->
+<div class="flex gap-4 py-5 items-center">
+<div class="flex-shrink-0 w-24 h-24 rounded-lg overflow-hidden bg-surface-container-low border border-outline-variant/10">
+<img alt="Tarta de Queso Vasca" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKynH4J--LZQZiZZhbcs6D8LpMcL9JMxv2J2e7csOiRe1uM0Ar0GbOs_Rs1b-yiaYbf775YUFFpvyepD6h3M9bKgcnNMp7-vbOgtVvNbGdbH0z0RfJZnJN-pMVyPXQYHIBaNFeNddnqVD0Uf-4ATQw5atWo0KUSPEvBVHHfFDzfWv44neGZXsJ0HZJS1199Wr17Wxu_E8F231p_vuar5Kg4tfsS7-xOhQutB3IINgBaiuiNVnF4XqgHlvenmVrwiLzV9SIrDXCBs4"/>
+</div>
+<div class="flex-1 flex flex-col justify-between">
+<div>
+<h3 class="font-headline font-bold text-base text-on-surface leading-tight">Tarta de Queso Vasca</h3>
+<p class="text-xs text-on-surface-variant mt-1 line-clamp-2">Famosa tarta quemada con interior cremoso y base artesanal.</p>
+</div>
+<div class="flex justify-between items-end mt-2">
+<span class="font-headline font-bold text-primary">$8.00</span>
+<button class="bg-secondary-container text-on-secondary-container rounded-lg px-3 py-1 font-label text-[10px] font-bold tracking-wider active:scale-90 transition-all uppercase">Añadir</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full h-20 bg-[#fbfbe2]/80 dark:bg-stone-900/80 backdrop-blur-md flex justify-around items-center px-4 pb-safe z-50 rounded-t-[1.5rem] shadow-[0_-12px_32px_rgba(117,88,77,0.08)]">
+<a class="flex flex-col items-center justify-center bg-[#fed7ca] dark:bg-[#9f402d]/30 text-[#795c51] dark:text-[#fed7ca] rounded-full px-5 py-2 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="restaurant_menu">restaurant_menu</span>
+<span class="font-label text-[10px] uppercase tracking-widest font-bold mt-1">Menu</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#75584d] dark:text-[#eaead1] px-5 py-2 hover:bg-[#f5f5dc] dark:hover:bg-stone-800 rounded-full active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+<span class="font-label text-[10px] uppercase tracking-widest font-bold mt-1">Cart</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#75584d] dark:text-[#eaead1] px-5 py-2 hover:bg-[#f5f5dc] dark:hover:bg-stone-800 rounded-full active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="font-label text-[10px] uppercase tracking-widest font-bold mt-1">Orders</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#75584d] dark:text-[#eaead1] px-5 py-2 hover:bg-[#f5f5dc] dark:hover:bg-stone-800 rounded-full active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label text-[10px] uppercase tracking-widest font-bold mt-1">Profile</span>
+</a>
+</nav>
+<!-- Floating Action Button -->
+<div class="fixed bottom-24 right-6 z-40">
+<button class="w-14 h-14 bg-primary text-on-primary rounded-full shadow-lg flex items-center justify-center active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+<div class="absolute -top-1 -right-1 bg-on-surface text-surface text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">2</div>
+</button>
+</div>
+</body></html>

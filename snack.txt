@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Snack Attack | Rustic Farmhouse Fresh</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&amp;family=Be+Vietnam+Pro:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary": "#a64d32", // Terracotta
+              "on-secondary": "#fdfaf6",
+              "primary": "#3d5a45", // Forest Green
+              "on-primary": "#fdfaf6",
+              "background": "#f2eee9", // Light Greige/Off-white
+              "on-background": "#2d3319", // Deep Olive
+              "surface": "#fdfaf6",
+              "on-surface": "#3b2f21", // Dark natural brown
+              "on-surface-variant": "#5c5448", // Muted brown
+              "tertiary": "#e5dacf", // Sun-baked linen/beige
+              "tertiary-container": "#e5dacf", 
+              "on-tertiary-container": "#4a4238",
+              "primary-container": "#4d6b56",
+              "on-primary-container": "#fdfaf6",
+              "surface-container": "#e9e4de",
+              "surface-container-high": "#e2ddd6",
+              "surface-container-highest": "#d8d2c9",
+              "surface-container-low": "#f7f3ef",
+              "surface-container-lowest": "#ffffff",
+              "surface-variant": "#d9e2db",
+              "primary-fixed": "#3d5a45",
+              "secondary-container": "#f4e7e2", // Light Terracotta
+              "on-secondary-container": "#7a341e"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Be Vietnam Pro"],
+              "label": ["Be Vietnam Pro"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style type="text/tailwindcss">
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .kinetic-tilt {
+            transform: rotate(-2deg);
+        }
+        .kinetic-tilt-alt {
+            transform: rotate(2deg);
+        }
+        body {
+            min-height: max(884px, 100dvh);
+            color: #3b2f21;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background font-body text-on-surface selection:bg-primary-container selection:text-on-primary-container">
+<header class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-xl flex items-center justify-between px-6 h-20 shadow-[0_4px_30px_rgba(59,47,33,0.05)]">
+<div class="flex items-center gap-4">
+<button class="active:scale-95 transition-all duration-200 hover:scale-105 text-primary">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h1 class="font-headline font-black text-2xl text-primary italic tracking-tight uppercase">Snack Attack</h1>
+</div>
+<button class="active:scale-95 transition-all duration-200 hover:scale-105 text-primary relative">
+<span class="material-symbols-outlined" data-icon="shopping_basket">shopping_basket</span>
+<span class="absolute -top-1 -right-1 bg-secondary text-on-secondary text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full">3</span>
+</button>
+</header>
+<main class="pt-20 pb-32">
+<section class="relative px-6 pt-10 pb-16 overflow-hidden">
+<div class="relative z-10">
+<span class="inline-block bg-tertiary text-on-tertiary-container px-4 py-1 rounded-full text-xs font-black uppercase tracking-widest mb-4 kinetic-tilt-alt">Fresh &amp; Farmhouse</span>
+<h2 class="font-headline text-5xl font-extrabold text-on-surface leading-[1.1] mb-6 tracking-tighter">
+                Fuel Your <br/>
+<span class="text-primary italic">Cravings</span> <br/>
+                Instantly.
+            </h2>
+<div class="flex gap-4">
+<button class="bg-primary text-on-primary px-8 py-4 rounded-full font-headline font-bold text-lg shadow-lg active:scale-95 transition-all">
+                    Order Now
+                </button>
+</div>
+</div>
+<div class="absolute -right-12 top-10 w-64 h-64 kinetic-tilt opacity-90">
+<img alt="Delicious appetizers" class="w-full h-full object-cover rounded-xl shadow-2xl border-8 border-surface-container-lowest" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKX7h9xyqBIlp9o-sSOcTcvXauqI69tTj9n6xNPGIhfhfPH49UxqM0nc9L36wNJBVxxQ6j2_ii6YFqPkaXRBUSX3Mvs-ltCXJUGZGTgU1W-U1vn5umvP3T-MRJ2XV3-vRf24redhKahUy7YSGyFy1WTRVv8LYDfPa4-sFKvFZKbzKLSDxrUVssiCLDkfr9OiL1tka9KL6g9l2fK8cINeN0ejOew3rm6jiU217mAhucFQgLiXfzDW7QtRzG6yhDOp0TiXbvwulQ3nw"/>
+</div>
+</section>
+<section class="px-6 mb-12">
+<div class="flex gap-4 overflow-x-auto pb-4 no-scrollbar">
+<button class="flex-shrink-0 bg-primary text-on-primary px-6 py-3 rounded-full font-bold text-sm">All Snacks</button>
+<button class="flex-shrink-0 bg-surface-container-high text-on-surface-variant px-6 py-3 rounded-full font-bold text-sm">Hot Bites</button>
+<button class="flex-shrink-0 bg-surface-container-high text-on-surface-variant px-6 py-3 rounded-full font-bold text-sm">Cool Drinks</button>
+<button class="flex-shrink-0 bg-surface-container-high text-on-surface-variant px-6 py-3 rounded-full font-bold text-sm">Sweet Treats</button>
+</div>
+</section>
+<section class="px-6 space-y-12">
+<div class="group relative bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm transition-transform active:scale-[0.98]">
+<div class="relative h-64 overflow-hidden">
+<img alt="Loaded Nachos" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDw64HVZulAWF65EfLVEeaLAYu0seVbKAjQKq6q2zhaFsAkbenJHGzP32qJ8ih7WSvyDpp8DCKdFRskAEMR897OMEQlPIpYcvu9GiY3g-PUOxiUnR9C6e_xgCzA-4gVR5HO1ROoYh2aZVJ7VxSE9GP6AH8aMMOxHEa4GQwHgKW6R73YMfFUv3IQlt_AR_biMRkZ8eAW46-OE5XAZwQ4VrX6Ygvx7qJiWkyhSRlQNk4zQcling_3hijC7Y2QcY-eNYBpsYW0fShmDe0"/>
+<div class="absolute top-4 right-4 bg-tertiary text-on-tertiary-container px-4 py-2 rounded-full font-black text-sm kinetic-tilt shadow-md">
+                    $12.99
+                </div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline text-2xl font-bold text-on-surface">Volcano Nachos</h3>
+<span class="bg-secondary text-on-secondary text-[10px] font-black px-2 py-1 rounded-md uppercase">Spicy</span>
+</div>
+<p class="text-on-surface-variant text-sm mb-6 leading-relaxed">Double layered corn chips, signature cheese blend, pickled jalapeños, and house-made salsa fresca.</p>
+<button class="w-full bg-surface-variant text-on-surface font-bold py-3 rounded-full flex items-center justify-center gap-2 hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-lg" data-icon="add_circle">add_circle</span>
+                    Add to Attack
+                </button>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-6">
+<div class="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm kinetic-tilt">
+<div class="relative h-40">
+<img alt="Taco Blast" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDW6qh447UqaJzcJLDZLN-Yll-PmrwkR1Vr_7mtUx0fpIkU8CJ8lcyaS3nu0-by9dZVQed2Yq8gw0PyvxIZO74UAZbV0RJ3GFRiOClUNLUJ8xGAH7Uv2FSDXDv4DI0SBfBP6kl8rkfFMgYIGwYFDur3dNTiUx9WC5IcphfNf3P4d4YJ2ug5e1vGkpar4bAIRl3vMv9LoCjCMCzgqyJ1U_WHt3oJGvdnWBMXbiO_YCGyWAk88JiqjGldUaBNRTQYmpw9QrJr1AxceJo"/>
+<div class="absolute -bottom-2 -left-2 bg-secondary text-on-secondary px-3 py-1 rounded-full font-bold text-xs shadow-md">
+                        $8.50
+                    </div>
+</div>
+<div class="p-4 pt-6">
+<h3 class="font-headline text-lg font-bold text-on-surface leading-tight">Street Tacos</h3>
+<p class="text-on-surface-variant text-[10px] mb-4 line-clamp-2">Authentic soft shell corn tacos with lime.</p>
+<button class="w-full h-10 bg-primary text-on-primary rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+</div>
+</div>
+<div class="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm kinetic-tilt-alt mt-8">
+<div class="relative h-40">
+<img alt="Crispy Fries" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjxat2MGyBzus6AKXpEmWAkyZEjr5rcbawPoUtHyXH1vViavepTvTUq4-Fl2qDCX6hJFxBtlvfCKQ_kP6iTJAPQ5yVe6y8WsMOeUrFumnggmD8kSaqkrwln9YtJHFOXUP7nd00mchrso_OuaWannz_MmUqsuMALgGhlEgqEV9EPipYrS3e1WdqsPUpgCJF-J8I5-JwEAD15xZU3JiXjMrgJEube_uNHZHJ-rvb1wscf9ozySvBK-TPml8tYWnZUDyoYch-zV3ghYg"/>
+<div class="absolute -bottom-2 -right-2 bg-secondary text-on-secondary px-3 py-1 rounded-full font-bold text-xs shadow-md">
+                        $5.99
+                    </div>
+</div>
+<div class="p-4 pt-6">
+<h3 class="font-headline text-lg font-bold text-on-surface leading-tight">Neon Fries</h3>
+<p class="text-on-surface-variant text-[10px] mb-4 line-clamp-2">Triple-fried potatoes with sea salt and garlic.</p>
+<button class="w-full h-10 bg-primary text-on-primary rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+</div>
+</div>
+</div>
+<div class="relative h-80 rounded-xl overflow-hidden shadow-xl">
+<img alt="Vibrant Drink" class="absolute inset-0 w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnWbB3d6OnX5A7hkSaFH9B_4wyQb-t2h4q-C3lAONUOKNAEcMqFikfQfLLujexhSvAyclqfAIEO_M7ZSYpwxnSN6yZUMo--XqCDKHWP1wjI6ybroySWDKjRR5gSMEY0THpDphUWTYgGCaKnDeI_RkwVPB--mvbe20SxmZGXDP9cOA1PH3k9HxWmRfxhH5jRktIpOEsC3qoT38vH3RYiVHzhtXoXLN_Oq5jLymo-_2h1wdl3DUXDA91-J_geMG4cXq_8mhz9IncuNE"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute bottom-6 left-6 right-6 glass-card bg-white/10 p-6 rounded-lg border border-white/20 text-white">
+<div class="flex justify-between items-center mb-1">
+<h3 class="font-headline text-2xl font-black italic uppercase tracking-tight">Electric Soda</h3>
+<span class="text-tertiary font-black">$4.25</span>
+</div>
+<p class="text-xs font-medium opacity-90 mb-4 italic">Bubbly, citrusy, and dangerously refreshing.</p>
+<button class="w-full py-2 bg-white text-primary font-bold rounded-full uppercase text-xs tracking-widest active:scale-95 transition-all">Grab It</button>
+</div>
+</div>
+</section>
+<footer class="mt-20 px-8 pb-32 text-center">
+<div class="bg-surface-container-high rounded-xl p-8">
+<h4 class="font-headline text-2xl font-black text-on-surface italic mb-4 uppercase">Want it fresh?</h4>
+<p class="text-on-surface-variant text-sm mb-8 px-4">Fastest delivery in the city. Direct to your home in 20 mins or less.</p>
+<div class="flex justify-center gap-6 mb-10">
+<a class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md text-primary" href="#">
+<span class="material-symbols-outlined" data-icon="chat">chat</span>
+</a>
+<a class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md text-primary" href="#">
+<span class="material-symbols-outlined" data-icon="share">share</span>
+</a>
+<a class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md text-primary" href="#">
+<span class="material-symbols-outlined" data-icon="near_me">near_me</span>
+</a>
+</div>
+<div class="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface/40">
+                © 2024 Snack Attack • Farmhouse Fresh
+            </div>
+</div>
+</footer>
+</main>
+<nav class="fixed bottom-0 left-0 w-full h-24 bg-background/90 backdrop-blur-2xl flex justify-around items-center px-4 pb-4 rounded-t-[3rem] z-50 shadow-[0_-12px_40px_rgba(59,47,33,0.08)]">
+<a class="flex flex-col items-center justify-center bg-surface-container-highest text-primary rounded-full px-5 py-2 scale-110 group" href="#">
+<span class="material-symbols-outlined" data-icon="fastfood" style="font-variation-settings: 'FILL' 1;">fastfood</span>
+<span class="font-bold text-[10px] uppercase tracking-widest mt-0.5">Snacks</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/40 px-4 py-2 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="local_bar">local_bar</span>
+<span class="font-bold text-[10px] uppercase tracking-widest mt-0.5">Drinks</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/40 px-4 py-2 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+<span class="font-bold text-[10px] uppercase tracking-widest mt-0.5">Cart</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/40 px-4 py-2 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-bold text-[10px] uppercase tracking-widest mt-0.5">Profile</span>
+</a>
+</nav>
+<button class="fixed bottom-28 right-6 w-16 h-16 bg-secondary text-on-secondary rounded-full flex items-center justify-center shadow-2xl z-40 active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-3xl" data-icon="bolt">bolt</span>
+</button>
+
+</body></html>
