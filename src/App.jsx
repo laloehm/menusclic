@@ -8,10 +8,25 @@ import AdminDashboard from './AdminDashboard'
 function App() {
   const [currentView, setCurrentView] = useState('landing')
 
-  // Scroll to top when changing views
+  // Handle hash changes for navigation and scroll to top
   useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [currentView])
+    window.scrollTo(0, 0);
+  }, [currentView]);
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace('#', '');
+      if (['restaurant', 'snack', 'bar', 'restaurant_admin', 'snack_admin', 'bar_admin'].includes(hash)) {
+        setCurrentView(hash);
+      }
+    };
+    
+    // Check initial hash on load
+    handleHashChange();
+    
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
 
   const view = currentView.toLowerCase().trim()
 
