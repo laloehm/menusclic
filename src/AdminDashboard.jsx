@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { collection, onSnapshot, doc, deleteDoc, setDoc, addDoc } from "firebase/firestore";
-import { db } from './firebase';
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { db, storage } from './firebase';
 
 export default function AdminDashboard({ onBack, domain }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -213,11 +214,30 @@ export default function AdminDashboard({ onBack, domain }) {
 
 function ItemForm({ item, domain, onSave, onCancel }) {
   const [formData, setFormData] = useState(item || (domain === 'restaurant' ? {category: 'desayunos'} : domain === 'bar' ? {category: 'destacados'} : {}));
+  const [uploading, setUploading] = useState(false);
   
   const isLiquor = ['tequilas', 'whisky', 'ron'].includes(formData.category);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setUploading(true);
+    try {
+      const fileRef = ref(storage, `menusclic/${domain}/${Date.now()}_${file.name}`);
+      await uploadBytes(fileRef, file);
+      const url = await getDownloadURL(fileRef);
+      setFormData(prev => ({ ...prev, img: url }));
+    } catch (error) {
+      console.error(error);
+      alert('Error al subir imagen. Ve a tu consola de Firebase > Storage > Rules y asegurate de tener: allow read, write: if true;');
+    } finally {
+      setUploading(false);
+    }
   };
 
   const handleSubmit = (e) => {
@@ -271,8 +291,29 @@ function ItemForm({ item, domain, onSave, onCancel }) {
               <div className="w-1/2"><label className="block text-sm font-bold text-gray-700 mb-1">Etiqueta/Tag</label><input type="text" name="tag" placeholder="ej. Nuevo" value={formData.tag || formData.badge || ''} onChange={(e) => setFormData({...formData, tag: e.target.value, badge: e.target.value})} className="w-full bg-white text-black border p-2 rounded text-sm" /></div>
             )}
           </div>
-          <div><label className="block text-sm font-bold text-gray-700 mb-1">Descripción / Info</label><textarea name="desc" value={formData.desc || formData.origin || ''} onChange={(e) => setFormData({...formData, desc: e.target.value, origin: e.target.value})} className="w-full bg-white text-black border p-2 rounded h-24" /></div>
-          <div><label className="block text-sm font-bold text-gray-700 mb-1">URL Imagen (Unsplash)</label><input type="url" name="img" value={formData.img || ''} onChange={handleChange} className="w-full bg-white text-black border p-2 rounded text-xs" /></div>
+          <div><label className="block text-sm font-bold text-gray-700 mb-1">Descripción / Info</label><textarea required name="desc" value={formData.desc || formData.origin || ''} onChange={(e) => setFormData({...formData, desc: e.target.value, origin: e.target.value})} className="w-full bg-white text-black border p-2 rounded h-24" /></div>
+          
+          <div className="bg-gray-50 p-4 rounded-xl border border-gray-200">
+            <label className="block text-sm font-bold text-gray-700 mb-3">Fotografía del Platillo</label>
+            <div className="flex items-center gap-4 mb-3">
+              {formData.img ? (
+                <img src={formData.img} alt="Preview" className="w-16 h-16 object-cover rounded-lg shadow-sm border border-gray-200" />
+              ) : (
+                <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center border border-dashed border-gray-300">
+                  <span className="material-symbols-outlined text-gray-400">image</span>
+                </div>
+              )}
+              <div className="flex-1 flex flex-col gap-2">
+                <input type="file" accept="image/*" onChange={handleImageUpload} disabled={uploading} className="w-full text-sm text-gray-500 file:cursor-pointer file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-orange-100 file:text-orange-700 hover:file:bg-orange-200 transition-colors" />
+                {uploading && <p className="text-xs text-orange-600 font-bold animate-pulse flex items-center gap-1"><span className="material-symbols-outlined text-[14px]">cloud_upload</span> Subiendo instantáneamente...</p>}
+              </div>
+            </div>
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center" aria-hidden="true"><div className="w-full border-t border-gray-300"></div></div>
+              <div className="relative flex justify-center"><span className="bg-gray-50 px-2 text-[10px] uppercase tracking-wider text-gray-500 font-bold">O usa un enlace de internet</span></div>
+            </div>
+            <input type="url" name="img" value={formData.img || ''} onChange={handleChange} placeholder="https://..." className="w-full bg-white text-black border p-2 rounded text-xs mt-3" />
+          </div>
         </>
       )}
       <div className="flex justify-end gap-2 pt-4 border-t mt-6">
