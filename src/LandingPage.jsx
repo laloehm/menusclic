@@ -48,7 +48,7 @@ function Hero() {
         </div>
         <div className="lg:col-span-6 relative flex justify-center py-0 lg:py-0">
           <img 
-            src="/menusclic/menu-volcano.png" 
+            src="/menu-volcano.png" 
             className="w-full max-w-full h-auto rounded-[2rem]" 
             alt="Menu Portada" 
           />
