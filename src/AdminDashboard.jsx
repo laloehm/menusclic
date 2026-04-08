@@ -85,7 +85,7 @@ export default function AdminDashboard({ onBack, domain }) {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6 font-inter">
         <form onSubmit={handleLogin} className="bg-white p-8 rounded-xl shadow-xl max-w-sm w-full">
           <div className="flex justify-center mb-8">
-            <img src="/Logo-Menusclic.png" alt="MenusClic Logo" className="h-12 w-auto" />
+            <img src={`${import.meta.env.BASE_URL}Logo-Menusclic.png`} alt="MenusClic Logo" className="h-12 w-auto" />
           </div>
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold">Admin Panel</h2>
@@ -114,7 +114,7 @@ export default function AdminDashboard({ onBack, domain }) {
             <span className="material-symbols-outlined">arrow_back</span>
           </button>
           <div className="flex items-center gap-3 ml-2">
-            <img src="/Logo-Menusclic.png" alt="Logo" className="h-8 w-auto hidden md:block" />
+            <img src={`${import.meta.env.BASE_URL}Logo-Menusclic.png`} alt="Logo" className="h-8 w-auto hidden md:block" />
             <div className="md:w-[2px] md:h-6 md:bg-gray-200 hidden md:block"></div>
             <h1 className="text-xl md:text-2xl font-black text-center w-full md:w-auto">Panel Admin</h1>
           </div>

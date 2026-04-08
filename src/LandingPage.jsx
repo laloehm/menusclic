@@ -1,16 +1,50 @@
 import React from 'react'
 
-function Navbar({ onOpenDemo }) {
+function Navbar({ onOpenDemo, activeSection }) {
+  const navLinks = [
+    { id: 'benefits', label: 'Beneficios' },
+    { id: 'demo', label: 'Demo' },
+    { id: 'process', label: 'Proceso' }
+  ];
+
+  const scrollToSection = (e, id) => {
+    e.preventDefault();
+    const element = document.getElementById(id);
+    if (element) {
+      const offset = 80; // height of navbar
+      const bodyRect = document.body.getBoundingClientRect().top;
+      const elementRect = element.getBoundingClientRect().top;
+      const elementPosition = elementRect - bodyRect;
+      const offsetPosition = elementPosition - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
     <nav className="fixed top-0 w-full z-50 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-xl shadow-[0_12px_32px_rgba(25,28,29,0.04)] font-inter antialiased tracking-tight">
       <div className="flex justify-between items-center max-w-7xl mx-auto px-8 py-4">
         <div className="flex items-center">
-          <img src="/Logo-Menusclic.png" alt="MenusClic Logo" className="h-10 w-auto object-contain" />
+          <img src={`${import.meta.env.BASE_URL}Logo-Menusclic.png`} alt="MenusClic Logo" className="h-10 w-auto object-contain" />
         </div>
         <div className="hidden md:flex items-center space-x-8">
-          <a className="text-orange-600 dark:text-orange-500 font-semibold border-b-2 border-orange-500 pb-1" href="#benefits">Beneficios</a>
-          <a className="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors" href="#demo">Demo</a>
-          <a className="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors" href="#process">Proceso</a>
+          {navLinks.map((link) => (
+            <a
+              key={link.id}
+              href={`#${link.id}`}
+              onClick={(e) => scrollToSection(e, link.id)}
+              className={`transition-all duration-300 pb-1 font-semibold ${
+                activeSection === link.id
+                  ? 'text-orange-600 border-b-2 border-orange-500'
+                  : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100'
+              }`}
+            >
+              {link.label}
+            </a>
+          ))}
         </div>
         <div className="flex items-center gap-4">
           <a 
@@ -27,7 +61,7 @@ function Navbar({ onOpenDemo }) {
 
 function Hero() {
   return (
-    <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden bg-background">
+    <section id="hero" className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden bg-background">
       <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         <div className="lg:col-span-6">
           <span className="text-sm text-primary font-bold tracking-[0.1em] uppercase mb-4 block">La Evolución del Menú</span>
@@ -48,7 +82,7 @@ function Hero() {
         </div>
         <div className="lg:col-span-6 relative flex justify-center py-0 lg:py-0">
           <img 
-            src="/menu-volcano.png" 
+            src={`${import.meta.env.BASE_URL}menu-volcano.png`} 
             className="w-full max-w-full h-auto rounded-[2rem]" 
             alt="Menu Portada" 
           />
@@ -234,7 +268,7 @@ function Footer() {
     <footer className="bg-zinc-50 dark:bg-zinc-900 w-full py-12 border-t border-zinc-200/10">
       <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
         <div className="space-y-4 flex flex-col items-center md:items-start text-center md:text-left">
-          <img src="/Logo-Menusclic.png" alt="MenusClic Logo" className="h-12 w-auto object-contain mb-2" />
+          <img src={`${import.meta.env.BASE_URL}Logo-Menusclic.png`} alt="MenusClic Logo" className="h-12 w-auto object-contain mb-2" />
           <p className="text-[12px] font-inter tracking-widest uppercase font-bold text-zinc-400 dark:text-zinc-600 max-w-sm leading-relaxed">
             © 2024 MENUSCLIC. DIGITALIZACIÓN MAESTRA PARA RESTAURANTES MODERNOS.
           </p>
@@ -249,6 +283,8 @@ function Footer() {
 }
 
 export default function LandingPage({ onOpenDemo }) {
+  const [activeSection, setActiveSection] = React.useState('');
+
   React.useEffect(() => {
     const handleHashChange = () => {
       if (window.location.hash === '#admin') {
@@ -257,12 +293,42 @@ export default function LandingPage({ onOpenDemo }) {
       }
     };
     window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    
+    // Scroll Spy Logic
+    const sections = ['hero', 'benefits', 'demo', 'process'];
+    const observerOptions = {
+      root: null,
+      rootMargin: '-50% 0px -50% 0px', // Center-based detection
+      threshold: 0
+    };
+
+    const observerCallback = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+    
+    sections.forEach((id) => {
+      const element = document.getElementById(id);
+      if (element) observer.observe(element);
+    });
+
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+      sections.forEach((id) => {
+        const element = document.getElementById(id);
+        if (element) observer.unobserve(element);
+      });
+    };
   }, [onOpenDemo]);
 
   return (
     <div className="min-h-screen bg-background text-on-surface selection:bg-primary/20">
-      <Navbar onOpenDemo={onOpenDemo} />
+      <Navbar onOpenDemo={onOpenDemo} activeSection={activeSection} />
       <main>
         <Hero />
         <Benefits />
