@@ -64,7 +64,7 @@ export default function SnackDemo({ onBack, onAdmin }) {
                 <div className="w-10 h-10 border-4 border-[#ddc0ba] border-t-[#ff4b2b] rounded-full animate-spin"></div>
                 <p className="text-[#56423e] font-bold tracking-widest text-xs uppercase animate-pulse">Preparando Snacks...</p>
               </div>
-            ) : items.map((item) => (
+            ) : items.filter(i => i.available !== false).map((item) => (
               <div key={item.id} className="flex gap-4 items-center bg-white p-4 rounded-2xl border border-[#ddc0ba]/20 hover:border-[#ff4b2b]/30 transition-all group shadow-sm">
                 <div className="w-24 h-24 rounded-xl overflow-hidden flex-shrink-0 shadow-sm transition-transform group-hover:scale-105 duration-300">
                   <img alt={item.title} className="w-full h-full object-cover" src={proxy(item.img)} />

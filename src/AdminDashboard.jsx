@@ -61,12 +61,26 @@ export default function AdminDashboard({ onBack, domain }) {
     }
   };
 
+  const handleToggleAvailability = async (item) => {
+    try {
+      const newStatus = item.available === false ? true : false;
+      await setDoc(doc(db, activeTab, item.docId), { 
+        ...item, 
+        available: newStatus 
+      });
+    } catch (e) {
+      console.error(e);
+      alert('Error actualizando disponibilidad');
+    }
+  };
+
   const handleSave = async (itemData) => {
     try {
       if (isAdding) {
         // assign a fake max ID just to keep ordering
         const maxId = items.reduce((max, i) => Math.max(max, i.id || 0), 0) + 1;
         itemData.id = maxId;
+        if (itemData.available === undefined) itemData.available = true;
         await addDoc(collection(db, activeTab), itemData);
       } else {
         const { docId, ...updateData } = itemData;
@@ -180,6 +194,22 @@ export default function AdminDashboard({ onBack, domain }) {
 
                   {/* Actions */}
                   <div className="flex sm:flex-col gap-2 justify-end w-full sm:w-auto mt-2 sm:mt-0 pt-4 sm:pt-0 border-t sm:border-t-0 border-gray-100">
+                    <button 
+                      onClick={() => handleToggleAvailability(item)}
+                      title={item.available === false ? "Activar" : "Desactivar"}
+                      className={`flex-1 sm:flex-none p-3 sm:p-2 rounded-lg sm:rounded flex justify-center items-center gap-2 transition-colors ${
+                        item.available === false 
+                        ? 'bg-zinc-100 text-zinc-400 hover:bg-zinc-200' 
+                        : 'bg-green-50 text-green-600 hover:bg-green-100'
+                      }`}
+                    >
+                      <span className="material-symbols-outlined text-[20px] sm:text-sm">
+                        {item.available === false ? 'visibility_off' : 'visibility'}
+                      </span>
+                      <span className="sm:hidden text-sm font-bold">
+                        {item.available === false ? 'Agotado' : 'Disponible'}
+                      </span>
+                    </button>
                     <button onClick={() => { setIsAdding(false); setEditingItem(item); }} className="flex-1 sm:flex-none p-3 sm:p-2 bg-blue-50 text-blue-600 rounded-lg sm:rounded flex justify-center items-center gap-2 hover:bg-blue-100 transition-colors">
                       <span className="material-symbols-outlined text-[20px] sm:text-sm">edit</span> <span className="sm:hidden text-sm font-bold">Editar</span>
                     </button>
@@ -220,7 +250,7 @@ export default function AdminDashboard({ onBack, domain }) {
 }
 
 function ItemForm({ item, domain, onSave, onCancel }) {
-  const [formData, setFormData] = useState(item || (domain === 'restaurant' ? {category: 'desayunos'} : domain === 'bar' ? {category: 'destacados'} : {}));
+  const [formData, setFormData] = useState(item || (domain === 'restaurant' ? {category: 'desayunos', available: true} : domain === 'bar' ? {category: 'destacados', available: true} : {available: true}));
   const [uploading, setUploading] = useState(false);
   
   const isLiquor = ['tequilas', 'whisky', 'ron'].includes(formData.category);
@@ -300,6 +330,18 @@ function ItemForm({ item, domain, onSave, onCancel }) {
           </div>
           <div><label className="block text-sm font-bold text-gray-700 mb-1">Descripción / Info</label><textarea required name="desc" value={formData.desc || formData.origin || ''} onChange={(e) => setFormData({...formData, desc: e.target.value, origin: e.target.value})} className="w-full bg-white text-black border p-2 rounded h-24" /></div>
           
+          <div className="flex items-center gap-2 py-2">
+            <input 
+              type="checkbox" 
+              id="available" 
+              name="available" 
+              checked={formData.available !== false} 
+              onChange={(e) => setFormData({...formData, available: e.target.checked})}
+              className="w-4 h-4 accent-orange-600"
+            />
+            <label htmlFor="available" className="text-sm font-bold text-gray-700 cursor-pointer">Producto Disponible / En existencia</label>
+          </div>
+
           <div className="bg-gray-50 p-4 rounded-xl border border-gray-200">
             <label className="block text-sm font-bold text-gray-700 mb-3">Fotografía del Platillo</label>
             <div className="flex items-center gap-4 mb-3">

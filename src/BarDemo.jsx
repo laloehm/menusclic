@@ -19,7 +19,7 @@ export default function BarDemo({ onBack, onAdmin }) {
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "bar_items"), snap => {
-      const itemsData = snap.docs.map(doc => doc.data());
+      const itemsData = snap.docs.map(doc => doc.data()).filter(i => i.available !== false);
       itemsData.sort((a,b) => a.id - b.id);
       
       setFeaturedItems(itemsData.filter(i => i.category === 'destacados'));

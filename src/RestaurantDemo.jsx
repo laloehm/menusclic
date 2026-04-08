@@ -37,7 +37,7 @@ export default function RestaurantDemo({ onBack, onAdmin }) {
     return () => unsubscribe();
   }, []);
 
-  const filteredItems = items.filter(item => item.category === activeCategory)
+  const filteredItems = items.filter(item => item.category === activeCategory && item.available !== false)
 
   return (
     <div className="bg-[#fbfbe2] font-body text-[#1b1d0e] min-h-screen antialiased flex justify-center">
