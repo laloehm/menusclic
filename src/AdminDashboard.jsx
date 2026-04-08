@@ -84,6 +84,9 @@ export default function AdminDashboard({ onBack, domain }) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6 font-inter">
         <form onSubmit={handleLogin} className="bg-white p-8 rounded-xl shadow-xl max-w-sm w-full">
+          <div className="flex justify-center mb-8">
+            <img src="/Logo-Menusclic.png" alt="MenusClic Logo" className="h-12 w-auto" />
+          </div>
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold">Admin Panel</h2>
             <button type="button" onClick={onBack} className="text-gray-400 hover:text-gray-800"><span className="material-symbols-outlined">close</span></button>
@@ -110,7 +113,11 @@ export default function AdminDashboard({ onBack, domain }) {
           <button onClick={onBack} className="absolute left-0 md:static w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100">
             <span className="material-symbols-outlined">arrow_back</span>
           </button>
-          <h1 className="text-xl md:text-2xl font-black text-center w-full md:w-auto md:ml-2">Panel de Administración</h1>
+          <div className="flex items-center gap-3 ml-2">
+            <img src="/Logo-Menusclic.png" alt="Logo" className="h-8 w-auto hidden md:block" />
+            <div className="md:w-[2px] md:h-6 md:bg-gray-200 hidden md:block"></div>
+            <h1 className="text-xl md:text-2xl font-black text-center w-full md:w-auto">Panel Admin</h1>
+          </div>
         </div>
         <button onClick={() => { setIsAdding(true); setEditingItem({}); }} className="bg-green-600 hover:bg-green-700 text-white px-6 py-2.5 rounded-lg font-bold flex items-center justify-center gap-1 transition-colors shadow-sm w-full sm:w-auto">
           <span className="material-symbols-outlined text-[24px] leading-none flex items-center justify-center mt-[-1px]">add</span> 

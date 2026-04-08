@@ -211,7 +211,7 @@ export default function BarDemo({ onBack, onAdmin }) {
               <div className="flex flex-col gap-2 pb-8 items-center">
                 <p className="text-[10px] uppercase tracking-widest text-[#A5D0B9]/20">Powered by</p>
                 <div className="flex items-center gap-2">
-                  <p className="font-['Plus_Jakarta_Sans'] font-bold text-[#A5D0B9]/40">MenusClic</p>
+                  <img src="/Logo-Menusclic.png" alt="MenusClic" className="h-6 w-auto opacity-50 hover:opacity-100 transition-opacity" />
                 </div>
               </div>
             </div>

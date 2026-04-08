@@ -4,8 +4,8 @@ function Navbar({ onOpenDemo }) {
   return (
     <nav className="fixed top-0 w-full z-50 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-xl shadow-[0_12px_32px_rgba(25,28,29,0.04)] font-inter antialiased tracking-tight">
       <div className="flex justify-between items-center max-w-7xl mx-auto px-8 py-4">
-        <div className="text-2xl font-black tracking-tighter text-zinc-900 dark:text-zinc-50">
-          MenusClic
+        <div className="flex items-center">
+          <img src="/Logo-Menusclic.png" alt="MenusClic Logo" className="h-10 w-auto object-contain" />
         </div>
         <div className="hidden md:flex items-center space-x-8">
           <a className="text-orange-600 dark:text-orange-500 font-semibold border-b-2 border-orange-500 pb-1" href="#benefits">Beneficios</a>
@@ -14,7 +14,7 @@ function Navbar({ onOpenDemo }) {
         </div>
         <div className="flex items-center gap-4">
           <a 
-            href="https://wa.me/521234567890" 
+            href="https://wa.me/525518083608" 
             className="bg-primary-container text-white px-6 py-2 rounded-lg font-bold hover:bg-primary transition-colors text-sm"
           >
             Inicia tu proyecto
@@ -233,10 +233,8 @@ function Footer() {
   return (
     <footer className="bg-zinc-50 dark:bg-zinc-900 w-full py-12 border-t border-zinc-200/10">
       <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-        <div className="space-y-4 text-center md:text-left">
-          <div className="text-2xl font-black tracking-tighter text-zinc-900 dark:text-zinc-50">
-            MenusClic
-          </div>
+        <div className="space-y-4 flex flex-col items-center md:items-start text-center md:text-left">
+          <img src="/Logo-Menusclic.png" alt="MenusClic Logo" className="h-12 w-auto object-contain mb-2" />
           <p className="text-[12px] font-inter tracking-widest uppercase font-bold text-zinc-400 dark:text-zinc-600 max-w-sm leading-relaxed">
             © 2024 MENUSCLIC. DIGITALIZACIÓN MAESTRA PARA RESTAURANTES MODERNOS.
           </p>
@@ -279,7 +277,7 @@ export default function LandingPage({ onOpenDemo }) {
                 <p className="text-surface-dim text-lg">Únete a más de 500 restaurantes que ya usan MenusClic.</p>
               </div>
               <div className="relative z-10 w-full md:w-auto">
-                <a href="https://wa.me/521234567890" className="w-full md:w-auto btn-gradient text-white px-10 py-5 rounded-lg font-bold text-xl shadow-2xl hover:scale-105 transition-transform inline-block text-center">
+                <a href="https://wa.me/525518083608" className="w-full md:w-auto btn-gradient text-white px-10 py-5 rounded-lg font-bold text-xl shadow-2xl hover:scale-105 transition-transform inline-block text-center">
                   Empieza Gratis Ahora
                 </a>
               </div>
@@ -297,7 +295,7 @@ export default function LandingPage({ onOpenDemo }) {
 function WhatsAppButton() {
   return (
     <a
-      href="https://wa.me/521234567890" 
+      href="https://wa.me/525518083608" 
       target="_blank"
       rel="noopener noreferrer"
       className="fixed bottom-8 right-8 z-50 bg-[#25D366] text-white rounded-full shadow-2xl transition-transform hover:scale-110 active:scale-95 animate-whatsapp flex items-center justify-center border-2 border-green-400/30 whatsapp-circle"
