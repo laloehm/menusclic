@@ -66,6 +66,9 @@ export default {
         "lg": "0.25rem",
         "xl": "0.5rem"
       },
+      maxWidth: {
+        "3xl": "50rem",
+      },
     },
   },
   plugins: [],
