@@ -28,7 +28,7 @@ function Navbar({ onOpenDemo, activeSection }) {
     <nav className="fixed top-0 w-full z-50 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-xl shadow-[0_12px_32px_rgba(25,28,29,0.04)] font-inter antialiased tracking-tight">
       <div className="flex justify-between items-center max-w-7xl mx-auto px-8 py-4">
         <div className="flex items-center">
-          <img src={`${import.meta.env.BASE_URL}Logo-Menusclic.png`} alt="MenusClic Logo" className="h-10 w-auto object-contain" />
+          <img src="./Logo-Menusclic.png" alt="MenusClic Logo" className="h-10 w-auto object-contain" />
         </div>
         <div className="hidden md:flex items-center space-x-8">
           {navLinks.map((link) => (
@@ -82,7 +82,7 @@ function Hero() {
         </div>
         <div className="lg:col-span-6 relative flex justify-center py-0 lg:py-0">
           <img 
-            src={`${import.meta.env.BASE_URL}menu-volcano.png`} 
+            src="./menu-volcano.png" 
             className="w-full max-w-full h-auto rounded-[2rem]" 
             alt="Menu Portada" 
           />
@@ -268,7 +268,7 @@ function Footer() {
     <footer className="bg-zinc-50 dark:bg-zinc-900 w-full py-12 border-t border-zinc-200/10">
       <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
         <div className="space-y-4 flex flex-col items-center md:items-start text-center md:text-left">
-          <img src={`${import.meta.env.BASE_URL}Logo-Menusclic.png`} alt="MenusClic Logo" className="h-12 w-auto object-contain mb-2" />
+          <img src="./Logo-Menusclic.png" alt="MenusClic Logo" className="h-12 w-auto object-contain mb-2" />
           <p className="text-[12px] font-inter tracking-widest uppercase font-bold text-zinc-400 dark:text-zinc-600 max-w-sm leading-relaxed">
             © 2024 MENUSCLIC. DIGITALIZACIÓN MAESTRA PARA RESTAURANTES MODERNOS.
           </p>
@@ -294,35 +294,31 @@ export default function LandingPage({ onOpenDemo }) {
     };
     window.addEventListener('hashchange', handleHashChange);
     
-    // Scroll Spy Logic
+    // Scroll Spy Logic (Manual Scroll Listener for higher reliability)
     const sections = ['hero', 'benefits', 'demo', 'process'];
-    const observerOptions = {
-      root: null,
-      rootMargin: '-50% 0px -50% 0px', // Center-based detection
-      threshold: 0
-    };
-
-    const observerCallback = (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id);
-        }
-      });
-    };
-
-    const observer = new IntersectionObserver(observerCallback, observerOptions);
     
-    sections.forEach((id) => {
-      const element = document.getElementById(id);
-      if (element) observer.observe(element);
-    });
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + 100; // Offset for navbar
+      
+      let current = '';
+      for (const id of sections) {
+        const element = document.getElementById(id);
+        if (element) {
+          const offsetTop = element.offsetTop;
+          if (scrollPosition >= offsetTop) {
+            current = id;
+          }
+        }
+      }
+      setActiveSection(current);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Initial check
 
     return () => {
       window.removeEventListener('hashchange', handleHashChange);
-      sections.forEach((id) => {
-        const element = document.getElementById(id);
-        if (element) observer.unobserve(element);
-      });
+      window.removeEventListener('scroll', handleScroll);
     };
   }, [onOpenDemo]);
 
