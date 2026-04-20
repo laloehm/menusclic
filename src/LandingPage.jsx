@@ -69,7 +69,7 @@ function Hero() {
             Digitaliza tu carta <br /> <span className="text-primary-container">en la CDMX</span>
           </h1>
           <p className="text-lg md:text-xl text-on-surface-variant max-w-xl mb-10 leading-relaxed">
-            Desde taquerías en la Roma hasta bares en Polanco. Actualiza precios y platillos al instante desde tu móvil. Olvida los menús de papel con precios tachados.
+            Desde taquerías hasta bares en toda la Ciudad de México. Actualiza precios y platillos al instante desde tu móvil. Olvida los menús de papel con precios tachados.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <a href="#demo" className="btn-gradient text-white px-8 py-4 rounded-lg font-bold text-lg shadow-lg active:scale-95 transition-all text-center">
@@ -110,7 +110,14 @@ function ComparisonSection() {
           <div className="bg-surface-container-low rounded-3xl p-8 border border-outline-variant/20 relative group">
             <span className="absolute -top-4 left-8 bg-red-500 text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest shadow-lg">El Problema</span>
             <div className="rounded-2xl overflow-hidden mb-8 shadow-xl grayscale-[50%] group-hover:grayscale-0 transition-all duration-500">
-              <img src="./old-menu.png" alt="Menú tradicional con precios tachados" className="w-full h-80 object-cover" />
+              <img 
+                src="./old-menu.png" 
+                alt="Menú tradicional con precios tachados" 
+                className="w-full h-80 object-cover" 
+                loading="lazy"
+                width="600"
+                height="400"
+              />
             </div>
             <h4 className="text-2xl font-bold mb-4 text-red-600">Menús de Papel</h4>
             <ul className="space-y-4">
@@ -133,7 +140,14 @@ function ComparisonSection() {
           <div className="bg-primary/5 rounded-3xl p-8 border border-primary/20 relative group">
             <span className="absolute -top-4 left-8 bg-green-600 text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest shadow-lg">La Solución Menusclic</span>
             <div className="rounded-2xl overflow-hidden mb-8 shadow-2xl group-hover:scale-[1.02] transition-all duration-500">
-              <img src="./new-menu.png" alt="Menú digital Menusclic impecable" className="w-full h-80 object-cover" />
+              <img 
+                src="./new-menu.png" 
+                alt="Menú digital Menusclic impecable" 
+                className="w-full h-80 object-cover" 
+                loading="lazy"
+                width="600"
+                height="400"
+              />
             </div>
             <h4 className="text-2xl font-bold mb-4 text-green-700">Digitalización Maestra</h4>
             <ul className="space-y-4">
@@ -204,7 +218,7 @@ function DemoGallery({ onOpenDemo }) {
     {
       id: 'restaurant',
       title: 'Restaurantes y Cafeterías',
-      description: 'Elegancia para restaurantes de autor, bistros y cafeterías de especialidad en la Roma o Polanco.',
+      description: 'Elegancia para restaurantes de autor, bistros y cafeterías de especialidad en toda la CDMX.',
       img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBCN29S16oxTL3638G_fulIzzjNvlZ8Th1Zq-s9X5l9T4R8OiU5OaHTOklKDvpYhDT5UKXmnOdXtZTttiHdUIHUobOztP_CXeq-EB2r7ZuGra1khZOqEVkeTYoYjEpiz5KeGa3vA9czC1kRE9jGy0EVKDNU3uFXywEfuEGgEjIw1u0Hh1WCY7DOLEDzixSONN4XKRPLfedKcFh0juuWu5K1NQw7EcmLCAdQtFU-z66BXcpTCTEaY0YPQGkKcoVGl1WTUYnmO3olwc8',
       dark: false
     },
