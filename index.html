@@ -1,18 +1,41 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="MenusClic - Digitaliza el menú de tu restaurante en un solo clic. Actualiza precios al instante, sin impresiones." />
     <title>MenusClic - Digitaliza tu menú</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Be+Vietnam+Pro:wght@400;500;700;900&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
-    <script type="module" crossorigin src="./assets/index-BVlR5M8T.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-Bub_jl5Y.css">
+
+    <!-- DNS Prefetch & Preconnect para recursos externos -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://lh3.googleusercontent.com" crossorigin />
+    <link rel="dns-prefetch" href="https://firestore.googleapis.com" />
+    <link rel="dns-prefetch" href="https://images.unsplash.com" />
+    <link rel="dns-prefetch" href="https://images.weserv.nl" />
+
+    <!-- Preload de imagen LCP (la más grande del fold inicial) -->
+    <link rel="preload" as="image" href="./menu-volcano.png" />
+
+    <!-- Fuentes: una sola solicitud combinada con display=swap -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Be+Vietnam+Pro:wght@400;500;700;900&display=swap"
+    />
+
+    <!-- Material Symbols: solo los íconos usados en el proyecto -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=add,arrow_back,check,close,cloud_upload,delete,dinner_dining,edit,expand_more,icecream,image,local_bar,location_on,lunch_dining,print_disabled,qr_code_2,restaurant_menu,sanitizer,search,share,sunny,update,upload_file,visibility,visibility_off,chat,palette&display=swap"
+    />
+    <script type="module" crossorigin src="./assets/index-BSNCK5Ec.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/rolldown-runtime-Dw2cE7zH.js">
+    <link rel="modulepreload" crossorigin href="./assets/preload-helper-xBbMyY7u.js">
+    <link rel="modulepreload" crossorigin href="./assets/react-vendor-DTtd_2FI.js">
+    <link rel="stylesheet" crossorigin href="./assets/index-Bim0Puis.css">
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"></div>
   </body>
 </html>

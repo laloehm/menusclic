@@ -1,0 +1,1 @@
+function e(e,t=800){return e&&(e.includes(`unsplash.com`)?`${e}?auto=format&fit=crop&w=${t}&q=80`:e.includes(`firebasestorage.googleapis.com`)||e.includes(`storage.googleapis.com`)?e:`https://images.weserv.nl/?url=${encodeURIComponent(e)}&w=${t}&fit=cover`)}export{e as t};
