@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from './firebase';
+import { proxy } from './utils/proxy';
 
 export default function RestaurantDemo({ onBack, onAdmin }) {
   const [activeCategory, setActiveCategory] = useState('desayunos')
@@ -13,13 +14,6 @@ export default function RestaurantDemo({ onBack, onAdmin }) {
     { id: 'postres', label: 'Postres', icon: 'icecream' },
     { id: 'bebidas', label: 'Bebidas', icon: 'local_bar' }
   ]
-
-  const proxy = (url) => {
-    if (url.includes('unsplash.com')) {
-      return `${url}?auto=format&fit=crop&w=800&q=80`;
-    }
-    return `https://images.weserv.nl/?url=${encodeURIComponent(url)}&w=800&fit=cover`;
-  }
 
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);

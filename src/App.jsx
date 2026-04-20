@@ -1,9 +1,20 @@
-import React, { useState, useEffect } from 'react'
-import LandingPage from './LandingPage'
-import BarDemo from './BarDemo'
-import SnackDemo from './SnackDemo'
-import RestaurantDemo from './RestaurantDemo'
-import AdminDashboard from './AdminDashboard'
+import React, { useState, useEffect, lazy, Suspense } from 'react'
+
+// Carga diferida para TODAS las vistas — el chunk inicial queda mínimo
+const LandingPage = lazy(() => import('./LandingPage'))
+const BarDemo = lazy(() => import('./BarDemo'))
+const SnackDemo = lazy(() => import('./SnackDemo'))
+const RestaurantDemo = lazy(() => import('./RestaurantDemo'))
+const AdminDashboard = lazy(() => import('./AdminDashboard'))
+
+function LoadingScreen() {
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center bg-[#0D0F0E]">
+      <div className="w-10 h-10 border-4 border-white/10 border-t-orange-500 rounded-full animate-spin mb-4"></div>
+      <p className="text-white/40 text-xs uppercase tracking-widest font-bold">Cargando...</p>
+    </div>
+  )
+}
 
 function App() {
   const [currentView, setCurrentView] = useState('landing')
@@ -30,29 +41,18 @@ function App() {
 
   const view = currentView.toLowerCase().trim()
 
-  if (view === 'bar') {
-    return <BarDemo onBack={() => setCurrentView('landing')} onAdmin={() => setCurrentView('bar_admin')} />
-  }
-
-  if (view === 'snack') {
-    return <SnackDemo onBack={() => setCurrentView('landing')} onAdmin={() => setCurrentView('snack_admin')} />
-  }
-
-  if (view === 'restaurant') {
-    return <RestaurantDemo onBack={() => setCurrentView('landing')} onAdmin={() => setCurrentView('restaurant_admin')} />
-  }
-
-  if (view === 'restaurant_admin') {
-    return <AdminDashboard domain="restaurant" onBack={() => setCurrentView('restaurant')} />
-  }
-  if (view === 'snack_admin') {
-    return <AdminDashboard domain="snack" onBack={() => setCurrentView('snack')} />
-  }
-  if (view === 'bar_admin') {
-    return <AdminDashboard domain="bar" onBack={() => setCurrentView('bar')} />
-  }
-
-  return <LandingPage onOpenDemo={(id) => setCurrentView(id)} />
+  return (
+    <Suspense fallback={<LoadingScreen />}>
+      {view === 'bar' && <BarDemo onBack={() => setCurrentView('landing')} onAdmin={() => setCurrentView('bar_admin')} />}
+      {view === 'snack' && <SnackDemo onBack={() => setCurrentView('landing')} onAdmin={() => setCurrentView('snack_admin')} />}
+      {view === 'restaurant' && <RestaurantDemo onBack={() => setCurrentView('landing')} onAdmin={() => setCurrentView('restaurant_admin')} />}
+      {view === 'restaurant_admin' && <AdminDashboard domain="restaurant" onBack={() => setCurrentView('restaurant')} />}
+      {view === 'snack_admin' && <AdminDashboard domain="snack" onBack={() => setCurrentView('snack')} />}
+      {view === 'bar_admin' && <AdminDashboard domain="bar" onBack={() => setCurrentView('bar')} />}
+      {view === 'landing' && <LandingPage onOpenDemo={(id) => setCurrentView(id)} />}
+    </Suspense>
+  )
 }
 
 export default App
+

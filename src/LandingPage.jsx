@@ -64,12 +64,12 @@ function Hero() {
     <section id="hero" className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden bg-background">
       <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         <div className="lg:col-span-6">
-          <span className="text-sm text-primary font-bold tracking-[0.1em] uppercase mb-4 block">La Evolución del Menú</span>
+          <span className="text-sm text-primary font-bold tracking-[0.1em] uppercase mb-4 block">La Evolución del Menú en CDMX</span>
           <h1 className="text-5xl md:text-[4rem] font-extrabold text-on-surface leading-[1.1] tracking-[-0.02em] mb-6">
-            Digitaliza tu menú <br /> <span className="text-primary-container">en un solo clic</span>
+            Digitaliza tu carta <br /> <span className="text-primary-container">en la CDMX</span>
           </h1>
           <p className="text-lg md:text-xl text-on-surface-variant max-w-xl mb-10 leading-relaxed">
-            Elimina los costos de impresión para siempre. Actualiza precios y platos al instante desde tu móvil. Ofrece una experiencia segura y moderna a tus clientes.
+            Desde taquerías en la Roma hasta bares en Polanco. Actualiza precios y platillos al instante desde tu móvil. Olvida los menús de papel con precios tachados.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <a href="#demo" className="btn-gradient text-white px-8 py-4 rounded-lg font-bold text-lg shadow-lg active:scale-95 transition-all text-center">
@@ -84,8 +84,73 @@ function Hero() {
           <img 
             src="./menu-volcano.png" 
             className="w-full max-w-full h-auto rounded-[2rem]" 
-            alt="Menu Portada" 
+            alt="Menu Portada"
+            width="700"
+            height="525"
+            fetchpriority="high"
+            loading="eager"
           />
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function ComparisonSection() {
+  return (
+    <section className="py-24 bg-background overflow-hidden">
+      <div className="max-w-7xl mx-auto px-8">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4 text-primary">La muerte del menú tachado</h2>
+          <p className="text-on-surface-variant max-w-2xl mx-auto">Tus clientes en la CDMX merecen una experiencia impecable. No permitas que una carta en mal estado arruine tu marca.</p>
+        </div>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* Problema */}
+          <div className="bg-surface-container-low rounded-3xl p-8 border border-outline-variant/20 relative group">
+            <span className="absolute -top-4 left-8 bg-red-500 text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest shadow-lg">El Problema</span>
+            <div className="rounded-2xl overflow-hidden mb-8 shadow-xl grayscale-[50%] group-hover:grayscale-0 transition-all duration-500">
+              <img src="./old-menu.png" alt="Menú tradicional con precios tachados" className="w-full h-80 object-cover" />
+            </div>
+            <h4 className="text-2xl font-bold mb-4 text-red-600">Menús de Papel</h4>
+            <ul className="space-y-4">
+              <li className="flex gap-3 text-on-surface-variant">
+                <span className="material-symbols-outlined text-red-500">close</span>
+                <span>Precios tachados con plumón que dan mala imagen.</span>
+              </li>
+              <li className="flex gap-3 text-on-surface-variant">
+                <span className="material-symbols-outlined text-red-500">close</span>
+                <span>Etiquetas de "AGOTADO" pegadas con cinta.</span>
+              </li>
+              <li className="flex gap-3 text-on-surface-variant">
+                <span className="material-symbols-outlined text-red-500">close</span>
+                <span>Costos constantes en reimpresiones y micas.</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* Solución */}
+          <div className="bg-primary/5 rounded-3xl p-8 border border-primary/20 relative group">
+            <span className="absolute -top-4 left-8 bg-green-600 text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest shadow-lg">La Solución Menusclic</span>
+            <div className="rounded-2xl overflow-hidden mb-8 shadow-2xl group-hover:scale-[1.02] transition-all duration-500">
+              <img src="./new-menu.png" alt="Menú digital Menusclic impecable" className="w-full h-80 object-cover" />
+            </div>
+            <h4 className="text-2xl font-bold mb-4 text-green-700">Digitalización Maestra</h4>
+            <ul className="space-y-4">
+              <li className="flex gap-3 text-on-surface-variant">
+                <span className="material-symbols-outlined text-green-600">check</span>
+                <span>Precios actualizados al instante en toda la CDMX.</span>
+              </li>
+              <li className="flex gap-3 text-on-surface-variant">
+                <span className="material-symbols-outlined text-green-600">check</span>
+                <span>Oculta platillos sin existencia con un solo clic.</span>
+              </li>
+              <li className="flex gap-3 text-on-surface-variant">
+                <span className="material-symbols-outlined text-green-600">check</span>
+                <span>Fotos HD que disparan el hambre de tus comensales.</span>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
@@ -138,22 +203,22 @@ function DemoGallery({ onOpenDemo }) {
   const demos = [
     {
       id: 'restaurant',
-      title: 'Terracotta Bistro',
-      description: 'Elegancia cálida y terrosa para restaurantes de autor, bistros y experiencias gastronómicas acogedoras.',
+      title: 'Restaurantes y Cafeterías',
+      description: 'Elegancia para restaurantes de autor, bistros y cafeterías de especialidad en la Roma o Polanco.',
       img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBCN29S16oxTL3638G_fulIzzjNvlZ8Th1Zq-s9X5l9T4R8OiU5OaHTOklKDvpYhDT5UKXmnOdXtZTttiHdUIHUobOztP_CXeq-EB2r7ZuGra1khZOqEVkeTYoYjEpiz5KeGa3vA9czC1kRE9jGy0EVKDNU3uFXywEfuEGgEjIw1u0Hh1WCY7DOLEDzixSONN4XKRPLfedKcFh0juuWu5K1NQw7EcmLCAdQtFU-z66BXcpTCTEaY0YPQGkKcoVGl1WTUYnmO3olwc8',
       dark: false
     },
     {
       id: 'snack',
-      title: 'Snack Attack',
-      description: 'Estética rústica y artesanal ideal para food trucks, snacks y locales de comida rápida de alta calidad.',
+      title: 'Taquerías y Fondas',
+      description: 'Estética artesanal ideal para taquerías, fondas y puestos de comida rápida de alta calidad en toda la CDMX.',
       img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBKX7h9xyqBIlp9o-sSOcTcvXauqI69tTj9n6xNPGIhfhfPH49UxqM0nc9L36wNJBVxxQ6j2_ii6YFqPkaXRBUSX3Mvs-ltCXJUGZGTgU1W-U1vn5umvP3T-MRJ2XV3-vRf24redhKahUy7YSGyFy1WTRVv8LYDfPa4-sFKvFZKbzKLSDxrUVssiCLDkfr9OiL1tka9KL6g9l2fK8cINeN0ejOew3rm6jiU217mAhucFQgLiXfzDW7QtRzG6yhDOp0TiXbvwulQ3nw',
       dark: false
     },
     {
       id: 'bar',
-      title: 'Bar - Modo Oscuro',
-      description: 'Contraste alto y estética nocturna perfecta para coctelerías y locales de copas.',
+      title: 'Bares y Coctelería',
+      description: 'Estética nocturna perfecta para bares, terrazas y locales de copas con alta rotación de inventario.',
       img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAELzNVjiBToFu6Hhl2AHjSMdBnkqcSZpOrVcTXw5V8ZOE8m7p3MKOw7IWqWrzrfg_MXLgcR1SeDCYFvJD2O29vnfxw30jkhMmziwrxurNL0kWe1Guc9hFXkAOhiJuSh2wgcNLdfHtCs3li8zfAlW_bceFdAkORo0VqyPKoZogTT6qiC5zXuJALvb_T3HUbZ--wzciEgx69ed0KZIv4cciYpfifkhpVVb0cKZqzc-qJ4pJ-TJ7uqpebakfgQYiJ6LG4nRw85lbbIkE',
       dark: true
     }
@@ -175,7 +240,7 @@ function DemoGallery({ onOpenDemo }) {
           {demos.map((demo, idx) => (
             <div key={idx} className={`${demo.dark ? 'bg-zinc-900 text-white' : 'bg-surface-container-lowest'} rounded-xl overflow-hidden group border border-outline-variant/10 shadow-sm hover:shadow-xl transition-all duration-300`}>
               <div className="h-64 overflow-hidden relative">
-                <img src={demo.img} alt={demo.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                <img src={demo.img} alt={demo.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
                   <span className="text-white font-bold text-lg">Ver detalles</span>
                 </div>
@@ -233,11 +298,11 @@ function Process() {
 
 function FAQ() {
   const faqs = [
-    { q: '¿Es muy caro el servicio comparado con imprimir mis cartas?', a: 'Al contrario, MenusClic te hace ahorrar dinero. Una sola tanda de impresiones profesionales puede costar más que meses de nuestro servicio. Además, con nosotros no vuelves a gastar ni un peso cuando subas un precio o cambies un platillo; lo actualizas tú mismo en segundos sin volver a la imprenta.' },
-    { q: 'No sé mucho de tecnología, ¿es difícil de usar?', a: 'Para nada. Si sabes enviar un mensaje por WhatsApp, sabes usar MenusClic. Nosotros configuramos todo por ti al principio y te entregamos un sistema tan sencillo que actualizar tu menú será tan fácil como cambiar tu foto de perfil.' },
-    { q: '¿Qué pasa si se me agota un ingrediente o un platillo a mitad del día?', a: '¡Esa es la mayor ventaja! Entras a tu panel, haces un solo clic y el platillo desaparece de la vista de tus clientes al instante. Así evitas la molestia de que un cliente pida algo que ya no tienes disponible.' },
-    { q: '¿A mis clientes les gustará usar un código QR?', a: '¡Les encanta! Es más higiénico (no tocan menús de papel que han pasado por muchas manos), es moderno y les permite ver fotos reales de tu comida. Un cliente que ve una foto apetitosa en su celular, pide más.' },
-    { q: '¿Cuánto tiempo tardan en entregarme mi menú listo?', a: 'Somos MenusClic por una razón: la rapidez. Una vez que nos envías tu lista de precios y fotos, tenemos tu menú digital y tus códigos QR listos en menos de 24 horas. Tu negocio puede estar digitalizado mañana mismo.' }
+    { q: '¿Es muy caro el servicio comparado con imprimir mis cartas?', a: 'Al contrario, Menusclic te hace ahorrar dinero. En la CDMX, una sola tanda de impresiones profesionales puede costar más que meses de nuestro servicio. Además, con nosotros no vuelves a gastar ni un peso cuando subas un precio o cambies un platillo; lo actualizas tú mismo en segundos sin volver a la imprenta.' },
+    { q: 'No sé mucho de tecnología, ¿es difícil de usar?', a: 'Para nada. Si sabes enviar un mensaje por WhatsApp, sabes usar Menusclic. Atendemos a taquerías, bares y fondas de toda la ciudad con una configuración tan sencilla que actualizar tu menú será tan fácil como cambiar tu foto de perfil.' },
+    { q: '¿Qué pasa si se me agota un ingrediente en mi taquería?', a: '¡Esa es la mayor ventaja! Entras a tu panel, haces un solo clic y el platillo desaparece de la vista de tus clientes al instante. Así evitas la molestia de que un comensal pida algo que ya no tienes disponible (y sin tachones feos en la carta).' },
+    { q: '¿A mis clientes en la CDMX les gustará usar un código QR?', a: '¡Les encanta! Es más higiénico (no tocan menús de papel que han pasado por muchas manos en el mercado o la zona), es moderno y les permite ver fotos reales de tu comida. Un cliente que ve una foto apetitosa en su celular, pide más.' },
+    { q: '¿Cuánto tiempo tardan en entregarme mi menú listo?', a: 'Somos Menusclic por una razón: la rapidez. Una vez que nos envías tu lista de precios y fotos, tenemos tu menú digital y tus códigos QR listos en menos de 24 horas para que tu bar o restaurante en la CDMX empiece a vender hoy mismo.' }
   ]
 
   return (
@@ -328,6 +393,7 @@ export default function LandingPage({ onOpenDemo }) {
       <main>
         <Hero />
         <Benefits />
+        <ComparisonSection />
         <DemoGallery onOpenDemo={onOpenDemo} />
         <Process />
         <section className="py-24 bg-background">

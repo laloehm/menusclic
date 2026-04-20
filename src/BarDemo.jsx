@@ -1,34 +1,35 @@
 import React, { useState, useEffect } from 'react'
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from './firebase';
+import { proxy } from './utils/proxy';
 
 export default function BarDemo({ onBack, onAdmin }) {
-  const proxy = (url) => {
-    if (url.includes('unsplash.com')) {
-      return `${url}?auto=format&fit=crop&w=1000&q=80`;
-    }
-    return `https://images.weserv.nl/?url=${encodeURIComponent(url)}&w=1000&fit=cover`;
-  }
   const [activeTab, setActiveTab] = useState('cervezas')
-  const [featuredItems, setFeaturedItems] = useState([]);
-  const [tequilas, setTequilas] = useState([]);
-  const [whisky, setWhisky] = useState([]);
-  const [ron, setRon] = useState([]);
-  const [cervezas, setCervezas] = useState([]);
-  const [sinAlcohol, setSinAlcohol] = useState([]);
+  // Un único objeto de estado → un solo re-render por actualización de Firestore
+  const [menu, setMenu] = useState({
+    destacados: [],
+    tequilas: [],
+    whisky: [],
+    ron: [],
+    cervezas: [],
+    'sin-alcohol': [],
+  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "bar_items"), snap => {
       const itemsData = snap.docs.map(doc => doc.data()).filter(i => i.available !== false);
-      itemsData.sort((a,b) => a.id - b.id);
-      
-      setFeaturedItems(itemsData.filter(i => i.category === 'destacados'));
-      setTequilas(itemsData.filter(i => i.category === 'tequilas'));
-      setWhisky(itemsData.filter(i => i.category === 'whisky'));
-      setRon(itemsData.filter(i => i.category === 'ron'));
-      setCervezas(itemsData.filter(i => i.category === 'cervezas'));
-      setSinAlcohol(itemsData.filter(i => i.category === 'sin-alcohol'));
+      itemsData.sort((a, b) => a.id - b.id);
+
+      // Una sola actualización atómica — evita múltiples re-renders
+      setMenu({
+        destacados:     itemsData.filter(i => i.category === 'destacados'),
+        tequilas:       itemsData.filter(i => i.category === 'tequilas'),
+        whisky:         itemsData.filter(i => i.category === 'whisky'),
+        ron:            itemsData.filter(i => i.category === 'ron'),
+        cervezas:       itemsData.filter(i => i.category === 'cervezas'),
+        'sin-alcohol':  itemsData.filter(i => i.category === 'sin-alcohol'),
+      });
       setLoading(false);
     });
 
@@ -87,7 +88,7 @@ export default function BarDemo({ onBack, onAdmin }) {
               </div>
             ) : (
               <div className="flex overflow-x-auto hide-scrollbar snap-x snap-mandatory gap-4 px-6 pb-4">
-                {featuredItems.map((item, idx) => (
+                {menu.destacados.map((item, idx) => (
                   <div key={idx} className="flex-none w-64 snap-start group">
                     <div className="bg-[#121413] rounded-xl overflow-hidden flex flex-col border border-[#1B4332]/20 h-full shadow-xl">
                       <div className="h-44 relative overflow-hidden">
@@ -145,7 +146,7 @@ export default function BarDemo({ onBack, onAdmin }) {
               <div className="space-y-4">
                 {activeTab === 'cervezas' && (
                   <div className="bg-[#121413] rounded-xl border border-[#1B4332]/20 divide-y divide-[#1B4332]/10">
-                    {cervezas.map((item, idx) => (
+                    {menu.cervezas.map((item, idx) => (
                       <div key={idx} className="flex items-center justify-between p-4 group hover:bg-[#1B4332]/5 transition-colors">
                         <div>
                           <p className="font-bold text-[#F3F4F1] text-sm">{item.name || item.title}</p>
@@ -170,7 +171,7 @@ export default function BarDemo({ onBack, onAdmin }) {
                       </div>
                     ) : (
                       <div className="divide-y divide-[#1B4332]/10">
-                        {(activeTab === 'tequilas' ? tequilas : activeTab === 'whisky' ? whisky : ron).map((item, idx) => (
+                        {(menu[activeTab] || []).map((item, idx) => (
                           <div key={idx} className="grid grid-cols-3 p-4 items-center hover:bg-[#1B4332]/5 transition-colors">
                             <p className="font-bold text-[#F3F4F1] text-xs leading-tight">{item.name}</p>
                             <p className="font-['Plus_Jakarta_Sans'] font-bold text-[#F3F4F1] text-center text-xs">${item.cup}</p>
@@ -184,7 +185,7 @@ export default function BarDemo({ onBack, onAdmin }) {
 
                 {activeTab === 'sin-alcohol' && (
                   <div className="bg-[#121413] rounded-xl border border-[#1B4332]/20 divide-y divide-[#1B4332]/10">
-                    {sinAlcohol.map((item, idx) => (
+                    {menu['sin-alcohol'].map((item, idx) => (
                       <div key={idx} className="flex justify-between items-center p-4 hover:bg-[#1B4332]/5 transition-colors">
                         <div>
                           <p className="font-bold text-[#F3F4F1] text-sm">{item.name || item.title}</p>
