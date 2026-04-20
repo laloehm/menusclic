@@ -13,6 +13,7 @@ export default function BarDemo({ onBack, onAdmin }) {
   const [featuredItems, setFeaturedItems] = useState([]);
   const [tequilas, setTequilas] = useState([]);
   const [whisky, setWhisky] = useState([]);
+  const [ron, setRon] = useState([]);
   const [cervezas, setCervezas] = useState([]);
   const [sinAlcohol, setSinAlcohol] = useState([]);
   const [loading, setLoading] = useState(true);
