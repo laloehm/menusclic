@@ -6,6 +6,11 @@ const BarDemo = lazy(() => import('./BarDemo'))
 const SnackDemo = lazy(() => import('./SnackDemo'))
 const RestaurantDemo = lazy(() => import('./RestaurantDemo'))
 const AdminDashboard = lazy(() => import('./AdminDashboard'))
+const HorangiMenuDemo = lazy(() => import('./HorangiMenuDemo'))
+const SanRemoDemo = lazy(() => import('./SanRemoDemo'))
+const TazaVivaDemo = lazy(() => import('./TazaVivaDemo'))
+const VeggieMenuDemo = lazy(() => import('./VeggieMenuDemo'))
+const SaulEventosDemo = lazy(() => import('./SaulEventosDemo'))
 
 function LoadingScreen() {
   return (
@@ -49,6 +54,11 @@ function App() {
       {view === 'restaurant_admin' && <AdminDashboard domain="restaurant" onBack={() => setCurrentView('restaurant')} />}
       {view === 'snack_admin' && <AdminDashboard domain="snack" onBack={() => setCurrentView('snack')} />}
       {view === 'bar_admin' && <AdminDashboard domain="bar" onBack={() => setCurrentView('bar')} />}
+      {view === 'catmenu' && <HorangiMenuDemo onBack={() => setCurrentView('landing')} />}
+      {view === 'sanremo' && <SanRemoDemo onBack={() => setCurrentView('landing')} />}
+      {view === 'tazaviva' && <TazaVivaDemo onBack={() => setCurrentView('landing')} />}
+      {view === 'veggie' && <VeggieMenuDemo onBack={() => setCurrentView('landing')} />}
+      {view === 'sauleventos' && <SaulEventosDemo onBack={() => setCurrentView('landing')} />}
       {view === 'landing' && <LandingPage onOpenDemo={(id) => setCurrentView(id)} />}
     </Suspense>
   )

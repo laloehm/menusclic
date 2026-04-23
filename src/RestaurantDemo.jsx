@@ -43,7 +43,7 @@ export default function RestaurantDemo({ onBack, onAdmin }) {
               onClick={onBack}
               className="p-1 hover:bg-[#ddc0ba]/20 rounded-full transition-colors text-[#795c51]"
             >
-              <span className="material-symbols-outlined">arrow_back</span>
+              <span className="material-symbols-outlined">close</span>
             </button>
             <h1 className="font-headline text-xl font-bold tracking-tight text-[#1b1d0e]">Terracotta Brew</h1>
           </div>

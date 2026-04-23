@@ -214,61 +214,144 @@ function Benefits() {
 }
 
 function DemoGallery({ onOpenDemo }) {
+  const scrollRef = React.useRef(null);
   const demos = [
     {
+      id: 'catmenu',
+      title: 'Horangi (Café Coreano)',
+      description: 'Estética minimalista en azul real y crema. Inspiración coreana ideal para cafeterías de especialidad.',
+      img: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&q=80&w=800',
+      dark: false,
+      badge: 'Nuevo'
+    },
+    {
+      id: 'sanremo',
+      title: 'San Remo (Retro Blue)',
+      description: 'Inspiración en la cartelería clásica europea. Tipografías audaces y alto contraste para bares con estilo.',
+      img: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&q=80&w=800',
+      dark: false,
+      badge: 'Nuevo'
+    },
+    {
+      id: 'tazaviva',
+      title: 'La Taza Viva (Sketch)',
+      description: 'Estética en blanco y negro con ilustraciones artesanales. Perfecta para cafeterías con alma artística.',
+      img: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=800',
+      dark: false,
+      badge: 'Nuevo'
+    },
+    {
+      id: 'veggie',
+      title: 'Menú Veggie (Nature)',
+      description: 'Diseño orgánico con tipografía audaz y colores naturales. Ideal para conceptos saludables y plant-based.',
+      img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=800',
+      dark: false,
+      badge: 'Nuevo'
+    },
+    {
+      id: 'sauleventos',
+      title: 'Saúl Eventos (Editorial)',
+      description: 'Maquetación tipo revista con fotografía gourmet de alto impacto. Ideal para eventos y catering de lujo.',
+      img: 'https://images.unsplash.com/photo-1514361892635-6b07e31e75f9?auto=format&fit=crop&q=80&w=800',
+      dark: false,
+      badge: 'Nuevo'
+    },
+    {
       id: 'restaurant',
-      title: 'Restaurantes y Cafeterías',
-      description: 'Elegancia para restaurantes de autor, bistros y cafeterías de especialidad en toda la CDMX.',
+      title: 'Restaurantes de Autor',
+      description: 'Elegancia para restaurantes de alta cocina y bistros que buscan una imagen limpia y profesional en CDMX.',
       img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBCN29S16oxTL3638G_fulIzzjNvlZ8Th1Zq-s9X5l9T4R8OiU5OaHTOklKDvpYhDT5UKXmnOdXtZTttiHdUIHUobOztP_CXeq-EB2r7ZuGra1khZOqEVkeTYoYjEpiz5KeGa3vA9czC1kRE9jGy0EVKDNU3uFXywEfuEGgEjIw1u0Hh1WCY7DOLEDzixSONN4XKRPLfedKcFh0juuWu5K1NQw7EcmLCAdQtFU-z66BXcpTCTEaY0YPQGkKcoVGl1WTUYnmO3olwc8',
       dark: false
     },
     {
       id: 'snack',
       title: 'Taquerías y Fondas',
-      description: 'Estética artesanal ideal para taquerías, fondas y puestos de comida rápida de alta calidad en toda la CDMX.',
+      description: 'Estética artesanal ideal para conceptos populares de alta calidad que valoran la tradición visual.',
       img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBKX7h9xyqBIlp9o-sSOcTcvXauqI69tTj9n6xNPGIhfhfPH49UxqM0nc9L36wNJBVxxQ6j2_ii6YFqPkaXRBUSX3Mvs-ltCXJUGZGTgU1W-U1vn5umvP3T-MRJ2XV3-vRf24redhKahUy7YSGyFy1WTRVv8LYDfPa4-sFKvFZKbzKLSDxrUVssiCLDkfr9OiL1tka9KL6g9l2fK8cINeN0ejOew3rm6jiU217mAhucFQgLiXfzDW7QtRzG6yhDOp0TiXbvwulQ3nw',
       dark: false
     },
     {
       id: 'bar',
       title: 'Bares y Coctelería',
-      description: 'Estética nocturna perfecta para bares, terrazas y locales de copas con alta rotación de inventario.',
+      description: 'Estética nocturna premium para bares y terrazas. Maximiza el impacto visual de tu mixología.',
       img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAELzNVjiBToFu6Hhl2AHjSMdBnkqcSZpOrVcTXw5V8ZOE8m7p3MKOw7IWqWrzrfg_MXLgcR1SeDCYFvJD2O29vnfxw30jkhMmziwrxurNL0kWe1Guc9hFXkAOhiJuSh2wgcNLdfHtCs3li8zfAlW_bceFdAkORo0VqyPKoZogTT6qiC5zXuJALvb_T3HUbZ--wzciEgx69ed0KZIv4cciYpfifkhpVVb0cKZqzc-qJ4pJ-TJ7uqpebakfgQYiJ6LG4nRw85lbbIkE',
       dark: true
     }
   ]
 
+  const scroll = (direction) => {
+    if (scrollRef.current) {
+      const { scrollLeft, clientWidth } = scrollRef.current;
+      const itemWidth = scrollRef.current.firstElementChild?.clientWidth || clientWidth;
+      const gap = 24; // Corresponde a gap-6 (1.5rem)
+      const scrollAmount = itemWidth + gap;
+      
+      const scrollTo = direction === 'left' 
+        ? scrollLeft - scrollAmount 
+        : scrollLeft + scrollAmount;
+      
+      scrollRef.current.scrollTo({ left: scrollTo, behavior: 'smooth' });
+    }
+  };
+
   return (
-    <section id="demo" className="py-24 bg-background">
+    <section id="demo" className="py-24 bg-background overflow-hidden">
       <div className="max-w-7xl mx-auto px-8">
         <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
           <div className="max-w-xl">
             <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">Experiencias Visuales</h2>
-            <p className="text-on-surface-variant">Elige el estilo que mejor se adapte a la personalidad de tu establecimiento.</p>
+            <p className="text-on-surface-variant">Elige el estilo que mejor se adapte a la personalidad de tu establecimiento. <span className="hidden md:inline">Desliza para ver más.</span></p>
           </div>
-          <div className="flex gap-2">
-            <span className="bg-tertiary-fixed text-on-tertiary-fixed px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Muestra Gratuita</span>
+          <div className="flex gap-4">
+            <button 
+              onClick={() => scroll('left')}
+              className="w-12 h-12 rounded-full bg-surface-container-high border border-outline-variant/30 flex items-center justify-center hover:bg-primary/10 transition-colors"
+              aria-label="Anterior"
+            >
+              <span className="material-symbols-outlined">chevron_left</span>
+            </button>
+            <button 
+              onClick={() => scroll('right')}
+              className="w-12 h-12 rounded-full bg-surface-container-high border border-outline-variant/30 flex items-center justify-center hover:bg-primary/10 transition-colors"
+              aria-label="Siguiente"
+            >
+              <span className="material-symbols-outlined">chevron_right</span>
+            </button>
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+        {/* Carrusel */}
+        <div 
+          ref={scrollRef}
+          className="flex gap-6 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-8 -mx-8 px-8"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
           {demos.map((demo, idx) => (
-            <div key={idx} className={`${demo.dark ? 'bg-zinc-900 text-white' : 'bg-surface-container-lowest'} rounded-xl overflow-hidden group border border-outline-variant/10 shadow-sm hover:shadow-xl transition-all duration-300`}>
-              <div className="h-64 overflow-hidden relative">
+            <div 
+              key={idx} 
+              className={`snap-start flex-none w-[75%] md:w-[45%] lg:w-[31.5%] ${demo.dark ? 'bg-zinc-900 text-white' : 'bg-surface-container-lowest'} rounded-2xl overflow-hidden group border border-outline-variant/20 shadow-sm hover:shadow-2xl transition-all duration-500`}
+            >
+              <div className="h-48 md:h-64 overflow-hidden relative">
                 <img src={demo.img} alt={demo.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                  <span className="text-white font-bold text-lg">Ver detalles</span>
+                {demo.badge && (
+                  <span className="absolute top-4 left-4 bg-orange-500 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-lg z-10">
+                    {demo.badge}
+                  </span>
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                  <span className="text-white font-bold text-lg">Click para probar</span>
                 </div>
               </div>
-              <div className="p-8">
-                <h4 className={`text-2xl font-bold mb-2 ${demo.dark ? 'text-white' : ''}`}>{demo.title}</h4>
-                <p className={`${demo.dark ? 'text-zinc-400' : 'text-on-surface-variant'} mb-6 text-sm leading-relaxed`}>{demo.description}</p>
+              <div className="p-6 md:p-8">
+                <h4 className={`text-xl md:text-2xl font-bold mb-2 ${demo.dark ? 'text-white' : ''}`}>{demo.title}</h4>
+                <p className={`${demo.dark ? 'text-zinc-400' : 'text-on-surface-variant'} mb-6 text-sm leading-relaxed line-clamp-3`}>{demo.description}</p>
                 <button 
                   type="button"
                   onClick={(e) => {
                     e.preventDefault();
                     onOpenDemo(demo.id);
                   }}
-                  className={`w-full font-bold py-3 px-6 rounded-lg transition-all relative z-20 cursor-pointer ${demo.dark ? 'bg-white/10 text-white hover:bg-white/20' : 'bg-primary/5 text-primary hover:bg-primary/10'} border border-transparent hover:border-current`}
+                  className={`w-full font-bold py-3 px-6 rounded-xl transition-all relative z-20 cursor-pointer ${demo.dark ? 'bg-white/10 text-white hover:bg-white/20' : 'bg-primary/5 text-primary hover:bg-primary/10'} border border-transparent hover:border-current active:scale-[0.98]`}
                 >
                   Probar Demo
                 </button>

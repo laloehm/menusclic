@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Demo Menú Estilo San Remo | Menusclic</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Anton&family=Barlow+Condensed:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #f5ede0;
+      --blue:  #0057b8;
+      --blue-light: #1a6fd4;
+      --radius: 0px;
+    }
+
+    body {
+      background: #d9cfc5;
+      font-family: 'Barlow Condensed', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 16px;
+    }
+
+    /* ===== TARJETA MENÚ ===== */
+    .menu-card {
+      background: var(--cream);
+      border: 4px solid var(--blue);
+      max-width: 680px;
+      width: 100%;
+      padding: 36px 36px 28px;
+      position: relative;
+      box-shadow: 8px 8px 0px var(--blue);
+      animation: slideUp .5s ease both;
+    }
+
+    @keyframes slideUp {
+      from { opacity:0; transform: translateY(30px); }
+      to   { opacity:1; transform: translateY(0); }
+    }
+
+    /* ===== CABECERA ===== */
+    .brand-name {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(72px, 15vw, 112px);
+      color: var(--blue);
+      text-align: center;
+      line-height: 1;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    .brand-sub {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin: 4px 0 14px;
+    }
+    .brand-sub span {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: clamp(20px, 4vw, 30px);
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    .brand-sub .dot {
+      width: 8px; height: 8px;
+      background: var(--blue);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ===== LÍNEA DIVISORIA ===== */
+    .divider {
+      border: none;
+      border-top: 3px solid var(--blue);
+      margin: 6px 0;
+    }
+    .divider-double {
+      border: none;
+      border-top: 3px solid var(--blue);
+      margin: 0;
+      position: relative;
+    }
+    .divider-double::after {
+      content: '';
+      display: block;
+      border-top: 1.5px solid var(--blue);
+      margin-top: 4px;
+    }
+
+    /* ===== SECCIÓN COCKTAILS ===== */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 14px 0 10px;
+    }
+    .section-title {
+      font-family: 'Anton', sans-serif;
+      font-size: 28px;
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+    }
+    .badge-all {
+      background: var(--blue);
+      color: var(--cream);
+      font-family: 'Anton', sans-serif;
+      font-size: 18px;
+      border-radius: 50%;
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .badge-price {
+      font-family: 'Anton', sans-serif;
+      font-size: 30px;
+      color: var(--blue);
+    }
+
+    /* ===== GRID DE COCKTAILS ===== */
+    .cocktails-grid {
+      display: grid;
+      grid-template-columns: 1fr 3px 1fr;
+      gap: 0 0;
+      margin: 0;
+    }
+    .col-divider {
+      background: var(--blue);
+      margin: 0 14px;
+    }
+
+    /* ===== ITEM DE BEBIDA ===== */
+    .drink-item {
+      padding: 10px 0;
+      border-bottom: 1.5px solid transparent;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+      transition: background .2s;
+    }
+    .drink-item:hover {
+      background: rgba(0,87,184,.06);
+      border-radius: 4px;
+      padding-left: 6px;
+    }
+    .drink-text { flex: 1; }
+    .drink-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: clamp(16px, 3vw, 21px);
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      line-height: 1.1;
+    }
+    .drink-desc {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 400;
+      font-size: clamp(11px, 2vw, 13px);
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      opacity: .85;
+      margin-top: 2px;
+      line-height: 1.3;
+    }
+    .drink-icon {
+      font-size: 28px;
+      flex-shrink: 0;
+      filter: grayscale(1) sepia(1) saturate(5) hue-rotate(190deg);
+      opacity: .85;
+    }
+
+    /* ===== SECCIÓN SHOT ===== */
+    .shot-section {
+      border-top: 3px solid var(--blue);
+      border-bottom: 3px solid var(--blue);
+      margin: 14px 0;
+      padding: 10px 0;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .shot-name {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(20px, 5vw, 32px);
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      flex: 1;
+    }
+    .shot-label {
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      transform: rotate(180deg);
+      font-family: 'Anton', sans-serif;
+      font-size: 14px;
+      color: var(--blue);
+      letter-spacing: 3px;
+      border-left: 2px solid var(--blue);
+      border-right: 2px solid var(--blue);
+      padding: 4px 6px;
+    }
+    .shot-desc {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      flex: 2;
+      line-height: 1.4;
+    }
+    .shot-price {
+      font-family: 'Anton', sans-serif;
+      font-size: 26px;
+      color: var(--blue);
+      margin-left: auto;
+    }
+
+    /* ===== SECCIÓN BEBIDAS EXTRA ===== */
+    .extras-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px 24px;
+      margin-top: 10px;
+    }
+    .extra-item {
+      padding: 5px 0;
+      border-bottom: 1px solid rgba(0,87,184,.2);
+    }
+    .extra-name {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(14px, 2.5vw, 18px);
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .extra-note {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 11px;
+      color: var(--blue);
+      text-transform: uppercase;
+      opacity: .7;
+      letter-spacing: .5px;
+    }
+    .extra-prices {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--blue);
+      text-transform: uppercase;
+      display: flex;
+      gap: 8px;
+      margin-top: 2px;
+    }
+    .price-tag { display: flex; gap: 3px; align-items: baseline; }
+    .price-size { font-size: 10px; opacity: .7; }
+    .price-val  { font-size: 16px; }
+
+    /* ===== FOOTER ===== */
+    .menu-footer {
+      text-align: center;
+      margin-top: 18px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 12px;
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      opacity: .6;
+    }
+
+    /* ===== CTA DEMO ===== */
+    .demo-badge {
+      display: inline-block;
+      background: var(--blue);
+      color: var(--cream);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 18px;
+      margin-top: 24px;
+      cursor: pointer;
+      transition: background .2s, transform .15s;
+      text-decoration: none;
+    }
+    .demo-badge:hover {
+      background: var(--blue-light);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="menu-card">
+
+    <!-- CABECERA -->
+    <h1 class="brand-name">La Cantina</h1>
+    <div class="brand-sub">
+      <div class="dot"></div>
+      <span>House</span>
+      <div class="dot"></div>
+      <span>Drinks</span>
+      <div class="dot"></div>
+      <span>Menu</span>
+      <div class="dot"></div>
+    </div>
+    <hr class="divider" />
+
+    <!-- ENCABEZADO COCKTAILS -->
+    <div class="section-header">
+      <span class="section-title">Cocktails</span>
+      <div class="badge-all">ALL</div>
+      <span class="badge-price">$130</span>
+    </div>
+
+    <!-- GRID DE CÓCTELES -->
+    <div class="cocktails-grid">
+      <!-- COLUMNA IZQUIERDA -->
+      <div>
+        <div class="drink-item">
+          <div class="drink-text">
+            <div class="drink-name">Margarita Clásica</div>
+            <div class="drink-desc">Tequila reposado, jugo de limón fresco,<br>triple sec, sal de gusano</div>
+          </div>
+          <div class="drink-icon">🍹</div>
+        </div>
+        <div class="drink-item">
+          <div class="drink-text">
+            <div class="drink-name">Mezcal Negroni</div>
+            <div class="drink-desc">Mezcal artesanal, campari, vermut rojo,<br>toque de naranja</div>
+          </div>
+          <div class="drink-icon">🌵</div>
+        </div>
+        <div class="drink-item">
+          <div class="drink-text">
+            <div class="drink-name">Paloma Rosa</div>
+            <div class="drink-desc">Tequila blanco, toronja rosada,<br>soda premium, sal rosa</div>
+          </div>
+          <div class="drink-icon">🍸</div>
+        </div>
+      </div>
+
+      <!-- DIVISOR -->
+      <div class="col-divider"></div>
+
+      <!-- COLUMNA DERECHA -->
+      <div>
+        <div class="drink-item">
+          <div class="drink-text">
+            <div class="drink-name">Michelada Luxe</div>
+            <div class="drink-desc">Cerveza, clamato, salsa inglesa,<br>chamoy, limón, morita</div>
+          </div>
+          <div class="drink-icon">⭐</div>
+        </div>
+        <div class="drink-item">
+          <div class="drink-text">
+            <div class="drink-name">Espresso Mezcal</div>
+            <div class="drink-desc">Mezcal, licor de café, espresso,<br>azúcar de piloncillo</div>
+          </div>
+          <div class="drink-icon">🌟</div>
+        </div>
+        <div class="drink-item">
+          <div class="drink-text">
+            <div class="drink-name">Bloody María</div>
+            <div class="drink-desc">Vodka, jugo de tomate, apio,<br>salsa picante (12-3pm only)</div>
+          </div>
+          <div class="drink-icon">🥃</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN SHOT -->
+    <div class="shot-section">
+      <div class="shot-name">Flor de Cactus</div>
+      <div class="shot-label">Shot</div>
+      <div class="shot-desc">
+        Tequila El Jimador, jarabe de hibisco<br>
+        <em>Salsa picante opcional</em>
+      </div>
+      <div class="shot-price">$59</div>
+    </div>
+
+    <!-- EXTRAS -->
+    <div class="extras-grid">
+      <!-- IZQUIERDA -->
+      <div>
+        <div class="extra-item">
+          <div class="extra-name">Vodka Redbull /<br>Spirit &amp; Mixer</div>
+          <div class="extra-prices">
+            <div class="price-tag"><span class="price-size">Sgl</span><span class="price-val">$90</span></div>
+            <div class="price-tag"><span class="price-size">Dbl</span><span class="price-val">$120</span></div>
+          </div>
+        </div>
+        <div class="extra-item">
+          <div class="extra-name">Brothers Cider</div>
+          <div class="extra-prices">
+            <div class="price-tag"><span class="price-size">Half</span><span class="price-val">$50</span></div>
+            <div class="price-tag"><span class="price-size">Pint</span><span class="price-val">$67</span></div>
+          </div>
+        </div>
+        <div class="extra-item">
+          <div class="extra-name">Corona / Victoria</div>
+          <div class="extra-prices">
+            <div class="price-tag"><span class="price-size">Half</span><span class="price-val">$50</span></div>
+            <div class="price-tag"><span class="price-size">Pint</span><span class="price-val">$70</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DERECHA -->
+      <div>
+        <div class="extra-item">
+          <div class="extra-name">Tropical Rumbull</div>
+          <div class="extra-prices">
+            <div class="price-tag"><span class="price-size">Sgl</span><span class="price-val">$90</span></div>
+            <div class="price-tag"><span class="price-size">Dbl</span><span class="price-val">$120</span></div>
+          </div>
+        </div>
+        <div class="extra-item">
+          <div class="extra-name">Vino <span class="extra-note">Tinto / Blanco / Rosé 175ml</span></div>
+          <div class="extra-prices">
+            <div class="price-tag"><span class="price-val">$75</span></div>
+          </div>
+        </div>
+        <div class="extra-item">
+          <div class="extra-name">Energéticas / Agua</div>
+          <div class="extra-prices">
+            <div class="price-tag"><span class="price-val">$30</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-footer">Menusclic · Tu menú digital · menusclic.com</div>
+  </div>
+
+  <a class="demo-badge" href="#" onclick="alert('¡Integra este menú en tu restaurante con Menusclic!')">
+    ✦ Crea tu menú gratis en Menusclic ✦
+  </a>
+
+</body>
+</html>

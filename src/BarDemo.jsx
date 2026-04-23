@@ -47,7 +47,7 @@ export default function BarDemo({ onBack, onAdmin }) {
                 onClick={onBack}
                 className="text-[#A5D0B9] hover:bg-[#1B4332]/30 transition-colors duration-300 p-2 rounded-lg active:scale-95 ease-in-out flex items-center"
               >
-                <span className="material-symbols-outlined">arrow_back</span>
+                <span className="material-symbols-outlined">close</span>
               </button>
               <span className="text-xl font-extrabold tracking-tighter text-[#E9C176] uppercase font-['Plus_Jakarta_Sans']">The Reserve</span>
             </div>
