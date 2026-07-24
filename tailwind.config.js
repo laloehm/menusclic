@@ -68,7 +68,7 @@ export default {
         "headline": ["Inter", "sans-serif"],
         "body": ["Inter", "sans-serif"],
         "label": ["Inter", "sans-serif"],
-        "malosa": ["Edu VIC WA NT Hand", "cursive"]
+        "malosa": ["Playfair Display", "serif"]
       },
       borderRadius: {
         "DEFAULT": "0.125rem",
