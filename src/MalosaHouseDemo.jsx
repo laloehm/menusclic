@@ -6,7 +6,6 @@ export default function MalosaHouseDemo() {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    // Si quisieran renderizar la BD:
     const unsubscribe = onSnapshot(collection(db, 'malosahouse_items'), (snapshot) => {
       const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       setItems(data);
@@ -14,10 +13,70 @@ export default function MalosaHouseDemo() {
     return () => unsubscribe();
   }, []);
 
+  // Helper para filtrar por categoría y excluir los no disponibles si se requiere (o mostrarlos con opacidad)
+  const getItems = (category, defaultItems) => {
+    const firebaseItems = items.filter(item => {
+      const cat = (item.category || '').toLowerCase();
+      return cat === category.toLowerCase() && item.available !== false;
+    });
+    // Si hay items en Firebase para esta categoría, úsalos; de lo contrario usa los por defecto.
+    return firebaseItems.length > 0 ? firebaseItems : defaultItems;
+  };
+
+  const salsas = getItems('Salsas', [
+    { title: "BBQ" }, { title: "Lemon Pepper" }, { title: "Ajo Parmesano" }, 
+    { title: "Mango Habanero" }, { title: "Atomic", special: true }, { title: "Red Hot", special: true }
+  ]);
+
+  const alitas = getItems('Alitas', [
+    { title: "5 PIEZAS", price: 85 }, { title: "12 PIEZAS", price: 160 }, { title: "CON PAPAS", price: 100 }
+  ]);
+
+  const boneless = getItems('Boneless', [
+    { title: "8 PIEZAS", price: 80 }, { title: "16 PIEZAS", price: 150 }, { title: "CON PAPAS", price: 100 }
+  ]);
+
+  const papas = getItems('Papas', [
+    { title: "Francesas" }, { title: "Lemon Pepper" }, { title: "Ajo Parmesano" }, { title: "Lokaz" }, { title: "Mango Habanero" }
+  ]);
+  // Extraer el item especial que define el precio base de las papas (si lo hay)
+  const papaBase = items.find(i => (i.category || '').toLowerCase() === 'papas base' && i.available !== false);
+  const papasBasePrice = papaBase ? papaBase.price : 60;
+
+  const hamburguesas = getItems('Hamburguesas', [
+    { title: "MaloBurguer", desc: "Doble carne de res smash, queso derretido, tocino crujiente y nuestro aderezo secreto en pan brioche artesanal.", price: 75, top: true },
+    { title: "Arrachera", desc: "Fajitas de arrachera marinada, cebolla caramelizada y pimientos asados.", price: 75 },
+    { title: "Pollo BBQ", desc: "Pechuga crujiente bañada en nuestra salsa BBQ ahumada, con ensalada de col.", price: 75 }
+  ]);
+  const hamburguesaCombo = items.find(i => (i.category || '').toLowerCase() === 'hamburguesas combo' && i.available !== false);
+  const hamburguesaComboPrice = hamburguesaCombo ? hamburguesaCombo.price : 90;
+
+  const hotdogs = getItems('Hot Dogs', [
+    { title: "Sencillo", price: 20 }, { title: "Tocino", price: 25 }, { title: "Hawaiano", price: 35 }
+  ]);
+
+  const bebidas = getItems('Bebidas', [
+    { title: "Michelada", price: 100 }, { title: "Mojito 1Lt", price: 85 }, { title: "Blue / Pink 1Lt", price: 80 },
+    { title: "Sangría Preparada", price: 65 }, { title: "Tehuacán Preparado", price: 65 }, { title: "Té o Café", price: 25 }
+  ]);
+
+  const postres = getItems('Postres', [
+    { title: "Plátanos Fritos", price: 50 }, { title: "Plátanos Árabes", price: 60 },
+    { title: "Mangos c/ Queso", price: 45 }, { title: "Helado Frito", price: 60 }
+  ]);
+
+  const renderItemLine = (item) => (
+    <div key={item.id || item.title} className="flex justify-between items-baseline">
+      <span className="font-malosa font-medium uppercase">{item.title || item.name}</span>
+      <span className="malosa-dot-leader"></span>
+      <span className="font-malosa font-normal opacity-80 pr-2">${item.price}</span>
+    </div>
+  );
+
   return (
     <div className="text-malosa-primary selection:bg-malosa-secondary-container italic font-malosa min-h-screen bg-malosa-bg pb-12" style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/paper-fibers.png")' }}>
       
-      {/* Estilos inyectados que no son posibles con Tailwind nativo fácilmente */}
+      {/* Estilos inyectados */}
       <style>{`
         .malosa-dot-leader {
             flex-grow: 1;
@@ -57,244 +116,160 @@ export default function MalosaHouseDemo() {
           <div className="space-y-10">
             
             {/* Section: Salsas */}
-            <section className="relative overflow-hidden">
-              <div className="absolute inset-0 opacity-25 pointer-events-none z-0">
-                <img alt="Salsas background" className="w-full h-full object-contain mix-blend-multiply opacity-70" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCeduEulUWAG6RK1dW9k8AjQjiU5PUsxisDn5Q_t77NpUWxoFzco7bIbdM6UjNbd8d3OqGgnXVaKQ23C-vmJ4VabEcqQt77kJVGUvTtTcIv41q8dgPKc7AbIlCnwpizdQyMnW6adO9VHEoOjlTLcYIbH0sbIx2ScgYM6EAiVwiuTNOiVRNm_tVtNx8mUmJLAuYd0oQv9cZvDrTQlEMj-W2ExoPf-1fnx8HDOfmhxay7wVO_SLNgcxpy-g" />
-              </div>
-              <div className="malosa-double-border p-4 relative z-10">
-                <p className="font-malosa font-bold uppercase text-center mb-4 border-b border-malosa-primary pb-2">Nuestras Salsas</p>
-                <div className="grid grid-cols-2 gap-4 text-center">
-                  <span className="font-malosa font-medium uppercase">BBQ</span>
-                  <span className="font-malosa font-medium uppercase">Lemon Pepper</span>
-                  <span className="font-malosa font-medium uppercase">Ajo Parmesano</span>
-                  <span className="font-malosa font-medium uppercase">Mango Habanero</span>
-                  <span className="font-malosa font-medium uppercase text-red-600">Atomic</span>
-                  <span className="font-malosa font-medium uppercase text-red-600">Red Hot</span>
+            {salsas.length > 0 && (
+              <section className="relative overflow-hidden">
+                <div className="absolute inset-0 opacity-25 pointer-events-none z-0">
+                  <img alt="Salsas background" className="w-full h-full object-contain mix-blend-multiply opacity-70" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCeduEulUWAG6RK1dW9k8AjQjiU5PUsxisDn5Q_t77NpUWxoFzco7bIbdM6UjNbd8d3OqGgnXVaKQ23C-vmJ4VabEcqQt77kJVGUvTtTcIv41q8dgPKc7AbIlCnwpizdQyMnW6adO9VHEoOjlTLcYIbH0sbIx2ScgYM6EAiVwiuTNOiVRNm_tVtNx8mUmJLAuYd0oQv9cZvDrTQlEMj-W2ExoPf-1fnx8HDOfmhxay7wVO_SLNgcxpy-g" />
                 </div>
-              </div>
-            </section>
+                <div className="malosa-double-border p-4 relative z-10">
+                  <p className="font-malosa font-bold uppercase text-center mb-4 border-b border-malosa-primary pb-2">Nuestras Salsas</p>
+                  <div className="grid grid-cols-2 gap-4 text-center">
+                    {salsas.map((s, idx) => (
+                      <span key={s.id || idx} className={`font-malosa font-medium uppercase ${s.special ? 'text-red-600' : ''}`}>
+                        {s.title || s.name}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </section>
+            )}
 
             {/* Section: Alitas & Boneless */}
-            <section className="relative overflow-hidden">
-              <div className="absolute inset-0 opacity-25 pointer-events-none z-0">
-                <img alt="Alitas background" className="w-full h-full object-contain mix-blend-multiply opacity-70" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7vinJ7YXqvg2cuE02O4IH6EDmN-_ZQ5RmCoGYfrRye4af2D_rF-h7zqXMtAgA1NBLONWfCIKlPeTyO2nzN5-CLiGK6F4AF3DkBIK18nF-pIQYH7m2a8xl2YefcNX8hlz-wIxJmVyAVpBtUiyt6DoarRImtcMsgr8DnNDbxS2IhYJZn0zrN50Eplk-3zSeEDya7YkbHp0F_Mkyj7nWNKAFMjRLMOC5JBAJAxJ6ATfn-P-Ayyo7ePsIng" />
-              </div>
-              <div className="relative z-10">
-                <div className="py-2 flex items-end gap-4 mb-4 border-b-2 border-malosa-primary">
-                  <h3 className="font-malosa text-3xl font-bold uppercase italic m-0 leading-none">Alitas</h3>
-                  <div className="flex-grow border-b-4 border-malosa-primary mb-1"></div>
+            {(alitas.length > 0 || boneless.length > 0) && (
+              <section className="relative overflow-hidden">
+                <div className="absolute inset-0 opacity-25 pointer-events-none z-0">
+                  <img alt="Alitas background" className="w-full h-full object-contain mix-blend-multiply opacity-70" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7vinJ7YXqvg2cuE02O4IH6EDmN-_ZQ5RmCoGYfrRye4af2D_rF-h7zqXMtAgA1NBLONWfCIKlPeTyO2nzN5-CLiGK6F4AF3DkBIK18nF-pIQYH7m2a8xl2YefcNX8hlz-wIxJmVyAVpBtUiyt6DoarRImtcMsgr8DnNDbxS2IhYJZn0zrN50Eplk-3zSeEDya7YkbHp0F_Mkyj7nWNKAFMjRLMOC5JBAJAxJ6ATfn-P-Ayyo7ePsIng" />
                 </div>
-                <div className="space-y-2">
-                  <div className="flex justify-between items-baseline">
-                    <span className="font-malosa font-medium">5 PIEZAS</span>
-                    <span className="malosa-dot-leader"></span>
-                    <span className="font-malosa font-normal opacity-80 pr-2">$85</span>
-                  </div>
-                  <div className="flex justify-between items-baseline">
-                    <span className="font-malosa font-medium">12 PIEZAS</span>
-                    <span className="malosa-dot-leader"></span>
-                    <span className="font-malosa font-normal opacity-80 pr-2">$160</span>
-                  </div>
-                  <div className="flex justify-between items-baseline">
-                    <span className="font-malosa font-medium">CON PAPAS</span>
-                    <span className="malosa-dot-leader"></span>
-                    <span className="font-malosa font-normal opacity-80 pr-2">$100</span>
-                  </div>
-                </div>
+                <div className="relative z-10">
+                  
+                  {alitas.length > 0 && (
+                    <div className="mb-6">
+                      <div className="py-2 flex items-end gap-4 mb-4 border-b-2 border-malosa-primary">
+                        <h3 className="font-malosa text-3xl font-bold uppercase italic m-0 leading-none">Alitas</h3>
+                        <div className="flex-grow border-b-4 border-malosa-primary mb-1"></div>
+                      </div>
+                      <div className="space-y-2">
+                        {alitas.map(renderItemLine)}
+                      </div>
+                    </div>
+                  )}
 
-                <div className="mt-6">
-                  <div className="py-2 flex items-end gap-4 mb-4 border-b-2 border-malosa-primary">
-                    <h3 className="font-malosa text-3xl font-bold uppercase italic m-0 leading-none">Boneless</h3>
-                    <div className="flex-grow border-b-4 border-malosa-primary mb-1"></div>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between items-baseline">
-                      <span className="font-malosa font-medium">8 PIEZAS</span>
-                      <span className="malosa-dot-leader"></span>
-                      <span className="font-malosa font-normal opacity-80 pr-2">$80</span>
+                  {boneless.length > 0 && (
+                    <div className="mt-6">
+                      <div className="py-2 flex items-end gap-4 mb-4 border-b-2 border-malosa-primary">
+                        <h3 className="font-malosa text-3xl font-bold uppercase italic m-0 leading-none">Boneless</h3>
+                        <div className="flex-grow border-b-4 border-malosa-primary mb-1"></div>
+                      </div>
+                      <div className="space-y-2">
+                        {boneless.map(renderItemLine)}
+                      </div>
                     </div>
-                    <div className="flex justify-between items-baseline">
-                      <span className="font-malosa font-medium">16 PIEZAS</span>
-                      <span className="malosa-dot-leader"></span>
-                      <span className="font-malosa font-normal opacity-80 pr-2">$150</span>
-                    </div>
-                    <div className="flex justify-between items-baseline">
-                      <span className="font-malosa font-medium">CON PAPAS</span>
-                      <span className="malosa-dot-leader"></span>
-                      <span className="font-malosa font-normal opacity-80 pr-2">$100</span>
-                    </div>
-                  </div>
+                  )}
+
                 </div>
-              </div>
-            </section>
+              </section>
+            )}
 
             {/* Section: Papas */}
-            <section className="bg-malosa-surface-dim p-6 malosa-brutalist-border">
-              <div className="flex items-center gap-4 mb-4">
-                <span className="material-symbols-outlined text-3xl">lunch_dining</span>
-                <h3 className="font-malosa text-3xl font-bold uppercase italic">Papas</h3>
-                <span className="ml-auto font-malosa text-2xl">$60</span>
-              </div>
-              <div className="flex flex-col gap-2">
-                <p className="font-malosa uppercase font-medium tracking-tight">Francesas</p>
-                <p className="font-malosa uppercase font-medium tracking-tight">Lemon Pepper</p>
-                <p className="font-malosa uppercase font-medium tracking-tight">Ajo Parmesano</p>
-                <p className="font-malosa uppercase font-medium tracking-tight">Lokaz</p>
-                <p className="font-malosa uppercase font-medium tracking-tight">Mango Habanero</p>
-              </div>
-            </section>
+            {papas.length > 0 && (
+              <section className="bg-malosa-surface-dim p-6 malosa-brutalist-border">
+                <div className="flex items-center gap-4 mb-4">
+                  <span className="material-symbols-outlined text-3xl">lunch_dining</span>
+                  <h3 className="font-malosa text-3xl font-bold uppercase italic">Papas</h3>
+                  <span className="ml-auto font-malosa text-2xl">${papasBasePrice}</span>
+                </div>
+                <div className="flex flex-col gap-2">
+                  {papas.map((p, idx) => (
+                    <p key={p.id || idx} className="font-malosa uppercase font-medium tracking-tight">
+                      {p.title || p.name}
+                    </p>
+                  ))}
+                </div>
+              </section>
+            )}
 
             {/* Section: Hamburguesas */}
-            <section className="relative overflow-hidden">
-              <div className="absolute inset-0 opacity-25 pointer-events-none z-0">
-                <img alt="Hamburguesas background" className="w-full h-full object-contain mix-blend-multiply opacity-70" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDq_qCt42fEWuCmrjZrU8FN4-uyu6ylTDPy5cayYcC_ACdj-v5r2DrFZZz4rgSN9CFP0niBHug_cIAL77H_sCZSSvZX39KKOM9xIz8rUWlQuWRvO_r7boNs36Uz6GIuLnRxCgxj0GGN_snLHEwiYC8Nr0CFLftFM-T2bkUgMWylp6EZL5nbrwClkfJjMAN96oyWYHrSojYrF7tKKLCiAChVRTyJnuCtHNVRMVG2vY49Q_whIMqhVCVRCQ" />
-              </div>
-              <div className="relative z-10">
-                <div className="py-2 flex items-end gap-4 mb-4 border-b-2 border-malosa-primary">
-                  <h3 className="font-malosa text-3xl font-bold uppercase italic m-0 leading-none">Hamburguesas</h3>
-                  <div className="flex-grow border-b-4 border-malosa-primary mb-1"></div>
+            {hamburguesas.length > 0 && (
+              <section className="relative overflow-hidden">
+                <div className="absolute inset-0 opacity-25 pointer-events-none z-0">
+                  <img alt="Hamburguesas background" className="w-full h-full object-contain mix-blend-multiply opacity-70" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDq_qCt42fEWuCmrjZrU8FN4-uyu6ylTDPy5cayYcC_ACdj-v5r2DrFZZz4rgSN9CFP0niBHug_cIAL77H_sCZSSvZX39KKOM9xIz8rUWlQuWRvO_r7boNs36Uz6GIuLnRxCgxj0GGN_snLHEwiYC8Nr0CFLftFM-T2bkUgMWylp6EZL5nbrwClkfJjMAN96oyWYHrSojYrF7tKKLCiAChVRTyJnuCtHNVRMVG2vY49Q_whIMqhVCVRCQ" />
                 </div>
-                <div className="mb-4">
-                  <p className="font-malosa italic text-malosa-primary/70">(Todas van hawaiianas)</p>
-                </div>
-                <div className="space-y-2 mb-6">
-                  {/* Menu Item */}
-                  <div className="group p-2 -mx-2 hover:bg-malosa-primary hover:text-malosa-on-primary transition-all malosa-brutalist-border border-transparent hover:border-malosa-primary cursor-pointer">
-                    <div className="flex justify-between items-baseline">
-                      <div className="flex items-center gap-2">
-                        <p className="font-malosa font-medium uppercase">MaloBurguer</p>
-                        <span className="bg-malosa-primary text-malosa-on-primary group-hover:bg-malosa-bg group-hover:text-malosa-primary text-[10px] font-malosa font-bold px-1 py-0.5 uppercase tracking-wider border border-malosa-primary">🔥 Top</span>
+                <div className="relative z-10">
+                  <div className="py-2 flex items-end gap-4 mb-4 border-b-2 border-malosa-primary">
+                    <h3 className="font-malosa text-3xl font-bold uppercase italic m-0 leading-none">Hamburguesas</h3>
+                    <div className="flex-grow border-b-4 border-malosa-primary mb-1"></div>
+                  </div>
+                  <div className="mb-4">
+                    <p className="font-malosa italic text-malosa-primary/70">(Todas van hawaiianas)</p>
+                  </div>
+                  <div className="space-y-2 mb-6">
+                    {hamburguesas.map((h, idx) => (
+                      <div key={h.id || idx} className="group p-2 -mx-2 hover:bg-malosa-primary hover:text-malosa-on-primary transition-all malosa-brutalist-border border-transparent hover:border-malosa-primary cursor-pointer">
+                        <div className="flex justify-between items-baseline">
+                          <div className="flex items-center gap-2">
+                            <p className="font-malosa font-medium uppercase">{h.title || h.name}</p>
+                            {h.top && (
+                              <span className="bg-malosa-primary text-malosa-on-primary group-hover:bg-malosa-bg group-hover:text-malosa-primary text-[10px] font-malosa font-bold px-1 py-0.5 uppercase tracking-wider border border-malosa-primary">🔥 Top</span>
+                            )}
+                          </div>
+                          <span className="malosa-dot-leader group-hover:border-malosa-on-primary"></span>
+                          <span className="font-malosa font-normal opacity-80 pr-2">${h.price}</span>
+                        </div>
+                        {h.desc && (
+                          <p className="text-sm font-malosa opacity-80 mt-1 italic">{h.desc}</p>
+                        )}
                       </div>
-                      <span className="malosa-dot-leader group-hover:border-malosa-on-primary"></span>
-                      <span className="font-malosa font-normal opacity-80 pr-2">$75</span>
-                    </div>
-                    <p className="text-sm font-malosa opacity-80 mt-1 italic">Doble carne de res smash, queso derretido, tocino crujiente y nuestro aderezo secreto en pan brioche artesanal.</p>
+                    ))}
                   </div>
-
-                  {/* Menu Item */}
-                  <div className="group p-2 -mx-2 hover:bg-malosa-primary hover:text-malosa-on-primary transition-all malosa-brutalist-border border-transparent hover:border-malosa-primary cursor-pointer">
-                    <div className="flex justify-between items-baseline">
-                      <p className="font-malosa font-medium uppercase">Arrachera</p>
-                      <span className="malosa-dot-leader group-hover:border-malosa-on-primary"></span>
-                      <span className="font-malosa font-normal opacity-80 pr-2">$75</span>
-                    </div>
-                    <p className="text-sm font-malosa opacity-80 mt-1 italic">Fajitas de arrachera marinada, cebolla caramelizada y pimientos asados.</p>
-                  </div>
-
-                  {/* Menu Item */}
-                  <div className="group p-2 -mx-2 hover:bg-malosa-primary hover:text-malosa-on-primary transition-all malosa-brutalist-border border-transparent hover:border-malosa-primary cursor-pointer">
-                    <div className="flex justify-between items-baseline">
-                      <p className="font-malosa font-medium uppercase">Pollo BBQ</p>
-                      <span className="malosa-dot-leader group-hover:border-malosa-on-primary"></span>
-                      <span className="font-malosa font-normal opacity-80 pr-2">$75</span>
-                    </div>
-                    <p className="text-sm font-malosa opacity-80 mt-1 italic">Pechuga crujiente bañada en nuestra salsa BBQ ahumada, con ensalada de col.</p>
+                  <div className="malosa-brutalist-border p-4 flex justify-between items-center bg-malosa-secondary-container">
+                    <span className="font-malosa font-bold uppercase">Combo con papas</span>
+                    <span className="font-malosa text-2xl">${hamburguesaComboPrice}</span>
                   </div>
                 </div>
-                <div className="malosa-brutalist-border p-4 flex justify-between items-center bg-malosa-secondary-container">
-                  <span className="font-malosa font-bold uppercase">Combo con papas</span>
-                  <span className="font-malosa text-2xl">$90</span>
-                </div>
-              </div>
-            </section>
+              </section>
+            )}
 
             {/* Section: Hot Dogs */}
-            <section>
-              <h3 className="font-malosa text-3xl font-bold uppercase italic mb-4">Hot Dogs</h3>
-              <div className="space-y-2">
-                <div className="flex justify-between items-baseline">
-                  <span className="font-malosa font-medium uppercase">Sencillo</span>
-                  <span className="malosa-dot-leader"></span>
-                  <span className="font-malosa font-normal opacity-80 pr-2">$20</span>
+            {hotdogs.length > 0 && (
+              <section>
+                <h3 className="font-malosa text-3xl font-bold uppercase italic mb-4">Hot Dogs</h3>
+                <div className="space-y-2">
+                  {hotdogs.map(renderItemLine)}
                 </div>
-                <div className="flex justify-between items-baseline">
-                  <span className="font-malosa font-medium uppercase">Tocino</span>
-                  <span className="malosa-dot-leader"></span>
-                  <span className="font-malosa font-normal opacity-80 pr-2">$25</span>
-                </div>
-                <div className="flex justify-between items-baseline">
-                  <span className="font-malosa font-medium uppercase">Hawaiano</span>
-                  <span className="malosa-dot-leader"></span>
-                  <span className="font-malosa font-normal opacity-80 pr-2">$35</span>
-                </div>
-              </div>
-            </section>
+              </section>
+            )}
 
             {/* Section: Bebidas */}
-            <section className="relative overflow-hidden">
-              <div className="absolute inset-0 opacity-25 pointer-events-none z-0">
-                <img alt="Bebidas background" className="w-full h-full object-contain mix-blend-multiply opacity-70" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPs4Qe6mKa7Lq8BQzRso6iEtoRAVkczMVj-PPYGWVw3Pfgut7APIqZ27tCczWQEzASpNvdQqFish2ojdq1VpX0eK9KvWN1Kwxp4-S8zpayl8WV19aogGtzBa8vcXd1l4bNaf26b3TnjX6eCyxct_3MvXPQR3lqr8kznB77XdmEpD4su909n-0Lz4r89UwZTuDgdG1lubi0EqtYFkUAw-cyVUQWV4pAMEv_gH-03q-B26Ynbgu_vJW8qA" />
-              </div>
-              <div className="relative z-10">
-                <div className="flex items-center gap-4 mb-4">
-                  <h3 className="font-malosa text-3xl font-bold uppercase italic">Bebidas</h3>
-                  <div className="flex-grow border-t-2 border-malosa-primary"></div>
-                  <span className="material-symbols-outlined text-3xl">local_bar</span>
+            {bebidas.length > 0 && (
+              <section className="relative overflow-hidden">
+                <div className="absolute inset-0 opacity-25 pointer-events-none z-0">
+                  <img alt="Bebidas background" className="w-full h-full object-contain mix-blend-multiply opacity-70" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPs4Qe6mKa7Lq8BQzRso6iEtoRAVkczMVj-PPYGWVw3Pfgut7APIqZ27tCczWQEzASpNvdQqFish2ojdq1VpX0eK9KvWN1Kwxp4-S8zpayl8WV19aogGtzBa8vcXd1l4bNaf26b3TnjX6eCyxct_3MvXPQR3lqr8kznB77XdmEpD4su909n-0Lz4r89UwZTuDgdG1lubi0EqtYFkUAw-cyVUQWV4pAMEv_gH-03q-B26Ynbgu_vJW8qA" />
                 </div>
-                <div className="space-y-2">
-                  <div className="flex justify-between items-baseline">
-                    <span className="font-malosa font-medium uppercase">Michelada</span>
-                    <span className="malosa-dot-leader"></span>
-                    <span className="font-malosa font-normal opacity-80 pr-2">$100</span>
+                <div className="relative z-10">
+                  <div className="flex items-center gap-4 mb-4">
+                    <h3 className="font-malosa text-3xl font-bold uppercase italic">Bebidas</h3>
+                    <div className="flex-grow border-t-2 border-malosa-primary"></div>
+                    <span className="material-symbols-outlined text-3xl">local_bar</span>
                   </div>
-                  <div className="flex justify-between items-baseline">
-                    <span className="font-malosa font-medium uppercase">Mojito 1Lt</span>
-                    <span className="malosa-dot-leader"></span>
-                    <span className="font-malosa font-normal opacity-80 pr-2">$85</span>
-                  </div>
-                  <div className="flex justify-between items-baseline">
-                    <span className="font-malosa font-medium uppercase">Blue / Pink 1Lt</span>
-                    <span className="malosa-dot-leader"></span>
-                    <span className="font-malosa font-normal opacity-80 pr-2">$80</span>
-                  </div>
-                  <div className="flex justify-between items-baseline">
-                    <span className="font-malosa font-medium uppercase">Sangría Preparada</span>
-                    <span className="malosa-dot-leader"></span>
-                    <span className="font-malosa font-normal opacity-80 pr-2">$65</span>
-                  </div>
-                  <div className="flex justify-between items-baseline">
-                    <span className="font-malosa font-medium uppercase">Tehuacán Preparado</span>
-                    <span className="malosa-dot-leader"></span>
-                    <span className="font-malosa font-normal opacity-80 pr-2">$65</span>
-                  </div>
-                  <div className="flex justify-between items-baseline">
-                    <span className="font-malosa font-medium uppercase">Té o Café</span>
-                    <span className="malosa-dot-leader"></span>
-                    <span className="font-malosa font-normal opacity-80 pr-2">$25</span>
+                  <div className="space-y-2">
+                    {bebidas.map(renderItemLine)}
                   </div>
                 </div>
-              </div>
-            </section>
+              </section>
+            )}
 
             {/* Section: Postres */}
-            <section className="bg-malosa-surface-variant p-6 malosa-brutalist-border relative overflow-hidden">
-              <div className="relative z-10">
-                <h3 className="font-malosa text-3xl font-bold uppercase italic mb-4">Postres</h3>
-                <div className="space-y-2">
-                  <div className="flex justify-between items-baseline">
-                    <span className="font-malosa font-medium uppercase">Plátanos Fritos</span>
-                    <span className="malosa-dot-leader"></span>
-                    <span className="font-malosa font-normal opacity-80 pr-2">$50</span>
-                  </div>
-                  <div className="flex justify-between items-baseline">
-                    <span className="font-malosa font-medium uppercase">Plátanos Árabes</span>
-                    <span className="malosa-dot-leader"></span>
-                    <span className="font-malosa font-normal opacity-80 pr-2">$60</span>
-                  </div>
-                  <div className="flex justify-between items-baseline">
-                    <span className="font-malosa font-medium uppercase">Mangos c/ Queso</span>
-                    <span className="malosa-dot-leader"></span>
-                    <span className="font-malosa font-normal opacity-80 pr-2">$45</span>
-                  </div>
-                  <div className="flex justify-between items-baseline">
-                    <span className="font-malosa font-medium uppercase">Helado Frito</span>
-                    <span className="malosa-dot-leader"></span>
-                    <span className="font-malosa font-normal opacity-80 pr-2">$60</span>
+            {postres.length > 0 && (
+              <section className="bg-malosa-surface-variant p-6 malosa-brutalist-border relative overflow-hidden">
+                <div className="relative z-10">
+                  <h3 className="font-malosa text-3xl font-bold uppercase italic mb-4">Postres</h3>
+                  <div className="space-y-2">
+                    {postres.map(renderItemLine)}
                   </div>
                 </div>
-              </div>
-              <img className="absolute -top-10 -right-10 w-48 h-48 opacity-25 rotate-45 pointer-events-none" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKiF-uBIGdPXsoP9rP5E9c5siwYYEd0i_wttQQNnAosFp4zAwTJ-WAbk8xcUBQ2VwCbhMafgcSezTGooh5ESAFaNE3j7BO0z3sT-pmCcI8LWlyM0OoXdDArD-8tArJ38cnOQ3FKSIiJlJWmH4FvAxWjPOh05D2qWaubsX749FSv1kHnaDpVVTmAvPYAC90XD8LVEbWICa0aMrKd6Q8377u3-Aclqou54lb7SN4O5arv5gx1DfwG1A_Yg" />
-            </section>
+                <img className="absolute -top-10 -right-10 w-48 h-48 opacity-25 rotate-45 pointer-events-none" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKiF-uBIGdPXsoP9rP5E9c5siwYYEd0i_wttQQNnAosFp4zAwTJ-WAbk8xcUBQ2VwCbhMafgcSezTGooh5ESAFaNE3j7BO0z3sT-pmCcI8LWlyM0OoXdDArD-8tArJ38cnOQ3FKSIiJlJWmH4FvAxWjPOh05D2qWaubsX749FSv1kHnaDpVVTmAvPYAC90XD8LVEbWICa0aMrKd6Q8377u3-Aclqou54lb7SN4O5arv5gx1DfwG1A_Yg" />
+              </section>
+            )}
           </div>
         </div>
 
