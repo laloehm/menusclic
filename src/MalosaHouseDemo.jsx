@@ -74,7 +74,7 @@ export default function MalosaHouseDemo() {
   );
 
   return (
-    <div className="text-malosa-primary selection:bg-malosa-secondary-container italic font-malosa min-h-screen bg-malosa-bg pb-12" style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/paper-fibers.png")' }}>
+    <div className="text-malosa-primary selection:bg-malosa-secondary-container font-malosa min-h-screen bg-malosa-bg pb-12" style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/paper-fibers.png")' }}>
       
       {/* Estilos inyectados */}
       <style>{`
@@ -145,7 +145,7 @@ export default function MalosaHouseDemo() {
                   {alitas.length > 0 && (
                     <div className="mb-6">
                       <div className="py-2 flex items-end gap-4 mb-4 border-b-2 border-malosa-primary">
-                        <h3 className="font-malosa text-3xl font-bold uppercase italic m-0 leading-none">Alitas</h3>
+                        <h3 className="font-malosa text-3xl font-bold uppercase m-0 leading-none">Alitas</h3>
                         <div className="flex-grow border-b-4 border-malosa-primary mb-1"></div>
                       </div>
                       <div className="space-y-2">
@@ -157,7 +157,7 @@ export default function MalosaHouseDemo() {
                   {boneless.length > 0 && (
                     <div className="mt-6">
                       <div className="py-2 flex items-end gap-4 mb-4 border-b-2 border-malosa-primary">
-                        <h3 className="font-malosa text-3xl font-bold uppercase italic m-0 leading-none">Boneless</h3>
+                        <h3 className="font-malosa text-3xl font-bold uppercase m-0 leading-none">Boneless</h3>
                         <div className="flex-grow border-b-4 border-malosa-primary mb-1"></div>
                       </div>
                       <div className="space-y-2">
@@ -175,7 +175,7 @@ export default function MalosaHouseDemo() {
               <section className="bg-malosa-surface-dim p-6 malosa-brutalist-border">
                 <div className="flex items-center gap-4 mb-4">
                   <span className="material-symbols-outlined text-3xl">lunch_dining</span>
-                  <h3 className="font-malosa text-3xl font-bold uppercase italic">Papas</h3>
+                  <h3 className="font-malosa text-3xl font-bold uppercase">Papas</h3>
                   <span className="ml-auto font-malosa text-2xl">${papasBasePrice}</span>
                 </div>
                 <div className="flex flex-col gap-2">
@@ -196,11 +196,11 @@ export default function MalosaHouseDemo() {
                 </div>
                 <div className="relative z-10">
                   <div className="py-2 flex items-end gap-4 mb-4 border-b-2 border-malosa-primary">
-                    <h3 className="font-malosa text-3xl font-bold uppercase italic m-0 leading-none">Hamburguesas</h3>
+                    <h3 className="font-malosa text-3xl font-bold uppercase m-0 leading-none">Hamburguesas</h3>
                     <div className="flex-grow border-b-4 border-malosa-primary mb-1"></div>
                   </div>
                   <div className="mb-4">
-                    <p className="font-malosa italic text-malosa-primary/70">(Todas van hawaiianas)</p>
+                    <p className="font-malosa text-malosa-primary/70">(Todas van hawaiianas)</p>
                   </div>
                   <div className="space-y-2 mb-6">
                     {hamburguesas.map((h, idx) => (
@@ -216,7 +216,7 @@ export default function MalosaHouseDemo() {
                           <span className="font-malosa font-normal opacity-80 pr-2">${h.price}</span>
                         </div>
                         {h.desc && (
-                          <p className="text-sm font-malosa opacity-80 mt-1 italic">{h.desc}</p>
+                          <p className="text-sm font-malosa opacity-80 mt-1">{h.desc}</p>
                         )}
                       </div>
                     ))}
@@ -232,7 +232,7 @@ export default function MalosaHouseDemo() {
             {/* Section: Hot Dogs */}
             {hotdogs.length > 0 && (
               <section>
-                <h3 className="font-malosa text-3xl font-bold uppercase italic mb-4">Hot Dogs</h3>
+                <h3 className="font-malosa text-3xl font-bold uppercase mb-4">Hot Dogs</h3>
                 <div className="space-y-2">
                   {hotdogs.map(renderItemLine)}
                 </div>
@@ -247,7 +247,7 @@ export default function MalosaHouseDemo() {
                 </div>
                 <div className="relative z-10">
                   <div className="flex items-center gap-4 mb-4">
-                    <h3 className="font-malosa text-3xl font-bold uppercase italic">Bebidas</h3>
+                    <h3 className="font-malosa text-3xl font-bold uppercase">Bebidas</h3>
                     <div className="flex-grow border-t-2 border-malosa-primary"></div>
                     <span className="material-symbols-outlined text-3xl">local_bar</span>
                   </div>
@@ -262,7 +262,7 @@ export default function MalosaHouseDemo() {
             {postres.length > 0 && (
               <section className="bg-malosa-surface-variant p-6 malosa-brutalist-border relative overflow-hidden">
                 <div className="relative z-10">
-                  <h3 className="font-malosa text-3xl font-bold uppercase italic mb-4">Postres</h3>
+                  <h3 className="font-malosa text-3xl font-bold uppercase mb-4">Postres</h3>
                   <div className="space-y-2">
                     {postres.map(renderItemLine)}
                   </div>
@@ -276,13 +276,13 @@ export default function MalosaHouseDemo() {
         {/* Contact Banner */}
         <div className="mt-10 malosa-brutalist-border bg-malosa-primary text-malosa-on-primary p-6 flex flex-col items-center text-center gap-4">
           <h4 className="font-malosa text-lg sm:text-2xl whitespace-nowrap">Haz tu pedido ahora</h4>
-          <a className="font-malosa text-[32px] hover:underline transition-all font-bold not-italic" href="tel:5571491246">5571491246</a>
+          <a className="font-malosa text-[32px] hover:underline transition-all font-bold" href="tel:5571491246">5571491246</a>
         </div>
       </main>
 
       {/* Footer */}
       <footer className="w-full py-6 mb-16 border-t-4 border-double border-malosa-primary flex flex-col items-center space-y-4 px-6 text-center bg-malosa-bg">
-        <h2 className="font-malosa text-2xl text-malosa-primary not-italic">MALOSA HOUSE</h2>
+        <h2 className="font-malosa text-2xl text-malosa-primary">MALOSA HOUSE</h2>
         <div className="flex flex-col items-center gap-4 my-4">
           <a className="font-malosa text-malosa-primary opacity-90 hover:opacity-100 underline transition-all" href="#">Instagram: @malosahouse</a>
           <a className="font-malosa text-malosa-primary opacity-90 hover:opacity-100 underline transition-all font-bold" href="https://maps.app.goo.gl/b73bW97w4iQDNVWc9" target="_blank" rel="noreferrer">Ubicación</a>
