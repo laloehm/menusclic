@@ -54,12 +54,21 @@ export default {
         "on-primary-container": "#580c00",
         "tertiary-container": "#009fbd",
         "on-tertiary": "#ffffff",
-        "on-background": "#191c1d"
+        "on-background": "#191c1d",
+        "malosa-bg": "#fff9ed",
+        "malosa-primary": "#000000",
+        "malosa-on-primary": "#ffffff",
+        "malosa-surface-dim": "#e2dabf",
+        "malosa-surface-container-high": "#f1e8cd",
+        "malosa-secondary-container": "#eedeba",
+        "malosa-surface-variant": "#ebe2c8",
+        "malosa-outline": "#747878"
       },
       fontFamily: {
         "headline": ["Inter", "sans-serif"],
         "body": ["Inter", "sans-serif"],
-        "label": ["Inter", "sans-serif"]
+        "label": ["Inter", "sans-serif"],
+        "malosa": ["Edu VIC WA NT Hand", "cursive"]
       },
       borderRadius: {
         "DEFAULT": "0.125rem",

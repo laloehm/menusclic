@@ -10,7 +10,8 @@ export default function AdminDashboard({ onBack, domain }) {
   const allCollections = [
     { id: 'restaurant_items', label: 'Restaurante', domain: 'restaurant' },
     { id: 'snack_items', label: 'Snacks', domain: 'snack' },
-    { id: 'bar_items', label: 'Menú del Bar', domain: 'bar' }
+    { id: 'bar_items', label: 'Menú del Bar', domain: 'bar' },
+    { id: 'malosahouse_items', label: 'Malosa House', domain: 'malosahouse' }
   ];
 
   const collections = allCollections.filter(c => c.domain === domain);

@@ -1,4 +1,5 @@
-import React, { useState, useEffect, lazy, Suspense } from 'react'
+import React, { lazy, Suspense, useEffect } from 'react'
+import { BrowserRouter, Routes, Route, useNavigate, Navigate, useLocation } from 'react-router-dom'
 
 // Carga diferida para TODAS las vistas — el chunk inicial queda mínimo
 const LandingPage = lazy(() => import('./LandingPage'))
@@ -11,6 +12,7 @@ const SanRemoDemo = lazy(() => import('./SanRemoDemo'))
 const TazaVivaDemo = lazy(() => import('./TazaVivaDemo'))
 const VeggieMenuDemo = lazy(() => import('./VeggieMenuDemo'))
 const SaulEventosDemo = lazy(() => import('./SaulEventosDemo'))
+const MalosaHouseDemo = lazy(() => import('./MalosaHouseDemo'))
 
 function LoadingScreen() {
   return (
@@ -21,48 +23,56 @@ function LoadingScreen() {
   )
 }
 
-function App() {
-  const [currentView, setCurrentView] = useState('landing')
-
-  // Handle hash changes for navigation and scroll to top
+function ScrollToTop() {
+  const { pathname } = useLocation();
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [currentView]);
+  }, [pathname]);
+  return null;
+}
 
-  useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash.replace('#', '');
-      if (['restaurant', 'snack', 'bar', 'restaurant_admin', 'snack_admin', 'bar_admin'].includes(hash)) {
-        setCurrentView(hash);
-      }
-    };
-    
-    // Check initial hash on load
-    handleHashChange();
-    
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
-  }, []);
-
-  const view = currentView.toLowerCase().trim()
+function AppRoutes() {
+  const navigate = useNavigate();
 
   return (
     <Suspense fallback={<LoadingScreen />}>
-      {view === 'bar' && <BarDemo onBack={() => setCurrentView('landing')} onAdmin={() => setCurrentView('bar_admin')} />}
-      {view === 'snack' && <SnackDemo onBack={() => setCurrentView('landing')} onAdmin={() => setCurrentView('snack_admin')} />}
-      {view === 'restaurant' && <RestaurantDemo onBack={() => setCurrentView('landing')} onAdmin={() => setCurrentView('restaurant_admin')} />}
-      {view === 'restaurant_admin' && <AdminDashboard domain="restaurant" onBack={() => setCurrentView('restaurant')} />}
-      {view === 'snack_admin' && <AdminDashboard domain="snack" onBack={() => setCurrentView('snack')} />}
-      {view === 'bar_admin' && <AdminDashboard domain="bar" onBack={() => setCurrentView('bar')} />}
-      {view === 'catmenu' && <HorangiMenuDemo onBack={() => setCurrentView('landing')} />}
-      {view === 'sanremo' && <SanRemoDemo onBack={() => setCurrentView('landing')} />}
-      {view === 'tazaviva' && <TazaVivaDemo onBack={() => setCurrentView('landing')} />}
-      {view === 'veggie' && <VeggieMenuDemo onBack={() => setCurrentView('landing')} />}
-      {view === 'sauleventos' && <SaulEventosDemo onBack={() => setCurrentView('landing')} />}
-      {view === 'landing' && <LandingPage onOpenDemo={(id) => setCurrentView(id)} />}
+      <ScrollToTop />
+      <Routes>
+        {/* Landing Page */}
+        <Route path="/" element={<LandingPage onOpenDemo={(id) => navigate(`/${id}`)} />} />
+        
+        {/* Restaurantes Base */}
+        <Route path="/bar" element={<BarDemo onBack={() => navigate('/')} onAdmin={() => navigate('/bar_admin')} />} />
+        <Route path="/snack" element={<SnackDemo onBack={() => navigate('/')} onAdmin={() => navigate('/snack_admin')} />} />
+        <Route path="/restaurant" element={<RestaurantDemo onBack={() => navigate('/')} onAdmin={() => navigate('/restaurant_admin')} />} />
+        
+        {/* Paneles de Administración */}
+        <Route path="/bar_admin" element={<AdminDashboard domain="bar" onBack={() => navigate('/bar')} />} />
+        <Route path="/snack_admin" element={<AdminDashboard domain="snack" onBack={() => navigate('/snack')} />} />
+        <Route path="/restaurant_admin" element={<AdminDashboard domain="restaurant" onBack={() => navigate('/restaurant')} />} />
+        <Route path="/malosahouse_admin" element={<AdminDashboard domain="malosahouse" onBack={() => navigate('/malosahouse')} />} />
+        
+        {/* Restaurantes Premium / Estilizados */}
+        <Route path="/catmenu" element={<HorangiMenuDemo onBack={() => navigate('/')} />} />
+        <Route path="/sanremo" element={<SanRemoDemo onBack={() => navigate('/')} />} />
+        <Route path="/tazaviva" element={<TazaVivaDemo onBack={() => navigate('/')} />} />
+        <Route path="/veggie" element={<VeggieMenuDemo onBack={() => navigate('/')} />} />
+        <Route path="/sauleventos" element={<SaulEventosDemo onBack={() => navigate('/')} />} />
+        <Route path="/malosahouse" element={<MalosaHouseDemo onBack={() => navigate('/')} />} />
+        
+        {/* Fallback Catch-All */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </Suspense>
   )
 }
 
-export default App
+function App() {
+  return (
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
+  )
+}
 
+export default App
