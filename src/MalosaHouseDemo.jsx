@@ -96,7 +96,14 @@ export default function MalosaHouseDemo() {
 
   const renderItemLine = (item) => (
     <div key={item.id || item.title} className="flex justify-between items-baseline text-lg">
-      <span className="font-malosa font-medium uppercase text-malosa-text-light">{item.title || item.name}</span>
+      <div className="flex items-center gap-2">
+        <span className="font-malosa font-medium uppercase text-malosa-text-light">{item.title || item.name}</span>
+        {(item.tag || item.badge) && (
+          <span className="bg-malosa-primary text-malosa-on-primary text-[10px] font-malosa font-bold px-1 py-0.5 uppercase tracking-wider border border-malosa-primary whitespace-nowrap">
+            {item.tag || item.badge}
+          </span>
+        )}
+      </div>
       <span className="malosa-dot-leader"></span>
       <span className="font-malosa font-normal pr-2 text-malosa-primary">${item.price}</span>
     </div>
@@ -198,8 +205,10 @@ export default function MalosaHouseDemo() {
                 <div className="flex justify-between items-baseline">
                   <div className="flex items-center gap-2">
                     <p className="font-malosa font-medium uppercase text-malosa-text-light">{h.title || h.name}</p>
-                    {h.top && (
-                      <span className="bg-malosa-primary text-malosa-on-primary group-hover:bg-malosa-bg group-hover:text-malosa-primary text-[10px] font-malosa font-bold px-1 py-0.5 uppercase tracking-wider border border-malosa-primary">🔥 Top</span>
+                    {(h.top || h.tag || h.badge) && (
+                      <span className="bg-malosa-primary text-malosa-on-primary group-hover:bg-malosa-bg group-hover:text-malosa-primary text-[10px] font-malosa font-bold px-1 py-0.5 uppercase tracking-wider border border-malosa-primary whitespace-nowrap">
+                        {h.top && !h.tag && !h.badge ? '🔥 Top' : (h.tag || h.badge)}
+                      </span>
                     )}
                   </div>
                   <span className="malosa-dot-leader group-hover:border-malosa-on-primary"></span>
