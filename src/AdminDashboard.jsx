@@ -143,7 +143,7 @@ export default function AdminDashboard({ onBack, domain }) {
 
 
   return (
-    <div className="min-h-screen bg-gray-50 font-inter antialiased">
+    <div className="min-h-screen bg-gray-50 font-inter antialiased text-[0.9rem]">
       {/* Header */}
       <header className="bg-white shadow px-4 md:px-6 py-4 flex flex-col md:flex-row justify-between items-center sticky top-0 z-50 gap-4 md:gap-0">
         <div className="flex items-center justify-center md:justify-start w-full relative">
@@ -153,7 +153,7 @@ export default function AdminDashboard({ onBack, domain }) {
           <div className="flex items-center gap-3 ml-2">
             <img src="./Logo-Menusclic.png" alt="Logo" className="h-8 w-auto hidden md:block" />
             <div className="md:w-[2px] md:h-6 md:bg-gray-200 hidden md:block"></div>
-            <h1 className="text-xl md:text-2xl font-black text-center w-full md:w-auto">Panel Admin</h1>
+            <h1 className="text-lg md:text-xl font-black text-center w-full md:w-auto">Panel Admin</h1>
           </div>
         </div>
         <div className="flex flex-col gap-2 w-full md:w-auto mt-4 md:mt-0">
@@ -169,7 +169,7 @@ export default function AdminDashboard({ onBack, domain }) {
               </button>
             </div>
           )}
-          <button onClick={() => { setIsAdding(true); setEditingItem({}); }} className="w-full bg-green-600 hover:bg-green-700 text-white px-2 md:px-6 py-2.5 rounded-lg font-bold flex items-center justify-center gap-1 transition-colors shadow-sm text-sm md:text-base">
+          <button onClick={() => { setIsAdding(true); setEditingItem({}); }} className="w-full bg-green-600 hover:bg-green-700 text-white px-2 md:px-6 py-2.5 rounded-lg font-bold flex items-center justify-center gap-1 transition-colors shadow-sm text-sm">
             <span className="material-symbols-outlined text-[20px] md:text-[24px]">add</span> 
             <span className="whitespace-nowrap">Nuevo Platillo</span>
           </button>
@@ -196,7 +196,7 @@ export default function AdminDashboard({ onBack, domain }) {
         {/* Main Content */}
         <main className="flex-1 bg-transparent md:bg-white md:rounded-xl md:shadow-sm md:p-6 overflow-hidden">
           <div className="flex justify-between items-center mb-6 hidden md:flex">
-            <h2 className="text-2xl font-bold text-gray-800">{collections.find(c => c.id === activeTab).label}</h2>
+            <h2 className="text-xl font-bold text-gray-800">{collections.find(c => c.id === activeTab).label}</h2>
           </div>
           
           {loading ? (
@@ -312,7 +312,7 @@ export default function AdminDashboard({ onBack, domain }) {
         <div className="fixed inset-0 bg-black/60 z-[90] flex items-center justify-center p-4">
           <div className="bg-white w-full max-w-lg rounded-xl shadow-2xl p-6 relative max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-2xl font-bold">{isAdding ? 'Añadir Nuevo' : 'Editar Elemento'}</h3>
+              <h3 className="text-xl font-bold">{isAdding ? 'Añadir Nuevo' : 'Editar Elemento'}</h3>
               <button onClick={() => { setEditingItem(null); setIsAdding(false); }} className="text-gray-400 hover:text-gray-800 p-1 rounded-full hover:bg-gray-100 transition-colors flex items-center justify-center">
                 <span className="material-symbols-outlined">close</span>
               </button>
@@ -369,7 +369,7 @@ function ContactSettingsModal({ initialData, onClose }) {
     <div className="fixed inset-0 bg-black/60 z-[95] flex items-center justify-center p-4">
       <div className="bg-white w-full max-w-md rounded-xl shadow-2xl p-6 relative max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-2xl font-bold">Información de Contacto</h3>
+          <h3 className="text-xl font-bold">Datos de Contacto y Redes</h3>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-800 p-1 rounded-full hover:bg-gray-100 transition-colors flex items-center justify-center">
             <span className="material-symbols-outlined">close</span>
           </button>
@@ -436,7 +436,7 @@ function OrderModal({ items, categoryOrder, onClose }) {
     <div className="fixed inset-0 bg-black/60 z-[95] flex items-center justify-center p-4">
       <div className="bg-white w-full max-w-sm rounded-xl shadow-2xl p-6 relative max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-2xl font-bold">Ordenar Categorías</h3>
+          <h3 className="text-xl font-bold">Ordenar Categorías</h3>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-800 p-1 rounded-full hover:bg-gray-100 transition-colors flex items-center justify-center">
             <span className="material-symbols-outlined">close</span>
           </button>
