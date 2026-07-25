@@ -501,7 +501,7 @@ function ItemForm({ item, domain, onSave, onCancel }) {
             {!(isSalsa || isPromo) && (
               <div className="w-1/2"><label className="block text-sm font-bold text-gray-700 mb-1">Precio</label><input required type="number" name="price" value={formData.price || ''} onChange={handleChange} className="w-full bg-white text-black border p-2 rounded" /></div>
             )}
-            {!['restaurant', 'malosahouse'].includes(domain) && (
+            {domain !== 'restaurant' && (
               <div className="w-1/2"><label className="block text-sm font-bold text-gray-700 mb-1">Etiqueta/Tag</label><input type="text" name="tag" placeholder="ej. Nuevo" value={formData.tag || formData.badge || ''} onChange={(e) => setFormData({...formData, tag: e.target.value, badge: e.target.value})} className="w-full bg-white text-black border p-2 rounded text-sm" /></div>
             )}
           </div>
