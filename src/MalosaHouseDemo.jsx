@@ -67,7 +67,7 @@ export default function MalosaHouseDemo() {
   const papasBasePrice = papaBase ? papaBase.price : 60;
 
   const hamburguesas = getItems('Hamburguesas', [
-    { title: "MaloBurguer", desc: "Doble carne de res smash, queso derretido, tocino crujiente y nuestro aderezo secreto en pan brioche artesanal.", price: 75, top: true },
+    { title: "MaloBurguer", desc: "Doble carne de res smash, queso derretido, tocino crujiente y nuestro aderezo secreto en pan brioche artesanal.", price: 75 },
     { title: "Arrachera", desc: "Fajitas de arrachera marinada, cebolla caramelizada y pimientos asados.", price: 75 },
     { title: "Pollo BBQ", desc: "Pechuga crujiente bañada en nuestra salsa BBQ ahumada, con ensalada de col.", price: 75 }
   ]);
