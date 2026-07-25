@@ -107,7 +107,7 @@ export default function MalosaHouseDemo() {
 
       {/* Top App Bar */}
       <header className="fixed top-0 w-full z-50 h-20 bg-malosa-bg/95 backdrop-blur-sm border-b-2 border-malosa-primary flex justify-center items-center px-6 gap-3">
-        <img src="/malosa-logo.jpg" alt="Malosa House" className="h-12 w-12 object-contain" />
+        <img src="/malosa-logo.png" alt="Malosa House" className="h-12 w-12 object-contain" />
         <h1 className="font-malosa text-[32px] uppercase tracking-tighter text-malosa-primary mt-1">MALOSA HOUSE</h1>
       </header>
 

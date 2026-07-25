@@ -192,61 +192,74 @@ export default function AdminDashboard({ onBack, domain }) {
           {loading ? (
             <div className="py-20 text-center text-gray-500 font-medium">Sincronizando con la nube...</div>
           ) : (
-            <div className="flex flex-col gap-4">
-              {items.map(item => {
-                const itemIsLiquor = ['tequilas', 'whisky', 'ron'].includes(item.category);
-                return (
-                <div key={item.docId} className="bg-white border md:border-gray-100 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center gap-4 shadow-sm hover:shadow-md transition-shadow">
-                  
-                  {itemIsLiquor ? (
-                     <div className="flex-1 flex flex-col gap-1">
-                       <h3 className="font-bold text-lg text-gray-900">{item.name}</h3>
-                       <div className="flex gap-4 text-sm font-medium">
-                         <span className="text-orange-600">Copa: ${item.cup}</span>
-                         <span className="text-orange-600">Botella: ${item.bottle}</span>
-                       </div>
-                       <span className="text-[10px] font-bold uppercase tracking-wider bg-gray-100 text-gray-500 w-max px-2 py-0.5 rounded mt-1">{item.category}</span>
-                     </div>
-                  ) : (
-                    <div className="flex items-start sm:items-center gap-4 flex-1">
-                      {item.img && <img src={item.img} alt={item.title} className="w-20 h-20 rounded-lg object-cover flex-shrink-0 shadow-sm" />}
-                      <div className="flex-1">
-                        <h3 className="font-bold text-lg text-gray-900 leading-tight mb-1">{item.title || item.name}</h3>
-                        <p className="text-orange-600 font-black mb-1">${item.price}</p>
-                        <p className="text-sm text-gray-500 line-clamp-2 md:line-clamp-none">{item.desc}</p>
-                        <span className="text-[10px] font-bold uppercase tracking-wider bg-gray-100 text-gray-500 w-max px-2 py-0.5 rounded mt-2 block">{item.category || 'Snack'}</span>
+            <div className="flex flex-col gap-8">
+              {(() => {
+                const groupedItems = items.reduce((acc, item) => {
+                  const cat = item.category || 'Otros';
+                  if (!acc[cat]) acc[cat] = [];
+                  acc[cat].push(item);
+                  return acc;
+                }, {});
+
+                return Object.entries(groupedItems).map(([category, catItems]) => (
+                  <div key={category} className="flex flex-col gap-4">
+                    <h3 className="text-xl font-black text-gray-800 border-b-2 border-gray-100 pb-2 uppercase tracking-wide">{category}</h3>
+                    {catItems.map(item => {
+                      const itemIsLiquor = ['tequilas', 'whisky', 'ron'].includes(item.category);
+                      return (
+                      <div key={item.docId} className="bg-white border md:border-gray-100 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center gap-4 shadow-sm hover:shadow-md transition-shadow">
+                        
+                        {itemIsLiquor ? (
+                           <div className="flex-1 flex flex-col gap-1">
+                             <h3 className="font-bold text-lg text-gray-900">{item.name}</h3>
+                             <div className="flex gap-4 text-sm font-medium">
+                               <span className="text-orange-600">Copa: ${item.cup}</span>
+                               <span className="text-orange-600">Botella: ${item.bottle}</span>
+                             </div>
+                             <span className="text-[10px] font-bold uppercase tracking-wider bg-gray-100 text-gray-500 w-max px-2 py-0.5 rounded mt-1">{item.category}</span>
+                           </div>
+                        ) : (
+                          <div className="flex items-start sm:items-center gap-4 flex-1">
+                            {item.img && <img src={item.img} alt={item.title} className="w-20 h-20 rounded-lg object-cover flex-shrink-0 shadow-sm" />}
+                            <div className="flex-1">
+                              <h3 className="font-bold text-lg text-gray-900 leading-tight mb-1">{item.title || item.name}</h3>
+                              <p className="text-orange-600 font-black mb-1">${item.price}</p>
+                              <p className="text-sm text-gray-500 line-clamp-2 md:line-clamp-none">{item.desc}</p>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Actions */}
+                        <div className="flex sm:flex-col gap-2 justify-end w-full sm:w-auto mt-2 sm:mt-0 pt-4 sm:pt-0 border-t sm:border-t-0 border-gray-100">
+                          <button 
+                            onClick={() => handleToggleAvailability(item)}
+                            title={item.available === false ? "Activar" : "Desactivar"}
+                            className={`flex-1 sm:flex-none p-3 sm:p-2 rounded-lg sm:rounded flex justify-center items-center gap-2 transition-colors ${
+                              item.available === false 
+                              ? 'bg-zinc-100 text-zinc-400 hover:bg-zinc-200' 
+                              : 'bg-green-50 text-green-600 hover:bg-green-100'
+                            }`}
+                          >
+                            <span className="material-symbols-outlined text-[20px] sm:text-sm">
+                              {item.available === false ? 'visibility_off' : 'visibility'}
+                            </span>
+                            <span className="sm:hidden text-sm font-bold">
+                              {item.available === false ? 'Agotado' : 'Disponible'}
+                            </span>
+                          </button>
+                          <button onClick={() => { setIsAdding(false); setEditingItem(item); }} className="flex-1 sm:flex-none p-3 sm:p-2 bg-blue-50 text-blue-600 rounded-lg sm:rounded flex justify-center items-center gap-2 hover:bg-blue-100 transition-colors">
+                            <span className="material-symbols-outlined text-[20px] sm:text-sm">edit</span> <span className="sm:hidden text-sm font-bold">Editar</span>
+                          </button>
+                          <button onClick={() => handleDelete(item.docId)} className="flex-1 sm:flex-none p-3 sm:p-2 bg-red-50 text-red-600 rounded-lg sm:rounded flex justify-center items-center gap-2 hover:bg-red-100 transition-colors">
+                            <span className="material-symbols-outlined text-[20px] sm:text-sm">delete</span> <span className="sm:hidden text-sm font-bold">Borrar</span>
+                          </button>
+                        </div>
+
                       </div>
-                    </div>
-                  )}
-
-                  {/* Actions */}
-                  <div className="flex sm:flex-col gap-2 justify-end w-full sm:w-auto mt-2 sm:mt-0 pt-4 sm:pt-0 border-t sm:border-t-0 border-gray-100">
-                    <button 
-                      onClick={() => handleToggleAvailability(item)}
-                      title={item.available === false ? "Activar" : "Desactivar"}
-                      className={`flex-1 sm:flex-none p-3 sm:p-2 rounded-lg sm:rounded flex justify-center items-center gap-2 transition-colors ${
-                        item.available === false 
-                        ? 'bg-zinc-100 text-zinc-400 hover:bg-zinc-200' 
-                        : 'bg-green-50 text-green-600 hover:bg-green-100'
-                      }`}
-                    >
-                      <span className="material-symbols-outlined text-[20px] sm:text-sm">
-                        {item.available === false ? 'visibility_off' : 'visibility'}
-                      </span>
-                      <span className="sm:hidden text-sm font-bold">
-                        {item.available === false ? 'Agotado' : 'Disponible'}
-                      </span>
-                    </button>
-                    <button onClick={() => { setIsAdding(false); setEditingItem(item); }} className="flex-1 sm:flex-none p-3 sm:p-2 bg-blue-50 text-blue-600 rounded-lg sm:rounded flex justify-center items-center gap-2 hover:bg-blue-100 transition-colors">
-                      <span className="material-symbols-outlined text-[20px] sm:text-sm">edit</span> <span className="sm:hidden text-sm font-bold">Editar</span>
-                    </button>
-                    <button onClick={() => handleDelete(item.docId)} className="flex-1 sm:flex-none p-3 sm:p-2 bg-red-50 text-red-600 rounded-lg sm:rounded flex justify-center items-center gap-2 hover:bg-red-100 transition-colors">
-                      <span className="material-symbols-outlined text-[20px] sm:text-sm">delete</span> <span className="sm:hidden text-sm font-bold">Borrar</span>
-                    </button>
+                    )})}
                   </div>
-
-                </div>
-              )})}
+                ));
+              })()}
               
               {items.length === 0 && (
                 <div className="p-8 text-center text-gray-500 bg-gray-50 rounded-xl border border-dashed">
