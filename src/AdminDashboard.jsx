@@ -261,10 +261,10 @@ export default function AdminDashboard({ onBack, domain }) {
                           </button>
                         </div>
 
-                      </div>
-                    )})}
+                        </div>
+                      ))}
                   </div>
-                ));
+                );
               })()}
               
               {items.length === 0 && (
