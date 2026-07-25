@@ -66,7 +66,7 @@ export default function MalosaHouseDemo() {
   ]);
 
   const renderItemLine = (item) => (
-    <div key={item.id || item.title} className="flex justify-between items-baseline">
+    <div key={item.id || item.title} className="flex justify-between items-baseline text-lg">
       <span className="font-malosa font-medium uppercase text-malosa-text-light">{item.title || item.name}</span>
       <span className="malosa-dot-leader"></span>
       <span className="font-malosa font-normal pr-2 text-malosa-primary">${item.price}</span>
@@ -74,7 +74,7 @@ export default function MalosaHouseDemo() {
   );
 
   return (
-    <div className="text-malosa-primary selection:bg-malosa-secondary-container font-malosa min-h-screen bg-malosa-bg pb-12">
+    <div className="text-malosa-primary selection:bg-malosa-secondary-container font-malosa min-h-screen bg-malosa-bg pb-12 text-lg">
       
       {/* Estilos inyectados */}
       <style>{`
@@ -135,12 +135,15 @@ export default function MalosaHouseDemo() {
             {/* Section: Alitas & Boneless */}
             {(alitas.length > 0 || boneless.length > 0) && (
               <section className="relative overflow-hidden">
+                <div className="absolute inset-0 opacity-10 pointer-events-none z-0 flex items-center justify-center">
+                  <img alt="Alitas background" className="max-w-[80%] max-h-full object-contain mix-blend-screen" src="/alitas.png" />
+                </div>
                 <div className="relative z-10">
                   
                   {alitas.length > 0 && (
                     <div className="mb-6">
                       <div className="py-2 flex items-end gap-4 mb-4 border-b-2 border-malosa-primary">
-                        <h3 className="font-malosa text-3xl font-bold uppercase m-0 leading-none">Alitas</h3>
+                        <h3 className="font-malosa text-4xl font-bold uppercase m-0 leading-none">Alitas</h3>
                         <div className="flex-grow border-b-4 border-malosa-primary mb-1"></div>
                       </div>
                       <div className="space-y-2">
@@ -152,7 +155,7 @@ export default function MalosaHouseDemo() {
                   {boneless.length > 0 && (
                     <div className="mt-6">
                       <div className="py-2 flex items-end gap-4 mb-4 border-b-2 border-malosa-primary">
-                        <h3 className="font-malosa text-3xl font-bold uppercase m-0 leading-none">Boneless</h3>
+                        <h3 className="font-malosa text-4xl font-bold uppercase m-0 leading-none">Boneless</h3>
                         <div className="flex-grow border-b-4 border-malosa-primary mb-1"></div>
                       </div>
                       <div className="space-y-2">
@@ -170,8 +173,8 @@ export default function MalosaHouseDemo() {
               <section className="bg-malosa-surface-dim p-6 malosa-brutalist-border">
                 <div className="flex items-center gap-4 mb-4">
                   <span className="material-symbols-outlined text-3xl">lunch_dining</span>
-                  <h3 className="font-malosa text-3xl font-bold uppercase">Papas</h3>
-                  <span className="ml-auto font-malosa text-2xl text-malosa-primary">${papasBasePrice}</span>
+                  <h3 className="font-malosa text-4xl font-bold uppercase">Papas</h3>
+                  <span className="ml-auto font-malosa text-3xl text-malosa-primary">${papasBasePrice}</span>
                 </div>
                 <div className="flex flex-col gap-2">
                   {papas.map((p, idx) => (
@@ -186,9 +189,12 @@ export default function MalosaHouseDemo() {
             {/* Section: Hamburguesas */}
             {hamburguesas.length > 0 && (
               <section className="relative overflow-hidden">
+                <div className="absolute inset-0 opacity-10 pointer-events-none z-0 flex items-center justify-center">
+                  <img alt="Hamburguesas background" className="max-w-[80%] max-h-full object-contain mix-blend-screen" src="/Burguer.png" />
+                </div>
                 <div className="relative z-10">
                   <div className="py-2 flex items-end gap-4 mb-4 border-b-2 border-malosa-primary">
-                    <h3 className="font-malosa text-3xl font-bold uppercase m-0 leading-none">Hamburguesas</h3>
+                    <h3 className="font-malosa text-4xl font-bold uppercase m-0 leading-none">Hamburguesas</h3>
                     <div className="flex-grow border-b-4 border-malosa-primary mb-1"></div>
                   </div>
                   <div className="mb-4">
@@ -213,9 +219,9 @@ export default function MalosaHouseDemo() {
                       </div>
                     ))}
                   </div>
-                  <div className="malosa-brutalist-border p-4 flex justify-between items-center bg-transparent">
-                    <span className="font-malosa font-bold uppercase text-malosa-text-light">Combo con papas</span>
-                    <span className="font-malosa text-2xl text-malosa-primary">${hamburguesaComboPrice}</span>
+                  <div className="malosa-brutalist-border p-4 flex justify-between items-center bg-transparent mt-4">
+                    <span className="font-malosa font-bold uppercase text-malosa-text-light text-xl">Combo con papas</span>
+                    <span className="font-malosa text-3xl text-malosa-primary">${hamburguesaComboPrice}</span>
                   </div>
                 </div>
               </section>
@@ -224,7 +230,7 @@ export default function MalosaHouseDemo() {
             {/* Section: Hot Dogs */}
             {hotdogs.length > 0 && (
               <section>
-                <h3 className="font-malosa text-3xl font-bold uppercase mb-4">Hot Dogs</h3>
+                <h3 className="font-malosa text-4xl font-bold uppercase mb-4">Hot Dogs</h3>
                 <div className="space-y-2">
                   {hotdogs.map(renderItemLine)}
                 </div>
@@ -234,9 +240,12 @@ export default function MalosaHouseDemo() {
             {/* Section: Bebidas */}
             {bebidas.length > 0 && (
               <section className="relative overflow-hidden">
+                <div className="absolute inset-0 opacity-10 pointer-events-none z-0 flex items-center justify-center">
+                  <img alt="Bebidas background" className="max-w-[80%] max-h-full object-contain mix-blend-screen" src="/Drinks.png" />
+                </div>
                 <div className="relative z-10">
                   <div className="flex items-center gap-4 mb-4">
-                    <h3 className="font-malosa text-3xl font-bold uppercase">Bebidas</h3>
+                    <h3 className="font-malosa text-4xl font-bold uppercase">Bebidas</h3>
                     <div className="flex-grow border-t-2 border-malosa-primary"></div>
                     <span className="material-symbols-outlined text-3xl">local_bar</span>
                   </div>
