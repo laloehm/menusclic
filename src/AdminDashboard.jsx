@@ -223,7 +223,7 @@ export default function AdminDashboard({ onBack, domain }) {
                             {item.img && <img src={item.img} alt={item.title} className="w-20 h-20 rounded-lg object-cover flex-shrink-0 shadow-sm" />}
                             <div className="flex-1">
                               <h3 className="font-bold text-lg text-gray-900 leading-tight mb-1">{item.title || item.name}</h3>
-                              <p className="text-orange-600 font-black mb-1">${item.price}</p>
+                              {item.price && <p className="text-orange-600 font-black mb-1">${item.price}</p>}
                               <p className="text-sm text-gray-500 line-clamp-2 md:line-clamp-none">{item.desc}</p>
                             </div>
                           </div>
@@ -293,7 +293,8 @@ function ItemForm({ item, domain, onSave, onCancel }) {
   const [formData, setFormData] = useState(item || (domain === 'restaurant' ? {category: 'desayunos', available: true} : domain === 'bar' ? {category: 'destacados', available: true} : domain === 'malosahouse' ? {category: 'alitas', available: true} : {available: true}));
   const [uploading, setUploading] = useState(false);
   
-  const isLiquor = ['tequilas', 'whisky', 'ron'].includes(formData.category);
+  const isLiquor = ['tequilas', 'whisky', 'ron'].includes(formData.category?.toLowerCase());
+  const isSalsa = formData.category?.toLowerCase() === 'salsas';
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -387,12 +388,14 @@ function ItemForm({ item, domain, onSave, onCancel }) {
         <>
           <div><label className="block text-sm font-bold text-gray-700 mb-1">Título / Nombre</label><input required type="text" name="title" value={formData.title || formData.name || ''} onChange={handleChange} className="w-full bg-white text-black border p-2 rounded" /></div>
           <div className="flex gap-4">
-            <div className="w-1/2"><label className="block text-sm font-bold text-gray-700 mb-1">Precio</label><input required type="number" name="price" value={formData.price || ''} onChange={handleChange} className="w-full bg-white text-black border p-2 rounded" /></div>
+            {!isSalsa && (
+              <div className="w-1/2"><label className="block text-sm font-bold text-gray-700 mb-1">Precio</label><input required type="number" name="price" value={formData.price || ''} onChange={handleChange} className="w-full bg-white text-black border p-2 rounded" /></div>
+            )}
             {domain !== 'restaurant' && (
               <div className="w-1/2"><label className="block text-sm font-bold text-gray-700 mb-1">Etiqueta/Tag</label><input type="text" name="tag" placeholder="ej. Nuevo" value={formData.tag || formData.badge || ''} onChange={(e) => setFormData({...formData, tag: e.target.value, badge: e.target.value})} className="w-full bg-white text-black border p-2 rounded text-sm" /></div>
             )}
           </div>
-          <div><label className="block text-sm font-bold text-gray-700 mb-1">Descripción / Info</label><textarea required name="desc" value={formData.desc || formData.origin || ''} onChange={(e) => setFormData({...formData, desc: e.target.value, origin: e.target.value})} className="w-full bg-white text-black border p-2 rounded h-24" /></div>
+          <div><label className="block text-sm font-bold text-gray-700 mb-1">Descripción / Info</label><textarea name="desc" value={formData.desc || formData.origin || ''} onChange={(e) => setFormData({...formData, desc: e.target.value, origin: e.target.value})} className="w-full bg-white text-black border p-2 rounded h-24" /></div>
           
           <div className="flex items-center gap-2 py-2">
             <input 
