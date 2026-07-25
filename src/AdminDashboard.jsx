@@ -21,6 +21,7 @@ export default function AdminDashboard({ onBack, domain }) {
   const [loading, setLoading] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const [isAdding, setIsAdding] = useState(false);
+  const [filterCategory, setFilterCategory] = useState('Todas');
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -178,13 +179,41 @@ export default function AdminDashboard({ onBack, domain }) {
                   return acc;
                 }, {});
 
-                return Object.entries(groupedItems).map(([category, catItems]) => (
-                  <div key={category} className="flex flex-col gap-4">
-                    <h3 className="text-xl font-black text-gray-800 border-b-2 border-gray-100 pb-2 uppercase tracking-wide">{category}</h3>
-                    {catItems.map(item => {
-                      const itemIsLiquor = ['tequilas', 'whisky', 'ron'].includes(item.category);
-                      return (
-                      <div key={item.docId} className="bg-white border md:border-gray-100 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center gap-4 shadow-sm hover:shadow-md transition-shadow">
+                const allCategories = Object.keys(groupedItems).sort();
+
+                return (
+                  <div className="flex flex-col gap-8">
+                    {/* Filtros Rápidos */}
+                    {allCategories.length > 0 && (
+                      <div className="flex flex-wrap gap-2 pb-4 border-b">
+                        <button 
+                          onClick={() => setFilterCategory('Todas')}
+                          className={`px-4 py-2 rounded-full text-sm font-bold transition-colors ${filterCategory === 'Todas' ? 'bg-orange-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
+                        >
+                          Todas
+                        </button>
+                        {allCategories.map(cat => (
+                          <button 
+                            key={cat}
+                            onClick={() => setFilterCategory(cat)}
+                            className={`px-4 py-2 rounded-full text-sm font-bold transition-colors ${filterCategory === cat ? 'bg-orange-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
+                          >
+                            {cat}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Lista de Items */}
+                    {allCategories
+                      .filter(cat => filterCategory === 'Todas' || filterCategory === cat)
+                      .map(cat => (
+                        <div key={cat} className="flex flex-col gap-4">
+                          <h3 className="text-xl font-black text-gray-800 border-b-2 border-gray-100 pb-2 uppercase tracking-wide">{cat}</h3>
+                          {groupedItems[cat].map(item => {
+                            const itemIsLiquor = ['tequilas', 'whisky', 'ron'].includes(item.category);
+                            return (
+                              <div key={item.docId} className="bg-white border md:border-gray-100 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center gap-4 shadow-sm hover:shadow-md transition-shadow">
                         
                         {itemIsLiquor ? (
                            <div className="flex-1 flex flex-col gap-1">

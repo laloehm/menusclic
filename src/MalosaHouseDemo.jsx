@@ -19,7 +19,7 @@ export default function MalosaHouseDemo() {
     const firebaseItems = items.filter(item => {
       const cat = (item.category || '').toLowerCase();
       return cat === category.toLowerCase() && item.available !== false;
-    });
+    }).sort((a, b) => (a.id || 0) - (b.id || 0));
     // Si hay items en Firebase para esta categoría, úsalos; de lo contrario usa los por defecto.
     return firebaseItems.length > 0 ? firebaseItems : defaultItems;
   };
@@ -306,7 +306,8 @@ export default function MalosaHouseDemo() {
 
             {/* Dynamic Categories */}
             {otherCategories.map(cat => {
-              const catItems = items.filter(i => i.available !== false && (i.category || '').toUpperCase().trim() === cat);
+              const catItems = items.filter(i => i.available !== false && (i.category || '').toUpperCase().trim() === cat)
+                                    .sort((a, b) => (a.id || 0) - (b.id || 0));
               if (catItems.length === 0) return null;
               return (
                 <section key={cat} className="relative overflow-hidden mt-6 mb-6">
