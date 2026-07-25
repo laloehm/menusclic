@@ -290,7 +290,7 @@ export default function AdminDashboard({ onBack, domain }) {
 }
 
 function ItemForm({ item, domain, onSave, onCancel }) {
-  const [formData, setFormData] = useState(item || (domain === 'restaurant' ? {category: 'desayunos', available: true} : domain === 'bar' ? {category: 'destacados', available: true} : {available: true}));
+  const [formData, setFormData] = useState(item || (domain === 'restaurant' ? {category: 'desayunos', available: true} : domain === 'bar' ? {category: 'destacados', available: true} : domain === 'malosahouse' ? {category: 'alitas', available: true} : {available: true}));
   const [uploading, setUploading] = useState(false);
   
   const isLiquor = ['tequilas', 'whisky', 'ron'].includes(formData.category);
@@ -347,6 +347,21 @@ function ItemForm({ item, domain, onSave, onCancel }) {
              <option value="whisky">Whisky</option>
              <option value="ron">Ron</option>
              <option value="sin-alcohol">Sin Alcohol</option>
+           </select>
+         </div>
+      )}
+      {domain === 'malosahouse' && (
+         <div>
+           <label className="block text-sm font-bold text-gray-700 mb-1">Categoría</label>
+           <select required name="category" value={formData.category || 'alitas'} onChange={handleChange} className="w-full bg-white text-black border p-2 rounded text-sm">
+             <option value="alitas">Alitas</option>
+             <option value="boneless">Boneless</option>
+             <option value="papas">Papas</option>
+             <option value="hamburguesas">Hamburguesas</option>
+             <option value="hotdogs">Hot Dogs</option>
+             <option value="bebidas">Bebidas</option>
+             <option value="postres">Postres</option>
+             <option value="salsas">Salsas</option>
            </select>
          </div>
       )}
