@@ -4,6 +4,7 @@ import { db } from './firebase';
 
 export default function MalosaHouseDemo() {
   const [items, setItems] = useState([]);
+  const [showPromo, setShowPromo] = useState(true);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, 'malosahouse_items'), (snapshot) => {
@@ -48,6 +49,8 @@ export default function MalosaHouseDemo() {
     { title: "8 PIEZAS", price: 80 }, { title: "16 PIEZAS", price: 150 }, { title: "CON PAPAS", price: 100 }
   ]).sort(sortMenu);
 
+  const promoItem = items.find(i => (i.category || '').toLowerCase() === 'promo_modal' && i.available !== false);
+
   const papas = getItems('Papas', [
     { title: "Francesas" }, { title: "Lemon Pepper" }, { title: "Ajo Parmesano" }, { title: "Lokaz" }, { title: "Mango Habanero" }
   ]);
@@ -88,6 +91,21 @@ export default function MalosaHouseDemo() {
   return (
     <div className="text-malosa-primary selection:bg-malosa-secondary-container font-malosa min-h-screen bg-malosa-bg pb-12 text-lg">
       
+      {/* Promo Modal */}
+      {promoItem && promoItem.img && showPromo && (
+        <div className="fixed inset-0 z-[9999] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="relative max-w-sm w-full">
+            <button 
+              onClick={() => setShowPromo(false)}
+              className="absolute -top-12 right-0 bg-malosa-primary text-malosa-bg rounded-full p-2 flex items-center justify-center shadow-lg transition-transform"
+            >
+              <span className="material-symbols-outlined">close</span>
+            </button>
+            <img src={promoItem.img} alt="Promoción" className="w-full h-auto rounded-xl shadow-2xl border border-malosa-primary object-contain max-h-[85vh]" />
+          </div>
+        </div>
+      )}
+
       {/* Estilos inyectados */}
       <style>{`
         .malosa-dot-leader {

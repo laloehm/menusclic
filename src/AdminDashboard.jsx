@@ -295,6 +295,7 @@ function ItemForm({ item, domain, onSave, onCancel }) {
   
   const isLiquor = ['tequilas', 'whisky', 'ron'].includes(formData.category?.toLowerCase());
   const isSalsa = formData.category?.toLowerCase() === 'salsas';
+  const isPromo = formData.category?.toLowerCase() === 'promo_modal';
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -372,6 +373,7 @@ function ItemForm({ item, domain, onSave, onCancel }) {
              <option value="bebidas">Bebidas</option>
              <option value="postres">Postres</option>
              <option value="salsas">Salsas</option>
+             <option value="promo_modal">Promo Modal (Inicio)</option>
            </datalist>
          </div>
       )}
@@ -388,14 +390,16 @@ function ItemForm({ item, domain, onSave, onCancel }) {
         <>
           <div><label className="block text-sm font-bold text-gray-700 mb-1">Título / Nombre</label><input required type="text" name="title" value={formData.title || formData.name || ''} onChange={handleChange} className="w-full bg-white text-black border p-2 rounded" /></div>
           <div className="flex gap-4">
-            {!isSalsa && (
+            {!(isSalsa || isPromo) && (
               <div className="w-1/2"><label className="block text-sm font-bold text-gray-700 mb-1">Precio</label><input required type="number" name="price" value={formData.price || ''} onChange={handleChange} className="w-full bg-white text-black border p-2 rounded" /></div>
             )}
             {domain !== 'restaurant' && (
               <div className="w-1/2"><label className="block text-sm font-bold text-gray-700 mb-1">Etiqueta/Tag</label><input type="text" name="tag" placeholder="ej. Nuevo" value={formData.tag || formData.badge || ''} onChange={(e) => setFormData({...formData, tag: e.target.value, badge: e.target.value})} className="w-full bg-white text-black border p-2 rounded text-sm" /></div>
             )}
           </div>
-          <div><label className="block text-sm font-bold text-gray-700 mb-1">Descripción / Info</label><textarea name="desc" value={formData.desc || formData.origin || ''} onChange={(e) => setFormData({...formData, desc: e.target.value, origin: e.target.value})} className="w-full bg-white text-black border p-2 rounded h-24" /></div>
+          {!isPromo && (
+            <div><label className="block text-sm font-bold text-gray-700 mb-1">Descripción / Info</label><textarea name="desc" value={formData.desc || formData.origin || ''} onChange={(e) => setFormData({...formData, desc: e.target.value, origin: e.target.value})} className="w-full bg-white text-black border p-2 rounded h-24" /></div>
+          )}
           
           <div className="flex items-center gap-2 py-2">
             <input 
