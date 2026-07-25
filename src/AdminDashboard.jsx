@@ -260,7 +260,9 @@ export default function AdminDashboard({ onBack, domain }) {
                             <span className="material-symbols-outlined text-[20px] sm:text-sm">delete</span> <span className="sm:hidden text-sm font-bold">Borrar</span>
                           </button>
                         </div>
-
+                            </div>
+                          );
+                        })}
                         </div>
                       ))}
                   </div>
