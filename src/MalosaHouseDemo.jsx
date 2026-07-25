@@ -74,7 +74,7 @@ export default function MalosaHouseDemo() {
   );
 
   return (
-    <div className="text-malosa-primary selection:bg-malosa-secondary-container font-malosa min-h-screen bg-malosa-bg pb-12" style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/paper-fibers.png")' }}>
+    <div className="text-malosa-primary selection:bg-malosa-secondary-container font-malosa min-h-screen bg-malosa-bg pb-12">
       
       {/* Estilos inyectados */}
       <style>{`
@@ -119,9 +119,6 @@ export default function MalosaHouseDemo() {
             {/* Section: Salsas */}
             {salsas.length > 0 && (
               <section className="relative overflow-hidden">
-                <div className="absolute inset-0 opacity-25 pointer-events-none z-0">
-                  <img alt="Salsas background" className="w-full h-full object-contain mix-blend-multiply opacity-70" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCeduEulUWAG6RK1dW9k8AjQjiU5PUsxisDn5Q_t77NpUWxoFzco7bIbdM6UjNbd8d3OqGgnXVaKQ23C-vmJ4VabEcqQt77kJVGUvTtTcIv41q8dgPKc7AbIlCnwpizdQyMnW6adO9VHEoOjlTLcYIbH0sbIx2ScgYM6EAiVwiuTNOiVRNm_tVtNx8mUmJLAuYd0oQv9cZvDrTQlEMj-W2ExoPf-1fnx8HDOfmhxay7wVO_SLNgcxpy-g" />
-                </div>
                 <div className="malosa-double-border p-4 relative z-10">
                   <p className="font-malosa font-bold uppercase text-center mb-4 border-b border-malosa-primary pb-2">Nuestras Salsas</p>
                   <div className="grid grid-cols-2 gap-4 text-center">
@@ -138,9 +135,6 @@ export default function MalosaHouseDemo() {
             {/* Section: Alitas & Boneless */}
             {(alitas.length > 0 || boneless.length > 0) && (
               <section className="relative overflow-hidden">
-                <div className="absolute inset-0 opacity-25 pointer-events-none z-0">
-                  <img alt="Alitas background" className="w-full h-full object-contain mix-blend-multiply opacity-70" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7vinJ7YXqvg2cuE02O4IH6EDmN-_ZQ5RmCoGYfrRye4af2D_rF-h7zqXMtAgA1NBLONWfCIKlPeTyO2nzN5-CLiGK6F4AF3DkBIK18nF-pIQYH7m2a8xl2YefcNX8hlz-wIxJmVyAVpBtUiyt6DoarRImtcMsgr8DnNDbxS2IhYJZn0zrN50Eplk-3zSeEDya7YkbHp0F_Mkyj7nWNKAFMjRLMOC5JBAJAxJ6ATfn-P-Ayyo7ePsIng" />
-                </div>
                 <div className="relative z-10">
                   
                   {alitas.length > 0 && (
@@ -192,9 +186,6 @@ export default function MalosaHouseDemo() {
             {/* Section: Hamburguesas */}
             {hamburguesas.length > 0 && (
               <section className="relative overflow-hidden">
-                <div className="absolute inset-0 opacity-25 pointer-events-none z-0">
-                  <img alt="Hamburguesas background" className="w-full h-full object-contain mix-blend-multiply opacity-70" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDq_qCt42fEWuCmrjZrU8FN4-uyu6ylTDPy5cayYcC_ACdj-v5r2DrFZZz4rgSN9CFP0niBHug_cIAL77H_sCZSSvZX39KKOM9xIz8rUWlQuWRvO_r7boNs36Uz6GIuLnRxCgxj0GGN_snLHEwiYC8Nr0CFLftFM-T2bkUgMWylp6EZL5nbrwClkfJjMAN96oyWYHrSojYrF7tKKLCiAChVRTyJnuCtHNVRMVG2vY49Q_whIMqhVCVRCQ" />
-                </div>
                 <div className="relative z-10">
                   <div className="py-2 flex items-end gap-4 mb-4 border-b-2 border-malosa-primary">
                     <h3 className="font-malosa text-3xl font-bold uppercase m-0 leading-none">Hamburguesas</h3>
@@ -243,9 +234,6 @@ export default function MalosaHouseDemo() {
             {/* Section: Bebidas */}
             {bebidas.length > 0 && (
               <section className="relative overflow-hidden">
-                <div className="absolute inset-0 opacity-25 pointer-events-none z-0">
-                  <img alt="Bebidas background" className="w-full h-full object-contain mix-blend-multiply opacity-70" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPs4Qe6mKa7Lq8BQzRso6iEtoRAVkczMVj-PPYGWVw3Pfgut7APIqZ27tCczWQEzASpNvdQqFish2ojdq1VpX0eK9KvWN1Kwxp4-S8zpayl8WV19aogGtzBa8vcXd1l4bNaf26b3TnjX6eCyxct_3MvXPQR3lqr8kznB77XdmEpD4su909n-0Lz4r89UwZTuDgdG1lubi0EqtYFkUAw-cyVUQWV4pAMEv_gH-03q-B26Ynbgu_vJW8qA" />
-                </div>
                 <div className="relative z-10">
                   <div className="flex items-center gap-4 mb-4">
                     <h3 className="font-malosa text-3xl font-bold uppercase">Bebidas</h3>
@@ -268,7 +256,6 @@ export default function MalosaHouseDemo() {
                     {postres.map(renderItemLine)}
                   </div>
                 </div>
-                <img className="absolute -top-10 -right-10 w-48 h-48 opacity-25 rotate-45 pointer-events-none" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKiF-uBIGdPXsoP9rP5E9c5siwYYEd0i_wttQQNnAosFp4zAwTJ-WAbk8xcUBQ2VwCbhMafgcSezTGooh5ESAFaNE3j7BO0z3sT-pmCcI8LWlyM0OoXdDArD-8tArJ38cnOQ3FKSIiJlJWmH4FvAxWjPOh05D2qWaubsX749FSv1kHnaDpVVTmAvPYAC90XD8LVEbWICa0aMrKd6Q8377u3-Aclqou54lb7SN4O5arv5gx1DfwG1A_Yg" />
               </section>
             )}
           </div>
