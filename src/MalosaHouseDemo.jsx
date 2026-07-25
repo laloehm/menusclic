@@ -135,8 +135,8 @@ export default function MalosaHouseDemo() {
             {/* Section: Alitas & Boneless */}
             {(alitas.length > 0 || boneless.length > 0) && (
               <section className="relative overflow-hidden">
-                <div className="absolute inset-0 opacity-10 pointer-events-none z-0 flex items-center justify-center">
-                  <img alt="Alitas background" className="max-w-[80%] max-h-full object-contain mix-blend-screen" src="/alitas.png" />
+                <div className="absolute inset-0 opacity-15 pointer-events-none z-0 flex items-center justify-center">
+                  <img alt="Alitas background" className="max-w-[95%] max-h-full object-contain mix-blend-screen" src="/alitas.png" />
                 </div>
                 <div className="relative z-10">
                   
@@ -189,8 +189,8 @@ export default function MalosaHouseDemo() {
             {/* Section: Hamburguesas */}
             {hamburguesas.length > 0 && (
               <section className="relative overflow-hidden">
-                <div className="absolute inset-0 opacity-10 pointer-events-none z-0 flex items-center justify-center">
-                  <img alt="Hamburguesas background" className="max-w-[80%] max-h-full object-contain mix-blend-screen" src="/Burguer.png" />
+                <div className="absolute inset-0 opacity-15 pointer-events-none z-0 flex items-center justify-center">
+                  <img alt="Hamburguesas background" className="max-w-[95%] max-h-full object-contain mix-blend-screen" src="/Burguer.png" />
                 </div>
                 <div className="relative z-10">
                   <div className="py-2 flex items-end gap-4 mb-4 border-b-2 border-malosa-primary">
@@ -240,8 +240,8 @@ export default function MalosaHouseDemo() {
             {/* Section: Bebidas */}
             {bebidas.length > 0 && (
               <section className="relative overflow-hidden">
-                <div className="absolute inset-0 opacity-10 pointer-events-none z-0 flex items-center justify-center">
-                  <img alt="Bebidas background" className="max-w-[80%] max-h-full object-contain mix-blend-screen" src="/Drinks.png" />
+                <div className="absolute inset-0 opacity-15 pointer-events-none z-0 flex items-center justify-center">
+                  <img alt="Bebidas background" className="max-w-[95%] max-h-full object-contain mix-blend-screen" src="/Drinks.png" />
                 </div>
                 <div className="relative z-10">
                   <div className="flex items-center gap-4 mb-4">
