@@ -194,7 +194,7 @@ export default function AdminDashboard({ onBack, domain }) {
                         >
                           <option value="Todas">👉 Mostrar Todas</option>
                           {allCategories.map(cat => (
-                            <option key={cat} value={cat}>{cat}</option>
+                            <option key={cat} value={cat}>{cat.replace(/^[0-9\.\s\-]+/, '')}</option>
                           ))}
                         </select>
                       </div>
@@ -205,7 +205,7 @@ export default function AdminDashboard({ onBack, domain }) {
                       .filter(cat => filterCategory === 'Todas' || filterCategory === cat)
                       .map(cat => (
                         <div key={cat} className="flex flex-col gap-4">
-                          <h3 className="text-xl font-black text-gray-800 border-b-2 border-gray-100 pb-2 uppercase tracking-wide">{cat}</h3>
+                          <h3 className="text-xl font-black text-gray-800 border-b-2 border-gray-100 pb-2 uppercase tracking-wide">{cat.replace(/^[0-9\.\s\-]+/, '')}</h3>
                           {groupedItems[cat].map(item => {
                             const itemIsLiquor = ['tequilas', 'whisky', 'ron'].includes(item.category);
                             return (

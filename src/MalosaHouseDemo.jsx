@@ -313,7 +313,7 @@ export default function MalosaHouseDemo() {
                 <section key={cat} className="relative overflow-hidden mt-6 mb-6">
                   <div className="relative z-10">
                     <div className="py-2 flex items-end gap-4 mb-4 border-b-2 border-malosa-primary">
-                      <h3 className="font-malosa text-4xl font-bold uppercase m-0 leading-none">{cat}</h3>
+                      <h3 className="font-malosa text-4xl font-bold uppercase m-0 leading-none">{cat.replace(/^[0-9\.\s\-]+/, '')}</h3>
                       <div className="flex-grow border-b-4 border-malosa-primary mb-1"></div>
                     </div>
                     <div className="space-y-2">
