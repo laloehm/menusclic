@@ -206,10 +206,10 @@ export default function MalosaHouseDemo() {
                 <div className="flex justify-between items-baseline">
                   <div className="flex items-center gap-2">
                     <p className="font-malosa font-medium uppercase text-malosa-text-light">{h.title || h.name}</p>
-                    {(h.top || h.tag || h.badge) && (
+                    {(h.tag || h.badge) && (
                       <span className="bg-gradient-to-r from-red-600 to-red-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-widest shadow-sm border border-red-400/50 whitespace-nowrap ml-1 transform -translate-y-0.5 flex items-center gap-1">
                         <span className="material-symbols-outlined text-[10px] leading-none">stars</span>
-                        {h.top && !h.tag && !h.badge ? 'Top' : (h.tag || h.badge)}
+                        {h.tag || h.badge}
                       </span>
                     )}
                   </div>
