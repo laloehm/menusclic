@@ -297,7 +297,12 @@ export default function AdminDashboard({ onBack, domain }) {
       {(editingItem !== null || isAdding) && (
         <div className="fixed inset-0 bg-black/60 z-[90] flex items-center justify-center p-4">
           <div className="bg-white w-full max-w-lg rounded-xl shadow-2xl p-6 relative max-h-[90vh] overflow-y-auto">
-            <h3 className="text-2xl font-bold mb-4">{isAdding ? 'Añadir Nuevo' : 'Editar Elemento'}</h3>
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-2xl font-bold">{isAdding ? 'Añadir Nuevo' : 'Editar Elemento'}</h3>
+              <button onClick={() => { setEditingItem(null); setIsAdding(false); }} className="text-gray-400 hover:text-gray-800 p-1 rounded-full hover:bg-gray-100 transition-colors flex items-center justify-center">
+                <span className="material-symbols-outlined">close</span>
+              </button>
+            </div>
             <ItemForm 
               item={editingItem} 
               domain={domain}
@@ -361,7 +366,12 @@ function OrderModal({ items, categoryOrder, onClose }) {
   return (
     <div className="fixed inset-0 bg-black/60 z-[95] flex items-center justify-center p-4">
       <div className="bg-white w-full max-w-sm rounded-xl shadow-2xl p-6 relative max-h-[90vh] overflow-y-auto">
-        <h3 className="text-2xl font-bold mb-4">Ordenar Categorías</h3>
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-2xl font-bold">Ordenar Categorías</h3>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-800 p-1 rounded-full hover:bg-gray-100 transition-colors flex items-center justify-center">
+            <span className="material-symbols-outlined">close</span>
+          </button>
+        </div>
         <p className="text-sm text-gray-500 mb-4">Sube o baja las categorías para definir en qué orden las verán los clientes.</p>
         <div className="flex flex-col gap-2 mb-6">
           {localOrder.map((cat, idx) => (
