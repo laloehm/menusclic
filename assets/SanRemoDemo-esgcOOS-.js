@@ -1,4 +1,4 @@
-import"./rolldown-runtime-Dw2cE7zH.js";import{r as e,t}from"./react-vendor-DTtd_2FI.js";e();var n=t();function r({onBack:e}){let t=[{name:`Margarita Clásica`,desc:`Tequila reposado, jugo de limón fresco,
+import"./rolldown-runtime-Dw2cE7zH.js";import{t as e,u as t}from"./react-vendor-x4k4XAOg.js";t();var n=e();function r({onBack:e}){let t=[{name:`Margarita Clásica`,desc:`Tequila reposado, jugo de limón fresco,
 triple sec, sal de gusano`,icon:`🍹`},{name:`Mezcal Negroni`,desc:`Mezcal artesanal, campari, vermut rojo,
 toque de naranja`,icon:`🌵`},{name:`Paloma Rosa`,desc:`Tequila blanco, toronja rosada,
 soda premium, sal rosa`,icon:`🍸`},{name:`Michelada Luxe`,desc:`Cerveza, clamato, salsa inglesa,
