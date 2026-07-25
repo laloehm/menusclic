@@ -67,7 +67,7 @@ export default function MalosaHouseDemo() {
 
   const renderItemLine = (item) => (
     <div key={item.id || item.title} className="flex justify-between items-baseline">
-      <span className="font-malosa font-medium uppercase">{item.title || item.name}</span>
+      <span className="font-malosa font-medium uppercase text-malosa-text-light">{item.title || item.name}</span>
       <span className="malosa-dot-leader"></span>
       <span className="font-malosa font-normal opacity-80 pr-2">${item.price}</span>
     </div>
@@ -82,16 +82,16 @@ export default function MalosaHouseDemo() {
             flex-grow: 1;
             flex-shrink: 1;
             min-width: 12px;
-            border-bottom: 2px dotted #000000;
+            border-bottom: 2px dotted #f8b7a6;
             margin: 0 8px;
             position: relative;
             top: -4px;
         }
         .malosa-brutalist-border {
-            border: 2px solid #000000;
+            border: 2px solid #f8b7a6;
         }
         .malosa-double-border {
-            border: 4px double #000000;
+            border: 4px double #f8b7a6;
         }
         .malosa-noise-overlay {
             position: fixed;
@@ -125,7 +125,7 @@ export default function MalosaHouseDemo() {
                   <p className="font-malosa font-bold uppercase text-center mb-4 border-b border-malosa-primary pb-2">Nuestras Salsas</p>
                   <div className="grid grid-cols-2 gap-4 text-center">
                     {salsas.map((s, idx) => (
-                      <span key={s.id || idx} className={`font-malosa font-medium uppercase ${s.special ? 'text-red-600' : ''}`}>
+                      <span key={s.id || idx} className={`font-malosa font-medium uppercase ${s.special ? 'text-malosa-primary' : 'text-malosa-text-light'}`}>
                         {s.title || s.name}
                       </span>
                     ))}
@@ -176,11 +176,11 @@ export default function MalosaHouseDemo() {
                 <div className="flex items-center gap-4 mb-4">
                   <span className="material-symbols-outlined text-3xl">lunch_dining</span>
                   <h3 className="font-malosa text-3xl font-bold uppercase">Papas</h3>
-                  <span className="ml-auto font-malosa text-2xl">${papasBasePrice}</span>
+                  <span className="ml-auto font-malosa text-2xl text-malosa-primary">${papasBasePrice}</span>
                 </div>
                 <div className="flex flex-col gap-2">
                   {papas.map((p, idx) => (
-                    <p key={p.id || idx} className="font-malosa uppercase font-medium tracking-tight">
+                    <p key={p.id || idx} className="font-malosa uppercase font-medium tracking-tight text-malosa-text-light">
                       {p.title || p.name}
                     </p>
                   ))}
@@ -207,7 +207,7 @@ export default function MalosaHouseDemo() {
                       <div key={h.id || idx} className="group p-2 -mx-2 hover:bg-malosa-primary hover:text-malosa-on-primary transition-all malosa-brutalist-border border-transparent hover:border-malosa-primary cursor-pointer">
                         <div className="flex justify-between items-baseline">
                           <div className="flex items-center gap-2">
-                            <p className="font-malosa font-medium uppercase">{h.title || h.name}</p>
+                            <p className="font-malosa font-medium uppercase text-malosa-text-light">{h.title || h.name}</p>
                             {h.top && (
                               <span className="bg-malosa-primary text-malosa-on-primary group-hover:bg-malosa-bg group-hover:text-malosa-primary text-[10px] font-malosa font-bold px-1 py-0.5 uppercase tracking-wider border border-malosa-primary">🔥 Top</span>
                             )}
@@ -216,14 +216,14 @@ export default function MalosaHouseDemo() {
                           <span className="font-malosa font-normal opacity-80 pr-2">${h.price}</span>
                         </div>
                         {h.desc && (
-                          <p className="text-sm font-malosa opacity-80 mt-1">{h.desc}</p>
+                          <p className="text-sm font-malosa opacity-80 mt-1 text-malosa-text-light">{h.desc}</p>
                         )}
                       </div>
                     ))}
                   </div>
-                  <div className="malosa-brutalist-border p-4 flex justify-between items-center bg-malosa-secondary-container">
-                    <span className="font-malosa font-bold uppercase">Combo con papas</span>
-                    <span className="font-malosa text-2xl">${hamburguesaComboPrice}</span>
+                  <div className="malosa-brutalist-border p-4 flex justify-between items-center bg-transparent">
+                    <span className="font-malosa font-bold uppercase text-malosa-text-light">Combo con papas</span>
+                    <span className="font-malosa text-2xl text-malosa-primary">${hamburguesaComboPrice}</span>
                   </div>
                 </div>
               </section>

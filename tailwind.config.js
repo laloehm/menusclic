@@ -55,14 +55,15 @@ export default {
         "tertiary-container": "#009fbd",
         "on-tertiary": "#ffffff",
         "on-background": "#191c1d",
-        "malosa-bg": "#fff9ed",
-        "malosa-primary": "#000000",
-        "malosa-on-primary": "#ffffff",
-        "malosa-surface-dim": "#e2dabf",
-        "malosa-surface-container-high": "#f1e8cd",
-        "malosa-secondary-container": "#eedeba",
-        "malosa-surface-variant": "#ebe2c8",
-        "malosa-outline": "#747878"
+        "malosa-bg": "#25282a",
+        "malosa-primary": "#f8b7a6",
+        "malosa-on-primary": "#25282a",
+        "malosa-surface-dim": "#2d3032",
+        "malosa-surface-container-high": "#333638",
+        "malosa-secondary-container": "#3a3d3f",
+        "malosa-surface-variant": "#2d3032",
+        "malosa-outline": "#f8b7a6",
+        "malosa-text-light": "#f5f5f5"
       },
       fontFamily: {
         "headline": ["Inter", "sans-serif"],
