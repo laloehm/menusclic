@@ -22,6 +22,8 @@ export default function AdminDashboard({ onBack, domain }) {
   const [editingItem, setEditingItem] = useState(null);
   const [isAdding, setIsAdding] = useState(false);
   const [filterCategory, setFilterCategory] = useState('Todas');
+  const [showOrderModal, setShowOrderModal] = useState(false);
+  const [categoryOrder, setCategoryOrder] = useState([]);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -51,6 +53,16 @@ export default function AdminDashboard({ onBack, domain }) {
 
     return () => unsubscribe();
   }, [activeTab, isAuthenticated]);
+
+  useEffect(() => {
+    if (domain !== 'malosahouse' || !isAuthenticated) return;
+    const unsub = onSnapshot(doc(db, 'malosahouse_settings', 'layout'), (docSnap) => {
+      if (docSnap.exists() && docSnap.data().categoryOrder) {
+        setCategoryOrder(docSnap.data().categoryOrder);
+      }
+    });
+    return () => unsub();
+  }, [domain, isAuthenticated]);
 
   const handleDelete = async (docId) => {
     if (window.confirm('¿Seguro que deseas eliminar este elemento?')) {
@@ -135,11 +147,17 @@ export default function AdminDashboard({ onBack, domain }) {
             <h1 className="text-xl md:text-2xl font-black text-center w-full md:w-auto">Panel Admin</h1>
           </div>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 w-full md:w-auto mt-4 md:mt-0">
+          {domain === 'malosahouse' && (
+            <button onClick={() => setShowOrderModal(true)} className="flex-1 md:flex-none bg-blue-600 hover:bg-blue-700 text-white px-2 md:px-4 py-2.5 rounded-lg font-bold flex items-center justify-center gap-1 transition-colors shadow-sm text-sm md:text-base">
+              <span className="material-symbols-outlined text-[20px] md:text-[24px]">sort</span> 
+              <span>Ordenar</span>
+            </button>
+          )}
           {/* Botón Cargar Base eliminado a petición del usuario */}
-          <button onClick={() => { setIsAdding(true); setEditingItem({}); }} className="bg-green-600 hover:bg-green-700 text-white px-6 py-2.5 rounded-lg font-bold flex items-center justify-center gap-1 transition-colors shadow-sm w-full sm:w-auto">
-            <span className="material-symbols-outlined text-[24px] leading-none flex items-center justify-center mt-[-1px]">add</span> 
-            <span className="leading-none pt-[1px]">Nuevo Platillo</span>
+          <button onClick={() => { setIsAdding(true); setEditingItem({}); }} className="flex-1 md:flex-none bg-green-600 hover:bg-green-700 text-white px-2 md:px-6 py-2.5 rounded-lg font-bold flex items-center justify-center gap-1 transition-colors shadow-sm text-sm md:text-base">
+            <span className="material-symbols-outlined text-[20px] md:text-[24px]">add</span> 
+            <span className="whitespace-nowrap">Nuevo Platillo</span>
           </button>
         </div>
       </header>
@@ -289,6 +307,82 @@ export default function AdminDashboard({ onBack, domain }) {
           </div>
         </div>
       )}
+
+      {/* Order Modal */}
+      {showOrderModal && (
+        <OrderModal 
+          items={items} 
+          categoryOrder={categoryOrder} 
+          onClose={() => setShowOrderModal(false)} 
+        />
+      )}
+    </div>
+  );
+}
+
+function OrderModal({ items, categoryOrder, onClose }) {
+  const allUniqueCategories = Array.from(new Set(items.map(i => (i.category || 'Otros').toUpperCase().trim())));
+  
+  // Merge saved order with new categories not in saved order
+  const mergedOrder = [...categoryOrder];
+  allUniqueCategories.forEach(c => {
+    if (!mergedOrder.includes(c)) mergedOrder.push(c);
+  });
+
+  const [localOrder, setLocalOrder] = useState(mergedOrder);
+
+  const moveUp = (idx) => {
+    if (idx === 0) return;
+    const newOrder = [...localOrder];
+    const temp = newOrder[idx - 1];
+    newOrder[idx - 1] = newOrder[idx];
+    newOrder[idx] = temp;
+    setLocalOrder(newOrder);
+  };
+
+  const moveDown = (idx) => {
+    if (idx === localOrder.length - 1) return;
+    const newOrder = [...localOrder];
+    const temp = newOrder[idx + 1];
+    newOrder[idx + 1] = newOrder[idx];
+    newOrder[idx] = temp;
+    setLocalOrder(newOrder);
+  };
+
+  const handleSaveOrder = async () => {
+    try {
+      await setDoc(doc(db, 'malosahouse_settings', 'layout'), { categoryOrder: localOrder }, { merge: true });
+      onClose();
+    } catch (e) {
+      alert("Error guardando orden");
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/60 z-[95] flex items-center justify-center p-4">
+      <div className="bg-white w-full max-w-sm rounded-xl shadow-2xl p-6 relative max-h-[90vh] overflow-y-auto">
+        <h3 className="text-2xl font-bold mb-4">Ordenar Categorías</h3>
+        <p className="text-sm text-gray-500 mb-4">Sube o baja las categorías para definir en qué orden las verán los clientes.</p>
+        <div className="flex flex-col gap-2 mb-6">
+          {localOrder.map((cat, idx) => (
+            <div key={cat} className="flex justify-between items-center bg-gray-50 border p-3 rounded-lg">
+              <span className="font-bold text-gray-700">{cat.replace(/^[0-9\.\s\-]+/, '')}</span>
+              <div className="flex gap-1">
+                <button onClick={() => moveUp(idx)} disabled={idx === 0} className="p-1 hover:bg-gray-200 rounded disabled:opacity-30 flex items-center justify-center">
+                  <span className="material-symbols-outlined text-sm">arrow_upward</span>
+                </button>
+                <button onClick={() => moveDown(idx)} disabled={idx === localOrder.length - 1} className="p-1 hover:bg-gray-200 rounded disabled:opacity-30 flex items-center justify-center">
+                  <span className="material-symbols-outlined text-sm">arrow_downward</span>
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="flex justify-end gap-2">
+          <button onClick={onClose} className="px-4 py-2 font-bold text-gray-500 hover:bg-gray-100 rounded">Cancelar</button>
+          <button onClick={handleSaveOrder} className="px-4 py-2 font-bold bg-blue-600 text-white rounded">Guardar Orden</button>
+        </div>
+      </div>
     </div>
   );
 }

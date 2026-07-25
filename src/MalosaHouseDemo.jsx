@@ -1,17 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { collection, onSnapshot } from 'firebase/firestore';
+import { collection, onSnapshot, doc } from 'firebase/firestore';
 import { db } from './firebase';
 
 export default function MalosaHouseDemo() {
   const [items, setItems] = useState([]);
   const [showPromo, setShowPromo] = useState(true);
+  const [categoryOrder, setCategoryOrder] = useState([]);
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, 'malosahouse_items'), (snapshot) => {
+    const unsubscribeItems = onSnapshot(collection(db, 'malosahouse_items'), (snapshot) => {
       const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       setItems(data);
     });
-    return () => unsubscribe();
+    
+    const unsubscribeLayout = onSnapshot(doc(db, 'malosahouse_settings', 'layout'), (snapshot) => {
+      if (snapshot.exists() && snapshot.data().categoryOrder) {
+        setCategoryOrder(snapshot.data().categoryOrder.map(c => c.toUpperCase().trim()));
+      }
+    });
+
+    return () => { unsubscribeItems(); unsubscribeLayout(); };
   }, []);
 
   // Helper para filtrar por categoría y excluir los no disponibles si se requiere (o mostrarlos con opacidad)
@@ -94,6 +102,206 @@ export default function MalosaHouseDemo() {
     </div>
   );
 
+  const renderedSections = {};
+
+  if (salsas.length > 0) {
+    renderedSections['SALSAS'] = (
+      <section key="salsas" className="relative overflow-hidden mt-6 mb-6">
+        <div className="malosa-double-border p-4 relative z-10">
+          <p className="font-malosa font-bold uppercase text-center mb-4 border-b border-malosa-primary pb-2">Nuestras Salsas</p>
+          <div className="grid grid-cols-2 gap-4 text-center">
+            {salsas.map((s, idx) => (
+              <span key={s.id || idx} className={`font-malosa font-medium uppercase ${s.special ? 'text-malosa-primary' : 'text-malosa-text-light'}`}>
+                {s.title || s.name}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (alitas.length > 0) {
+    renderedSections['ALITAS'] = (
+      <section key="alitas" className="relative overflow-hidden mt-6 mb-6">
+        <div className="absolute inset-0 opacity-15 pointer-events-none z-0 flex items-center justify-center">
+          <img alt="Alitas background" className="max-w-[95%] max-h-full object-contain mix-blend-screen" src="/alitas.png" />
+        </div>
+        <div className="relative z-10">
+          <div className="py-2 flex items-end gap-4 mb-4 border-b-2 border-malosa-primary">
+            <h3 className="font-malosa text-4xl font-bold uppercase m-0 leading-none">Alitas</h3>
+            <div className="flex-grow border-b-4 border-malosa-primary mb-1"></div>
+          </div>
+          <div className="space-y-2">
+            {alitas.map(renderItemLine)}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (boneless.length > 0) {
+    renderedSections['BONELESS'] = (
+      <section key="boneless" className="relative overflow-hidden mt-6 mb-6">
+        <div className="absolute inset-0 opacity-15 pointer-events-none z-0 flex items-center justify-center">
+          <img alt="Boneless background" className="max-w-[95%] max-h-full object-contain mix-blend-screen" src="/alitas.png" />
+        </div>
+        <div className="relative z-10">
+          <div className="py-2 flex items-end gap-4 mb-4 border-b-2 border-malosa-primary">
+            <h3 className="font-malosa text-4xl font-bold uppercase m-0 leading-none">Boneless</h3>
+            <div className="flex-grow border-b-4 border-malosa-primary mb-1"></div>
+          </div>
+          <div className="space-y-2">
+            {boneless.map(renderItemLine)}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (papas.length > 0) {
+    renderedSections['PAPAS'] = (
+      <section key="papas" className="bg-malosa-surface-dim p-6 malosa-brutalist-border mt-6 mb-6">
+        <div className="flex items-center gap-4 mb-4">
+          <span className="material-symbols-outlined text-3xl">lunch_dining</span>
+          <h3 className="font-malosa text-4xl font-bold uppercase">Papas</h3>
+          <span className="ml-auto font-malosa text-3xl text-malosa-primary">${papasBasePrice}</span>
+        </div>
+        <div className="flex flex-col gap-2">
+          {papas.map((p, idx) => (
+            <p key={p.id || idx} className="font-malosa uppercase font-medium tracking-tight text-malosa-text-light">
+              {p.title || p.name}
+            </p>
+          ))}
+        </div>
+      </section>
+    );
+  }
+
+  if (hamburguesas.length > 0) {
+    renderedSections['HAMBURGUESAS'] = (
+      <section key="hamburguesas" className="relative overflow-hidden mt-6 mb-6">
+        <div className="absolute inset-0 opacity-15 pointer-events-none z-0 flex items-center justify-center">
+          <img alt="Hamburguesas background" className="max-w-[95%] max-h-full object-contain mix-blend-screen" src="/Burguer.png" />
+        </div>
+        <div className="relative z-10">
+          <div className="py-2 flex items-end gap-4 mb-4 border-b-2 border-malosa-primary">
+            <h3 className="font-malosa text-4xl font-bold uppercase m-0 leading-none">Hamburguesas</h3>
+            <div className="flex-grow border-b-4 border-malosa-primary mb-1"></div>
+          </div>
+          <div className="mb-4">
+            <p className="font-malosa text-malosa-primary/70">(Todas van hawaiianas)</p>
+          </div>
+          <div className="space-y-2 mb-6">
+            {hamburguesas.map((h, idx) => (
+              <div key={h.id || idx} className="group p-2 -mx-2 hover:bg-malosa-primary hover:text-malosa-on-primary transition-all malosa-brutalist-border border-transparent hover:border-malosa-primary cursor-pointer">
+                <div className="flex justify-between items-baseline">
+                  <div className="flex items-center gap-2">
+                    <p className="font-malosa font-medium uppercase text-malosa-text-light">{h.title || h.name}</p>
+                    {h.top && (
+                      <span className="bg-malosa-primary text-malosa-on-primary group-hover:bg-malosa-bg group-hover:text-malosa-primary text-[10px] font-malosa font-bold px-1 py-0.5 uppercase tracking-wider border border-malosa-primary">🔥 Top</span>
+                    )}
+                  </div>
+                  <span className="malosa-dot-leader group-hover:border-malosa-on-primary"></span>
+                  <span className="font-malosa font-normal pr-2 text-malosa-primary">${h.price}</span>
+                </div>
+                {h.desc && (
+                  <p className="text-sm font-malosa opacity-80 mt-1 text-malosa-text-light">{h.desc}</p>
+                )}
+              </div>
+            ))}
+          </div>
+          <div className="malosa-brutalist-border p-4 flex justify-between items-center bg-transparent mt-4">
+            <span className="font-malosa font-bold uppercase text-malosa-text-light text-xl">Combo con papas</span>
+            <span className="font-malosa text-3xl text-malosa-primary">${hamburguesaComboPrice}</span>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (hotdogs.length > 0) {
+    renderedSections['HOT DOGS'] = (
+      <section key="hotdogs" className="mt-6 mb-6">
+        <h3 className="font-malosa text-4xl font-bold uppercase mb-4">Hot Dogs</h3>
+        <div className="space-y-2">
+          {hotdogs.map(renderItemLine)}
+        </div>
+      </section>
+    );
+    renderedSections['HOTDOGS'] = renderedSections['HOT DOGS'];
+  }
+
+  if (bebidas.length > 0) {
+    renderedSections['BEBIDAS'] = (
+      <section key="bebidas" className="relative overflow-hidden mt-6 mb-6">
+        <div className="absolute inset-0 opacity-15 pointer-events-none z-0 flex items-center justify-center">
+          <img alt="Bebidas background" className="max-w-[95%] max-h-full object-contain mix-blend-screen" src="/Drinks.png" />
+        </div>
+        <div className="relative z-10">
+          <div className="flex items-center gap-4 mb-4">
+            <h3 className="font-malosa text-4xl font-bold uppercase">Bebidas</h3>
+            <div className="flex-grow border-t-2 border-malosa-primary"></div>
+            <span className="material-symbols-outlined text-3xl">local_bar</span>
+          </div>
+          <div className="space-y-2">
+            {bebidas.map(renderItemLine)}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (postres.length > 0) {
+    renderedSections['POSTRES'] = (
+      <section key="postres" className="relative overflow-hidden mt-6 mb-6">
+        <div className="malosa-brutalist-border p-4 relative z-10 bg-malosa-bg">
+          <p className="font-malosa font-bold uppercase text-center mb-4 border-b border-malosa-primary pb-2">Postres</p>
+          <div className="space-y-2">
+            {postres.map(renderItemLine)}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  otherCategories.forEach(cat => {
+    const catItems = items.filter(i => i.available !== false && (i.category || '').toUpperCase().trim() === cat)
+                          .sort((a, b) => (a.id || 0) - (b.id || 0));
+    if (catItems.length > 0) {
+      renderedSections[cat] = (
+        <section key={cat} className="relative overflow-hidden mt-6 mb-6">
+          <div className="relative z-10">
+            <div className="py-2 flex items-end gap-4 mb-4 border-b-2 border-malosa-primary">
+              <h3 className="font-malosa text-4xl font-bold uppercase m-0 leading-none">{cat.replace(/^[0-9\.\s\-]+/, '')}</h3>
+              <div className="flex-grow border-b-4 border-malosa-primary mb-1"></div>
+            </div>
+            <div className="space-y-2">
+              {catItems.map(renderItemLine)}
+            </div>
+          </div>
+        </section>
+      );
+    }
+  });
+
+  const finalSections = [];
+  const handledCategories = new Set();
+
+  categoryOrder.forEach(cat => {
+    if (renderedSections[cat]) {
+      finalSections.push(renderedSections[cat]);
+      handledCategories.add(cat);
+    }
+  });
+
+  Object.keys(renderedSections).forEach(cat => {
+    if (!handledCategories.has(cat) && cat !== 'HOTDOGS') {
+      finalSections.push(renderedSections[cat]);
+      handledCategories.add(cat);
+    }
+  });
+
   return (
     <div className="text-malosa-primary selection:bg-malosa-secondary-container font-malosa min-h-screen bg-malosa-bg pb-12 text-lg">
       
@@ -151,178 +359,7 @@ export default function MalosaHouseDemo() {
       <main className="pt-28 pb-12 px-6 max-w-xl mx-auto">
         <div className="flex flex-col gap-10">
           <div className="space-y-10">
-            
-            {/* Section: Salsas */}
-            {salsas.length > 0 && (
-              <section className="relative overflow-hidden">
-                <div className="malosa-double-border p-4 relative z-10">
-                  <p className="font-malosa font-bold uppercase text-center mb-4 border-b border-malosa-primary pb-2">Nuestras Salsas</p>
-                  <div className="grid grid-cols-2 gap-4 text-center">
-                    {salsas.map((s, idx) => (
-                      <span key={s.id || idx} className={`font-malosa font-medium uppercase ${s.special ? 'text-malosa-primary' : 'text-malosa-text-light'}`}>
-                        {s.title || s.name}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </section>
-            )}
-
-            {/* Section: Alitas & Boneless */}
-            {(alitas.length > 0 || boneless.length > 0) && (
-              <section className="relative overflow-hidden">
-                <div className="absolute inset-0 opacity-15 pointer-events-none z-0 flex items-center justify-center">
-                  <img alt="Alitas background" className="max-w-[95%] max-h-full object-contain mix-blend-screen" src="/alitas.png" />
-                </div>
-                <div className="relative z-10">
-                  
-                  {alitas.length > 0 && (
-                    <div className="mb-6">
-                      <div className="py-2 flex items-end gap-4 mb-4 border-b-2 border-malosa-primary">
-                        <h3 className="font-malosa text-4xl font-bold uppercase m-0 leading-none">Alitas</h3>
-                        <div className="flex-grow border-b-4 border-malosa-primary mb-1"></div>
-                      </div>
-                      <div className="space-y-2">
-                        {alitas.map(renderItemLine)}
-                      </div>
-                    </div>
-                  )}
-
-                  {boneless.length > 0 && (
-                    <div className="mt-6">
-                      <div className="py-2 flex items-end gap-4 mb-4 border-b-2 border-malosa-primary">
-                        <h3 className="font-malosa text-4xl font-bold uppercase m-0 leading-none">Boneless</h3>
-                        <div className="flex-grow border-b-4 border-malosa-primary mb-1"></div>
-                      </div>
-                      <div className="space-y-2">
-                        {boneless.map(renderItemLine)}
-                      </div>
-                    </div>
-                  )}
-
-                </div>
-              </section>
-            )}
-
-            {/* Section: Papas */}
-            {papas.length > 0 && (
-              <section className="bg-malosa-surface-dim p-6 malosa-brutalist-border">
-                <div className="flex items-center gap-4 mb-4">
-                  <span className="material-symbols-outlined text-3xl">lunch_dining</span>
-                  <h3 className="font-malosa text-4xl font-bold uppercase">Papas</h3>
-                  <span className="ml-auto font-malosa text-3xl text-malosa-primary">${papasBasePrice}</span>
-                </div>
-                <div className="flex flex-col gap-2">
-                  {papas.map((p, idx) => (
-                    <p key={p.id || idx} className="font-malosa uppercase font-medium tracking-tight text-malosa-text-light">
-                      {p.title || p.name}
-                    </p>
-                  ))}
-                </div>
-              </section>
-            )}
-
-            {/* Section: Hamburguesas */}
-            {hamburguesas.length > 0 && (
-              <section className="relative overflow-hidden">
-                <div className="absolute inset-0 opacity-15 pointer-events-none z-0 flex items-center justify-center">
-                  <img alt="Hamburguesas background" className="max-w-[95%] max-h-full object-contain mix-blend-screen" src="/Burguer.png" />
-                </div>
-                <div className="relative z-10">
-                  <div className="py-2 flex items-end gap-4 mb-4 border-b-2 border-malosa-primary">
-                    <h3 className="font-malosa text-4xl font-bold uppercase m-0 leading-none">Hamburguesas</h3>
-                    <div className="flex-grow border-b-4 border-malosa-primary mb-1"></div>
-                  </div>
-                  <div className="mb-4">
-                    <p className="font-malosa text-malosa-primary/70">(Todas van hawaiianas)</p>
-                  </div>
-                  <div className="space-y-2 mb-6">
-                    {hamburguesas.map((h, idx) => (
-                      <div key={h.id || idx} className="group p-2 -mx-2 hover:bg-malosa-primary hover:text-malosa-on-primary transition-all malosa-brutalist-border border-transparent hover:border-malosa-primary cursor-pointer">
-                        <div className="flex justify-between items-baseline">
-                          <div className="flex items-center gap-2">
-                            <p className="font-malosa font-medium uppercase text-malosa-text-light">{h.title || h.name}</p>
-                            {h.top && (
-                              <span className="bg-malosa-primary text-malosa-on-primary group-hover:bg-malosa-bg group-hover:text-malosa-primary text-[10px] font-malosa font-bold px-1 py-0.5 uppercase tracking-wider border border-malosa-primary">🔥 Top</span>
-                            )}
-                          </div>
-                          <span className="malosa-dot-leader group-hover:border-malosa-on-primary"></span>
-                          <span className="font-malosa font-normal pr-2 text-malosa-primary">${h.price}</span>
-                        </div>
-                        {h.desc && (
-                          <p className="text-sm font-malosa opacity-80 mt-1 text-malosa-text-light">{h.desc}</p>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                  <div className="malosa-brutalist-border p-4 flex justify-between items-center bg-transparent mt-4">
-                    <span className="font-malosa font-bold uppercase text-malosa-text-light text-xl">Combo con papas</span>
-                    <span className="font-malosa text-3xl text-malosa-primary">${hamburguesaComboPrice}</span>
-                  </div>
-                </div>
-              </section>
-            )}
-
-            {/* Section: Hot Dogs */}
-            {hotdogs.length > 0 && (
-              <section>
-                <h3 className="font-malosa text-4xl font-bold uppercase mb-4">Hot Dogs</h3>
-                <div className="space-y-2">
-                  {hotdogs.map(renderItemLine)}
-                </div>
-              </section>
-            )}
-
-            {/* Section: Bebidas */}
-            {bebidas.length > 0 && (
-              <section className="relative overflow-hidden">
-                <div className="absolute inset-0 opacity-15 pointer-events-none z-0 flex items-center justify-center">
-                  <img alt="Bebidas background" className="max-w-[95%] max-h-full object-contain mix-blend-screen" src="/Drinks.png" />
-                </div>
-                <div className="relative z-10">
-                  <div className="flex items-center gap-4 mb-4">
-                    <h3 className="font-malosa text-4xl font-bold uppercase">Bebidas</h3>
-                    <div className="flex-grow border-t-2 border-malosa-primary"></div>
-                    <span className="material-symbols-outlined text-3xl">local_bar</span>
-                  </div>
-                  <div className="space-y-2">
-                    {bebidas.map(renderItemLine)}
-                  </div>
-                </div>
-              </section>
-            )}
-
-            {/* Section: Postres */}
-            {postres.length > 0 && (
-              <section className="relative overflow-hidden">
-                <div className="malosa-brutalist-border p-4 relative z-10 bg-malosa-bg">
-                  <p className="font-malosa font-bold uppercase text-center mb-4 border-b border-malosa-primary pb-2">Postres</p>
-                  <div className="space-y-2">
-                    {postres.map(renderItemLine)}
-                  </div>
-                </div>
-              </section>
-            )}
-
-            {/* Dynamic Categories */}
-            {otherCategories.map(cat => {
-              const catItems = items.filter(i => i.available !== false && (i.category || '').toUpperCase().trim() === cat)
-                                    .sort((a, b) => (a.id || 0) - (b.id || 0));
-              if (catItems.length === 0) return null;
-              return (
-                <section key={cat} className="relative overflow-hidden mt-6 mb-6">
-                  <div className="relative z-10">
-                    <div className="py-2 flex items-end gap-4 mb-4 border-b-2 border-malosa-primary">
-                      <h3 className="font-malosa text-4xl font-bold uppercase m-0 leading-none">{cat.replace(/^[0-9\.\s\-]+/, '')}</h3>
-                      <div className="flex-grow border-b-4 border-malosa-primary mb-1"></div>
-                    </div>
-                    <div className="space-y-2">
-                      {catItems.map(renderItemLine)}
-                    </div>
-                  </div>
-                </section>
-              );
-            })}
+            {finalSections}
           </div>
         </div>
 
