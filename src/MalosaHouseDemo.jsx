@@ -69,7 +69,7 @@ export default function MalosaHouseDemo() {
     <div key={item.id || item.title} className="flex justify-between items-baseline">
       <span className="font-malosa font-medium uppercase text-malosa-text-light">{item.title || item.name}</span>
       <span className="malosa-dot-leader"></span>
-      <span className="font-malosa font-normal opacity-80 pr-2">${item.price}</span>
+      <span className="font-malosa font-normal pr-2 text-malosa-primary">${item.price}</span>
     </div>
   );
 
@@ -106,8 +106,9 @@ export default function MalosaHouseDemo() {
       <div className="malosa-noise-overlay"></div>
 
       {/* Top App Bar */}
-      <header className="fixed top-0 w-full z-50 h-20 bg-malosa-bg/95 backdrop-blur-sm border-b-2 border-malosa-primary flex justify-center items-center px-6">
-        <h1 className="font-malosa text-[32px] uppercase tracking-tighter text-malosa-primary">MALOSA HOUSE</h1>
+      <header className="fixed top-0 w-full z-50 h-20 bg-malosa-bg/95 backdrop-blur-sm border-b-2 border-malosa-primary flex justify-center items-center px-6 gap-3">
+        <img src="/malosa-logo.jpg" alt="Malosa House" className="h-12 w-12 object-contain" />
+        <h1 className="font-malosa text-[32px] uppercase tracking-tighter text-malosa-primary mt-1">MALOSA HOUSE</h1>
       </header>
 
       {/* Main Content Canvas */}
@@ -213,7 +214,7 @@ export default function MalosaHouseDemo() {
                             )}
                           </div>
                           <span className="malosa-dot-leader group-hover:border-malosa-on-primary"></span>
-                          <span className="font-malosa font-normal opacity-80 pr-2">${h.price}</span>
+                          <span className="font-malosa font-normal pr-2 text-malosa-primary">${h.price}</span>
                         </div>
                         {h.desc && (
                           <p className="text-sm font-malosa opacity-80 mt-1 text-malosa-text-light">{h.desc}</p>
@@ -284,7 +285,7 @@ export default function MalosaHouseDemo() {
       <footer className="w-full py-6 mb-16 border-t-4 border-double border-malosa-primary flex flex-col items-center space-y-4 px-6 text-center bg-malosa-bg">
         <h2 className="font-malosa text-2xl text-malosa-primary">MALOSA HOUSE</h2>
         <div className="flex flex-col items-center gap-4 my-4">
-          <a className="font-malosa text-malosa-primary opacity-90 hover:opacity-100 underline transition-all" href="#">Instagram: @malosahouse</a>
+          <a className="font-malosa text-malosa-primary opacity-90 hover:opacity-100 underline transition-all" href="https://www.facebook.com/malosa16" target="_blank" rel="noreferrer">Facebook: Malosa House</a>
           <a className="font-malosa text-malosa-primary opacity-90 hover:opacity-100 underline transition-all font-bold" href="https://maps.app.goo.gl/b73bW97w4iQDNVWc9" target="_blank" rel="noreferrer">Ubicación</a>
         </div>
         <p className="font-malosa text-malosa-primary mt-4">© 2024 Malosa House. Est. 2020.</p>
