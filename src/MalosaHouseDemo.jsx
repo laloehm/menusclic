@@ -23,6 +23,18 @@ export default function MalosaHouseDemo() {
     return firebaseItems.length > 0 ? firebaseItems : defaultItems;
   };
 
+  const sortMenu = (a, b) => {
+    const tA = (a.title || a.name || '').toLowerCase();
+    const tB = (b.title || b.name || '').toLowerCase();
+    const getWeight = (t) => {
+      if (t.includes('5 ') || t.includes('8 ')) return 1;
+      if (t.includes('12 ') || t.includes('16 ')) return 2;
+      if (t.includes('papas')) return 3;
+      return 4;
+    };
+    return getWeight(tA) - getWeight(tB);
+  };
+
   const salsas = getItems('Salsas', [
     { title: "BBQ" }, { title: "Lemon Pepper" }, { title: "Ajo Parmesano" }, 
     { title: "Mango Habanero" }, { title: "Atomic", special: true }, { title: "Red Hot", special: true }
@@ -30,11 +42,11 @@ export default function MalosaHouseDemo() {
 
   const alitas = getItems('Alitas', [
     { title: "5 PIEZAS", price: 85 }, { title: "12 PIEZAS", price: 160 }, { title: "CON PAPAS", price: 100 }
-  ]);
+  ]).sort(sortMenu);
 
   const boneless = getItems('Boneless', [
     { title: "8 PIEZAS", price: 80 }, { title: "16 PIEZAS", price: 150 }, { title: "CON PAPAS", price: 100 }
-  ]);
+  ]).sort(sortMenu);
 
   const papas = getItems('Papas', [
     { title: "Francesas" }, { title: "Lemon Pepper" }, { title: "Ajo Parmesano" }, { title: "Lokaz" }, { title: "Mango Habanero" }
