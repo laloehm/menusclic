@@ -80,6 +80,12 @@ export default function MalosaHouseDemo() {
     { title: "Mangos c/ Queso", price: 45 }, { title: "Helado Frito", price: 60 }
   ]);
 
+  const knownCategories = ['salsas', 'alitas', 'boneless', 'papas', 'hamburguesas', 'hamburguesas combo', 'hot dogs', 'hotdogs', 'bebidas', 'postres', 'papas base', 'promo_modal'];
+  const otherCategories = Array.from(new Set(
+    items.filter(i => i.available !== false && i.category && !knownCategories.includes(i.category.toLowerCase()))
+         .map(i => i.category)
+  ));
+
   const renderItemLine = (item) => (
     <div key={item.id || item.title} className="flex justify-between items-baseline text-lg">
       <span className="font-malosa font-medium uppercase text-malosa-text-light">{item.title || item.name}</span>
@@ -288,15 +294,31 @@ export default function MalosaHouseDemo() {
 
             {/* Section: Postres */}
             {postres.length > 0 && (
-              <section className="bg-malosa-surface-variant p-6 malosa-brutalist-border relative overflow-hidden">
-                <div className="relative z-10">
-                  <h3 className="font-malosa text-3xl font-bold uppercase mb-4">Postres</h3>
+              <section className="relative overflow-hidden">
+                <div className="malosa-brutalist-border p-4 relative z-10 bg-malosa-bg">
+                  <p className="font-malosa font-bold uppercase text-center mb-4 border-b border-malosa-primary pb-2">Postres</p>
                   <div className="space-y-2">
                     {postres.map(renderItemLine)}
                   </div>
                 </div>
               </section>
             )}
+
+            {/* Dynamic Categories */}
+            {otherCategories.map(cat => {
+              const catItems = items.filter(i => i.available !== false && i.category === cat);
+              if (catItems.length === 0) return null;
+              return (
+                <section key={cat} className="relative overflow-hidden">
+                  <div className="malosa-brutalist-border p-4 relative z-10 bg-malosa-bg">
+                    <p className="font-malosa font-bold uppercase text-center mb-4 border-b border-malosa-primary pb-2">{cat}</p>
+                    <div className="space-y-2">
+                      {catItems.map(renderItemLine)}
+                    </div>
+                  </div>
+                </section>
+              );
+            })}
           </div>
         </div>
 
