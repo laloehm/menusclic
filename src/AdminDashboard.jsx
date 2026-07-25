@@ -24,6 +24,8 @@ export default function AdminDashboard({ onBack, domain }) {
   const [filterCategory, setFilterCategory] = useState('Todas');
   const [showOrderModal, setShowOrderModal] = useState(false);
   const [categoryOrder, setCategoryOrder] = useState([]);
+  const [showContactModal, setShowContactModal] = useState(false);
+  const [contactInfo, setContactInfo] = useState({});
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -56,12 +58,19 @@ export default function AdminDashboard({ onBack, domain }) {
 
   useEffect(() => {
     if (domain !== 'malosahouse' || !isAuthenticated) return;
-    const unsub = onSnapshot(doc(db, 'malosahouse_settings', 'layout'), (docSnap) => {
+    const unsubLayout = onSnapshot(doc(db, 'malosahouse_settings', 'layout'), (docSnap) => {
       if (docSnap.exists() && docSnap.data().categoryOrder) {
         setCategoryOrder(docSnap.data().categoryOrder);
       }
     });
-    return () => unsub();
+    
+    const unsubContact = onSnapshot(doc(db, 'malosahouse_settings', 'contact'), (docSnap) => {
+      if (docSnap.exists()) {
+        setContactInfo(docSnap.data());
+      }
+    });
+
+    return () => { unsubLayout(); unsubContact(); };
   }, [domain, isAuthenticated]);
 
   const handleDelete = async (docId) => {
@@ -147,15 +156,20 @@ export default function AdminDashboard({ onBack, domain }) {
             <h1 className="text-xl md:text-2xl font-black text-center w-full md:w-auto">Panel Admin</h1>
           </div>
         </div>
-        <div className="flex gap-2 w-full md:w-auto mt-4 md:mt-0">
+        <div className="flex flex-col gap-2 w-full md:w-auto mt-4 md:mt-0">
           {domain === 'malosahouse' && (
-            <button onClick={() => setShowOrderModal(true)} className="flex-1 md:flex-none bg-blue-600 hover:bg-blue-700 text-white px-2 md:px-4 py-2.5 rounded-lg font-bold flex items-center justify-center gap-1 transition-colors shadow-sm text-sm md:text-base">
-              <span className="material-symbols-outlined text-[20px] md:text-[24px]">sort</span> 
-              <span>Ordenar</span>
-            </button>
+            <div className="flex gap-2 w-full">
+              <button onClick={() => setShowOrderModal(true)} className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-2 py-2.5 rounded-lg font-bold flex items-center justify-center gap-1 transition-colors shadow-sm text-sm">
+                <span className="material-symbols-outlined text-[20px]">sort</span> 
+                <span>Ordenar</span>
+              </button>
+              <button onClick={() => setShowContactModal(true)} className="flex-1 bg-purple-600 hover:bg-purple-700 text-white px-2 py-2.5 rounded-lg font-bold flex items-center justify-center gap-1 transition-colors shadow-sm text-sm">
+                <span className="material-symbols-outlined text-[20px]">storefront</span> 
+                <span>Editar Info</span>
+              </button>
+            </div>
           )}
-          {/* Botón Cargar Base eliminado a petición del usuario */}
-          <button onClick={() => { setIsAdding(true); setEditingItem({}); }} className="flex-1 md:flex-none bg-green-600 hover:bg-green-700 text-white px-2 md:px-6 py-2.5 rounded-lg font-bold flex items-center justify-center gap-1 transition-colors shadow-sm text-sm md:text-base">
+          <button onClick={() => { setIsAdding(true); setEditingItem({}); }} className="w-full bg-green-600 hover:bg-green-700 text-white px-2 md:px-6 py-2.5 rounded-lg font-bold flex items-center justify-center gap-1 transition-colors shadow-sm text-sm md:text-base">
             <span className="material-symbols-outlined text-[20px] md:text-[24px]">add</span> 
             <span className="whitespace-nowrap">Nuevo Platillo</span>
           </button>
@@ -314,6 +328,13 @@ export default function AdminDashboard({ onBack, domain }) {
       )}
 
       {/* Order Modal */}
+      {showContactModal && (
+        <ContactSettingsModal 
+          initialData={contactInfo} 
+          onClose={() => setShowContactModal(false)} 
+        />
+      )}
+
       {showOrderModal && (
         <OrderModal 
           items={items} 
@@ -321,6 +342,54 @@ export default function AdminDashboard({ onBack, domain }) {
           onClose={() => setShowOrderModal(false)} 
         />
       )}
+    </div>
+  );
+}
+
+function ContactSettingsModal({ initialData, onClose }) {
+  const [formData, setFormData] = useState({
+    phone: '', whatsapp: '', facebook: '', instagram: '', maps: '', schedule: '',
+    ...initialData
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSave = async () => {
+    try {
+      await setDoc(doc(db, 'malosahouse_settings', 'contact'), formData, { merge: true });
+      onClose();
+    } catch (e) {
+      alert("Error guardando información");
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/60 z-[95] flex items-center justify-center p-4">
+      <div className="bg-white w-full max-w-md rounded-xl shadow-2xl p-6 relative max-h-[90vh] overflow-y-auto">
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-2xl font-bold">Información de Contacto</h3>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-800 p-1 rounded-full hover:bg-gray-100 transition-colors flex items-center justify-center">
+            <span className="material-symbols-outlined">close</span>
+          </button>
+        </div>
+        <p className="text-sm text-gray-500 mb-4">Actualiza la información visible en la vista del cliente (Footer).</p>
+        
+        <div className="flex flex-col gap-3 mb-6">
+          <div><label className="block text-sm font-bold text-gray-700 mb-1">Horario (Ej. Mar-Dom 2pm a 10pm)</label><input type="text" name="schedule" value={formData.schedule || ''} onChange={handleChange} className="w-full bg-white text-black border p-2 rounded text-sm" placeholder="Horario" /></div>
+          <div><label className="block text-sm font-bold text-gray-700 mb-1">Teléfono (Llamadas)</label><input type="text" name="phone" value={formData.phone || ''} onChange={handleChange} className="w-full bg-white text-black border p-2 rounded text-sm" placeholder="Ej. 2221234567" /></div>
+          <div><label className="block text-sm font-bold text-gray-700 mb-1">WhatsApp (Número sin espacios)</label><input type="text" name="whatsapp" value={formData.whatsapp || ''} onChange={handleChange} className="w-full bg-white text-black border p-2 rounded text-sm" placeholder="Ej. 522221234567" /></div>
+          <div><label className="block text-sm font-bold text-gray-700 mb-1">Enlace de Facebook</label><input type="url" name="facebook" value={formData.facebook || ''} onChange={handleChange} className="w-full bg-white text-black border p-2 rounded text-sm" placeholder="https://facebook.com/..." /></div>
+          <div><label className="block text-sm font-bold text-gray-700 mb-1">Enlace de Instagram</label><input type="url" name="instagram" value={formData.instagram || ''} onChange={handleChange} className="w-full bg-white text-black border p-2 rounded text-sm" placeholder="https://instagram.com/..." /></div>
+          <div><label className="block text-sm font-bold text-gray-700 mb-1">Enlace de Google Maps</label><input type="url" name="maps" value={formData.maps || ''} onChange={handleChange} className="w-full bg-white text-black border p-2 rounded text-sm" placeholder="https://maps.app.goo.gl/..." /></div>
+        </div>
+
+        <div className="flex justify-end gap-2">
+          <button onClick={onClose} className="px-4 py-2 font-bold text-gray-500 hover:bg-gray-100 rounded">Cancelar</button>
+          <button onClick={handleSave} className="px-4 py-2 font-bold bg-purple-600 text-white rounded">Guardar Cambios</button>
+        </div>
+      </div>
     </div>
   );
 }
