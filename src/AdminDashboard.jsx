@@ -353,7 +353,16 @@ function ItemForm({ item, domain, onSave, onCancel }) {
       {domain === 'malosahouse' && (
          <div>
            <label className="block text-sm font-bold text-gray-700 mb-1">Categoría</label>
-           <select required name="category" value={formData.category || 'alitas'} onChange={handleChange} className="w-full bg-white text-black border p-2 rounded text-sm">
+           <input 
+             required 
+             list="malosa-categories"
+             name="category" 
+             placeholder="Ej. Alitas, Postres, o Escribe una nueva..."
+             value={formData.category || ''} 
+             onChange={handleChange} 
+             className="w-full bg-white text-black border p-2 rounded text-sm"
+           />
+           <datalist id="malosa-categories">
              <option value="alitas">Alitas</option>
              <option value="boneless">Boneless</option>
              <option value="papas">Papas</option>
@@ -362,7 +371,7 @@ function ItemForm({ item, domain, onSave, onCancel }) {
              <option value="bebidas">Bebidas</option>
              <option value="postres">Postres</option>
              <option value="salsas">Salsas</option>
-           </select>
+           </datalist>
          </div>
       )}
 
