@@ -135,30 +135,7 @@ export default function AdminDashboard({ onBack, domain }) {
           </div>
         </div>
         <div className="flex gap-2">
-          {domain === 'malosahouse' && (
-            <button onClick={async () => {
-              if(!window.confirm('Esto cargará los platillos por defecto a la base de datos. ¿Continuar?')) return;
-              const seedData = [
-                { title: "BBQ", category: "Salsas", price: 0 }, { title: "Lemon Pepper", category: "Salsas", price: 0 }, { title: "Ajo Parmesano", category: "Salsas", price: 0 }, { title: "Mango Habanero", category: "Salsas", price: 0 }, { title: "Atomic", category: "Salsas", special: true, price: 0 }, { title: "Red Hot", category: "Salsas", special: true, price: 0 },
-                { title: "5 PIEZAS", category: "Alitas", price: 85 }, { title: "12 PIEZAS", category: "Alitas", price: 160 }, { title: "CON PAPAS", category: "Alitas", price: 100 },
-                { title: "8 PIEZAS", category: "Boneless", price: 80 }, { title: "16 PIEZAS", category: "Boneless", price: 150 }, { title: "CON PAPAS", category: "Boneless", price: 100 },
-                { title: "Francesas", category: "Papas", price: 0 }, { title: "Lemon Pepper", category: "Papas", price: 0 }, { title: "Ajo Parmesano", category: "Papas", price: 0 }, { title: "Lokaz", category: "Papas", price: 0 }, { title: "Mango Habanero", category: "Papas", price: 0 },
-                { title: "Precio Base", category: "Papas Base", price: 60 },
-                { title: "MaloBurguer", desc: "Doble carne de res smash, queso derretido, tocino crujiente y nuestro aderezo secreto en pan brioche artesanal.", price: 75, top: true, category: "Hamburguesas" }, { title: "Arrachera", desc: "Fajitas de arrachera marinada, cebolla caramelizada y pimientos asados.", price: 75, category: "Hamburguesas" }, { title: "Pollo BBQ", desc: "Pechuga crujiente bañada en nuestra salsa BBQ ahumada, con ensalada de col.", price: 75, category: "Hamburguesas" },
-                { title: "Combo con papas", category: "Hamburguesas Combo", price: 90 },
-                { title: "Sencillo", category: "Hot Dogs", price: 20 }, { title: "Tocino", category: "Hot Dogs", price: 25 }, { title: "Hawaiano", category: "Hot Dogs", price: 35 },
-                { title: "Michelada", category: "Bebidas", price: 100 }, { title: "Mojito 1Lt", category: "Bebidas", price: 85 }, { title: "Blue / Pink 1Lt", category: "Bebidas", price: 80 }, { title: "Sangría Preparada", category: "Bebidas", price: 65 }, { title: "Tehuacán Preparado", category: "Bebidas", price: 65 }, { title: "Té o Café", category: "Bebidas", price: 25 },
-                { title: "Plátanos Fritos", category: "Postres", price: 50 }, { title: "Plátanos Árabes", category: "Postres", price: 60 }, { title: "Mangos c/ Queso", category: "Postres", price: 45 }, { title: "Helado Frito", category: "Postres", price: 60 }
-              ];
-              for(const item of seedData) {
-                const maxId = items.reduce((max, i) => Math.max(max, i.id || 0), 0) + 1;
-                await addDoc(collection(db, activeTab), { ...item, id: maxId, available: true });
-              }
-              alert('Datos cargados exitosamente');
-            }} className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg font-bold flex items-center shadow-sm text-sm">
-              Cargar Base
-            </button>
-          )}
+          {/* Botón Cargar Base eliminado a petición del usuario */}
           <button onClick={() => { setIsAdding(true); setEditingItem({}); }} className="bg-green-600 hover:bg-green-700 text-white px-6 py-2.5 rounded-lg font-bold flex items-center justify-center gap-1 transition-colors shadow-sm w-full sm:w-auto">
             <span className="material-symbols-outlined text-[24px] leading-none flex items-center justify-center mt-[-1px]">add</span> 
             <span className="leading-none pt-[1px]">Nuevo Platillo</span>
@@ -195,7 +172,7 @@ export default function AdminDashboard({ onBack, domain }) {
             <div className="flex flex-col gap-8">
               {(() => {
                 const groupedItems = items.reduce((acc, item) => {
-                  const cat = item.category || 'Otros';
+                  const cat = (item.category || 'Otros').toUpperCase().trim();
                   if (!acc[cat]) acc[cat] = [];
                   acc[cat].push(item);
                   return acc;

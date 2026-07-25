@@ -83,7 +83,7 @@ export default function MalosaHouseDemo() {
   const knownCategories = ['salsas', 'alitas', 'boneless', 'papas', 'hamburguesas', 'hamburguesas combo', 'hot dogs', 'hotdogs', 'bebidas', 'postres', 'papas base', 'promo_modal'];
   const otherCategories = Array.from(new Set(
     items.filter(i => i.available !== false && i.category && !knownCategories.includes(i.category.toLowerCase()))
-         .map(i => i.category)
+         .map(i => i.category.toUpperCase().trim())
   ));
 
   const renderItemLine = (item) => (
@@ -306,12 +306,15 @@ export default function MalosaHouseDemo() {
 
             {/* Dynamic Categories */}
             {otherCategories.map(cat => {
-              const catItems = items.filter(i => i.available !== false && i.category === cat);
+              const catItems = items.filter(i => i.available !== false && (i.category || '').toUpperCase().trim() === cat);
               if (catItems.length === 0) return null;
               return (
-                <section key={cat} className="relative overflow-hidden">
-                  <div className="malosa-brutalist-border p-4 relative z-10 bg-malosa-bg">
-                    <p className="font-malosa font-bold uppercase text-center mb-4 border-b border-malosa-primary pb-2">{cat}</p>
+                <section key={cat} className="relative overflow-hidden mt-6 mb-6">
+                  <div className="relative z-10">
+                    <div className="py-2 flex items-end gap-4 mb-4 border-b-2 border-malosa-primary">
+                      <h3 className="font-malosa text-4xl font-bold uppercase m-0 leading-none">{cat}</h3>
+                      <div className="flex-grow border-b-4 border-malosa-primary mb-1"></div>
+                    </div>
                     <div className="space-y-2">
                       {catItems.map(renderItemLine)}
                     </div>
