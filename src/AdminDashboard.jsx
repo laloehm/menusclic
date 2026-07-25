@@ -183,24 +183,20 @@ export default function AdminDashboard({ onBack, domain }) {
 
                 return (
                   <div className="flex flex-col gap-8">
-                    {/* Filtros Rápidos */}
+                    {/* Filtro Select */}
                     {allCategories.length > 0 && (
-                      <div className="flex flex-wrap gap-2 pb-4 border-b">
-                        <button 
-                          onClick={() => setFilterCategory('Todas')}
-                          className={`px-4 py-2 rounded-full text-sm font-bold transition-colors ${filterCategory === 'Todas' ? 'bg-orange-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
+                      <div className="pb-4 border-b">
+                        <label className="block text-sm font-bold text-gray-700 mb-2">Mostrar categoría:</label>
+                        <select
+                          value={filterCategory}
+                          onChange={(e) => setFilterCategory(e.target.value)}
+                          className="w-full sm:w-64 bg-white text-gray-800 border border-gray-300 p-2.5 rounded-lg text-sm shadow-sm font-medium focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
                         >
-                          Todas
-                        </button>
-                        {allCategories.map(cat => (
-                          <button 
-                            key={cat}
-                            onClick={() => setFilterCategory(cat)}
-                            className={`px-4 py-2 rounded-full text-sm font-bold transition-colors ${filterCategory === cat ? 'bg-orange-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
-                          >
-                            {cat}
-                          </button>
-                        ))}
+                          <option value="Todas">👉 Mostrar Todas</option>
+                          {allCategories.map(cat => (
+                            <option key={cat} value={cat}>{cat}</option>
+                          ))}
+                        </select>
                       </div>
                     )}
 
