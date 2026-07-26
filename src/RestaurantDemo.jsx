@@ -17,6 +17,41 @@ export default function RestaurantDemo({ onBack, onAdmin }) {
 
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  
+  const [cart, setCart] = useState([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const addToCart = (item) => {
+    setCart(prev => {
+      const existing = prev.find(i => i.id === item.id);
+      if (existing) {
+        return prev.map(i => i.id === item.id ? { ...i, qty: i.qty + 1 } : i);
+      }
+      return [...prev, { ...item, qty: 1 }];
+    });
+  };
+
+  const removeFromCart = (id) => {
+    setCart(prev => {
+      const existing = prev.find(i => i.id === id);
+      if (existing.qty > 1) {
+        return prev.map(i => i.id === id ? { ...i, qty: i.qty - 1 } : i);
+      }
+      return prev.filter(i => i.id !== id);
+    });
+  };
+
+  const handleSendWhatsApp = () => {
+    if (cart.length === 0) return;
+    const total = cart.reduce((sum, item) => sum + (parseFloat(item.price || 0) * item.qty), 0);
+    let text = "Hola, me gustaría ordenar lo siguiente:\n\n";
+    cart.forEach(item => {
+      text += `${item.qty}x ${item.title} - $${parseFloat(item.price || 0) * item.qty}\n`;
+    });
+    text += `\nTotal: $${total}\n\nGracias!`;
+    const encoded = encodeURIComponent(text);
+    window.open(`https://wa.me/525518083608?text=${encoded}`, '_blank');
+  };
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "restaurant_items"), (snapshot) => {
@@ -96,6 +131,12 @@ export default function RestaurantDemo({ onBack, onAdmin }) {
                   </div>
                   <div className="flex justify-between items-end mt-2">
                     <span className="font-headline font-bold text-[#9f402d]">${item.price}</span>
+                    <button 
+                      onClick={() => addToCart(item)}
+                      className="bg-[#9f402d] hover:bg-[#795c51] text-white w-8 h-8 rounded-full flex items-center justify-center transition-colors shadow-sm"
+                    >
+                      <span className="material-symbols-outlined text-[18px]">add</span>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -120,6 +161,67 @@ export default function RestaurantDemo({ onBack, onAdmin }) {
             </div>
           </footer>
         </main>
+        {/* Floating Cart Button */}
+        {cart.length > 0 && (
+          <button 
+            onClick={() => setIsCartOpen(true)}
+            className="fixed bottom-6 right-6 z-50 bg-[#9f402d] text-white p-4 rounded-full shadow-xl hover:scale-105 transition-transform flex items-center gap-2 group"
+          >
+            <div className="relative">
+              <span className="material-symbols-outlined">shopping_cart</span>
+              <span className="absolute -top-3 -right-3 bg-white text-[#9f402d] border border-[#9f402d] text-[11px] w-6 h-6 flex items-center justify-center rounded-full font-bold">
+                {cart.reduce((sum, item) => sum + item.qty, 0)}
+              </span>
+            </div>
+          </button>
+        )}
+
+        {/* Cart Modal */}
+        {isCartOpen && (
+          <div className="fixed inset-0 bg-black/60 z-[100] flex justify-end">
+            <div className="bg-[#fbfbe2] w-full max-w-sm h-full flex flex-col shadow-2xl">
+              <div className="p-6 border-b border-[#ddc0ba]/30 flex justify-between items-center bg-white">
+                <h2 className="font-headline text-2xl font-bold text-[#1b1d0e]">Tu Pedido</h2>
+                <button onClick={() => setIsCartOpen(false)} className="text-[#795c51] hover:text-[#1b1d0e] bg-gray-100 p-2 rounded-full flex items-center justify-center">
+                  <span className="material-symbols-outlined">close</span>
+                </button>
+              </div>
+              
+              <div className="flex-1 overflow-y-auto p-6 space-y-4">
+                {cart.length === 0 ? (
+                  <p className="text-center text-[#56423e] mt-10">Tu carrito está vacío.</p>
+                ) : (
+                  cart.map(item => (
+                    <div key={item.id} className="flex justify-between items-center bg-white p-3 rounded-lg shadow-sm border border-[#ddc0ba]/20">
+                      <div className="flex-1 pr-2">
+                        <h4 className="font-bold text-[#1b1d0e] text-sm leading-tight">{item.title}</h4>
+                        <span className="text-[#9f402d] font-bold text-xs">${parseFloat(item.price || 0) * item.qty}</span>
+                      </div>
+                      <div className="flex items-center gap-3 bg-[#fbfbe2] rounded-full px-2 py-1 shadow-inner">
+                        <button onClick={() => removeFromCart(item.id)} className="text-[#795c51] hover:text-[#9f402d] flex items-center justify-center"><span className="material-symbols-outlined text-sm">remove</span></button>
+                        <span className="font-bold text-xs w-4 text-center">{item.qty}</span>
+                        <button onClick={() => addToCart(item)} className="text-[#795c51] hover:text-[#9f402d] flex items-center justify-center"><span className="material-symbols-outlined text-sm">add</span></button>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+              
+              {cart.length > 0 && (
+                <div className="p-6 bg-white border-t border-[#ddc0ba]/30 shadow-[0_-10px_30px_rgba(0,0,0,0.05)]">
+                  <div className="flex justify-between items-center mb-4 text-lg font-bold">
+                    <span>Total:</span>
+                    <span className="text-[#9f402d]">${cart.reduce((sum, item) => sum + (parseFloat(item.price || 0) * item.qty), 0)}</span>
+                  </div>
+                  <button onClick={handleSendWhatsApp} className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-bold py-4 rounded-xl flex justify-center items-center gap-2 transition-colors shadow-lg">
+                    <span className="material-symbols-outlined">chat</span>
+                    Pedir por WhatsApp
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )
