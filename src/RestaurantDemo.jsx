@@ -47,7 +47,7 @@ export default function RestaurantDemo({ onBack, onAdmin }) {
     const total = cart.reduce((sum, item) => sum + (parseFloat(item.price || 0) * item.qty), 0);
     let text = `Hola, soy *${orderName.trim()}* y me gustaría ordenar lo siguiente:\n\n`;
     cart.forEach(item => {
-      text += `👉 ${item.qty}x *${item.title}* - $${parseFloat(item.price || 0) * item.qty}\n`;
+      text += `- ${item.qty}x *${item.title}* - $${parseFloat(item.price || 0) * item.qty}\n`;
     });
     text += `\n*Total: $${total}*\n\nGracias!`;
     const encoded = encodeURIComponent(text);
