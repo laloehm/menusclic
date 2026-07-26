@@ -39,12 +39,7 @@ export default function RestaurantDemo({ onBack, onAdmin }) {
         {/* Header */}
         <header className="fixed top-0 max-w-[700px] w-full z-50 bg-[#fbfbe2]/90 backdrop-blur-md px-6 h-16 flex items-center justify-between border-b border-[#ddc0ba]/30 shadow-sm">
           <div className="flex items-center gap-4">
-            <button 
-              onClick={onBack}
-              className="p-1 hover:bg-[#ddc0ba]/20 rounded-full transition-colors text-[#795c51]"
-            >
-              <span className="material-symbols-outlined">close</span>
-            </button>
+            {/* Botón de cerrar eliminado para que sea una ruta independiente */}
             <h1 className="font-headline text-xl font-bold tracking-tight text-[#1b1d0e]">Terracotta Brew</h1>
           </div>
         </header>
