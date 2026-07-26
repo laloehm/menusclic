@@ -20,6 +20,7 @@ export default function RestaurantDemo({ onBack, onAdmin }) {
   
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [orderName, setOrderName] = useState('');
 
   const addToCart = (item) => {
     setCart(prev => {
@@ -42,9 +43,9 @@ export default function RestaurantDemo({ onBack, onAdmin }) {
   };
 
   const handleSendWhatsApp = () => {
-    if (cart.length === 0) return;
+    if (cart.length === 0 || !orderName.trim()) return;
     const total = cart.reduce((sum, item) => sum + (parseFloat(item.price || 0) * item.qty), 0);
-    let text = "Hola, me gustaría ordenar lo siguiente:\n\n";
+    let text = `Hola, soy *${orderName.trim()}* y me gustaría ordenar lo siguiente:\n\n`;
     cart.forEach(item => {
       text += `👉 ${item.qty}x *${item.title}* - $${parseFloat(item.price || 0) * item.qty}\n`;
     });
@@ -208,12 +209,26 @@ export default function RestaurantDemo({ onBack, onAdmin }) {
               </div>
               
               {cart.length > 0 && (
-                <div className="p-6 bg-white border-t border-[#ddc0ba]/30 shadow-[0_-10px_30px_rgba(0,0,0,0.05)]">
-                  <div className="flex justify-between items-center mb-4 text-lg font-bold">
+                <div className="p-6 bg-white border-t border-[#ddc0ba]/30 shadow-[0_-10px_30px_rgba(0,0,0,0.05)] flex flex-col gap-4">
+                  <div>
+                    <label className="block text-xs font-bold text-[#795c51] uppercase tracking-wide mb-1">Nombre para el pedido:</label>
+                    <input 
+                      type="text" 
+                      placeholder="Ej. Juan Pérez" 
+                      value={orderName}
+                      onChange={(e) => setOrderName(e.target.value)}
+                      className="w-full bg-[#fbfbe2] border border-[#ddc0ba]/50 rounded-lg p-3 text-[#1b1d0e] font-medium outline-none focus:border-[#9f402d] focus:ring-1 focus:ring-[#9f402d] transition-all"
+                    />
+                  </div>
+                  <div className="flex justify-between items-center text-lg font-bold">
                     <span>Total:</span>
                     <span className="text-[#9f402d]">${cart.reduce((sum, item) => sum + (parseFloat(item.price || 0) * item.qty), 0)}</span>
                   </div>
-                  <button onClick={handleSendWhatsApp} className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-bold py-4 rounded-xl flex justify-center items-center gap-2 transition-colors shadow-lg">
+                  <button 
+                    disabled={!orderName.trim()}
+                    onClick={handleSendWhatsApp} 
+                    className="w-full disabled:opacity-50 disabled:cursor-not-allowed bg-[#25D366] hover:bg-[#128C7E] text-white font-bold py-4 rounded-xl flex justify-center items-center gap-2 transition-colors shadow-lg"
+                  >
                     <span className="material-symbols-outlined">chat</span>
                     Pedir por WhatsApp
                   </button>
