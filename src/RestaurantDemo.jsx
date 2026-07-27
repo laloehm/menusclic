@@ -21,7 +21,7 @@ export default function RestaurantDemo({ onBack, onAdmin }) {
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [orderName, setOrderName] = useState('');
-  const [orderType, setOrderType] = useState('llevar'); // 'restaurante', 'llevar', 'domicilio'
+  const [orderType, setOrderType] = useState('restaurante'); // 'restaurante', 'llevar', 'domicilio'
   const [orderDetail, setOrderDetail] = useState(''); // Mesa o Dirección
   
   const [itemToAdd, setItemToAdd] = useState(null);
@@ -54,12 +54,14 @@ export default function RestaurantDemo({ onBack, onAdmin }) {
 
   const handleSendWhatsApp = () => {
     if (cart.length === 0 || !orderName.trim()) return;
-    if ((orderType === 'restaurante' || orderType === 'domicilio') && !orderDetail.trim()) return;
+    if (orderType === 'domicilio' && !orderDetail.trim()) return;
     
     const total = cart.reduce((sum, item) => sum + (parseFloat(item.price || 0) * item.qty), 0);
     
     let tipoTexto = "";
-    if (orderType === 'restaurante') tipoTexto = `🍽️ *Para comer aquí* (Mesa: ${orderDetail.trim()})`;
+    if (orderType === 'restaurante') {
+      tipoTexto = `🍽️ *Para comer aquí*` + (orderDetail.trim() ? ` (Mesa: ${orderDetail.trim()})` : '');
+    }
     if (orderType === 'llevar') tipoTexto = `🛍️ *Para pasar a recoger*`;
     if (orderType === 'domicilio') tipoTexto = `🛵 *Para enviar a domicilio* (Dirección: ${orderDetail.trim()})`;
 
@@ -258,7 +260,7 @@ export default function RestaurantDemo({ onBack, onAdmin }) {
                   {/* Dynamic Field (Table or Address) */}
                   {orderType === 'restaurante' && (
                     <div>
-                      <label className="block text-xs font-bold text-[#795c51] uppercase tracking-wide mb-1">Número de Mesa:</label>
+                      <label className="block text-xs font-bold text-[#795c51] uppercase tracking-wide mb-1">Número de Mesa (Opcional):</label>
                       <input type="text" placeholder="Ej. Mesa 4" value={orderDetail} onChange={(e) => setOrderDetail(e.target.value)} className="w-full bg-[#fbfbe2] border border-[#ddc0ba]/50 rounded-lg p-2.5 text-[#1b1d0e] text-sm font-medium outline-none focus:border-[#9f402d] focus:ring-1 focus:ring-[#9f402d] transition-all" />
                     </div>
                   )}
@@ -274,7 +276,7 @@ export default function RestaurantDemo({ onBack, onAdmin }) {
                     <span className="text-[#9f402d]">${cart.reduce((sum, item) => sum + (parseFloat(item.price || 0) * item.qty), 0)}</span>
                   </div>
                   <button 
-                    disabled={!orderName.trim() || ((orderType === 'restaurante' || orderType === 'domicilio') && !orderDetail.trim())}
+                    disabled={!orderName.trim() || (orderType === 'domicilio' && !orderDetail.trim())}
                     onClick={handleSendWhatsApp} 
                     className="w-full disabled:opacity-50 disabled:cursor-not-allowed bg-[#25D366] hover:bg-[#128C7E] text-white font-bold py-3.5 rounded-xl flex justify-center items-center gap-2 transition-colors shadow-lg"
                   >
