@@ -166,11 +166,11 @@ export default function RestaurantDemo({ onBack, onAdmin }) {
         {cart.length > 0 && (
           <button 
             onClick={() => setIsCartOpen(true)}
-            className="fixed bottom-6 right-6 z-50 bg-[#9f402d] text-white p-4 rounded-full shadow-xl hover:scale-105 transition-transform flex items-center gap-2 group"
+            className="fixed bottom-6 right-6 z-50 bg-[#9f402d] text-white w-14 h-14 rounded-full shadow-xl hover:scale-105 transition-transform flex items-center justify-center group"
           >
-            <div className="relative">
-              <span className="material-symbols-outlined">shopping_cart</span>
-              <span className="absolute -top-3 -right-3 bg-white text-[#9f402d] border border-[#9f402d] text-[11px] w-6 h-6 flex items-center justify-center rounded-full font-bold">
+            <div className="relative flex items-center justify-center">
+              <span className="material-symbols-outlined text-[24px]">shopping_cart</span>
+              <span className="absolute -top-3 -right-3 bg-white text-[#9f402d] border border-[#9f402d] text-[10px] w-5 h-5 flex items-center justify-center rounded-full font-bold">
                 {cart.reduce((sum, item) => sum + item.qty, 0)}
               </span>
             </div>
