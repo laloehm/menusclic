@@ -204,10 +204,10 @@ export default function RestaurantDemo({ onBack, onAdmin }) {
         {isCartOpen && (
           <div className="fixed inset-0 bg-black/60 z-[100] flex justify-end">
             <div className="bg-[#fbfbe2] w-full max-w-sm h-full flex flex-col shadow-2xl">
-              <div className="p-6 border-b border-[#ddc0ba]/30 flex justify-between items-center bg-white">
-                <h2 className="font-headline text-2xl font-bold text-[#1b1d0e]">Tu Pedido</h2>
-                <button onClick={() => setIsCartOpen(false)} className="text-[#795c51] hover:text-[#1b1d0e] bg-gray-100 p-2 rounded-full flex items-center justify-center">
-                  <span className="material-symbols-outlined">close</span>
+              <div className="py-3 px-4 border-b border-[#ddc0ba]/30 flex justify-between items-center bg-white">
+                <h2 className="font-headline text-lg font-bold text-[#1b1d0e]">Tu Pedido</h2>
+                <button onClick={() => setIsCartOpen(false)} className="text-[#795c51] hover:text-[#1b1d0e] bg-gray-100 p-1.5 rounded-full flex items-center justify-center">
+                  <span className="material-symbols-outlined text-[20px]">close</span>
                 </button>
               </div>
               
