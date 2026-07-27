@@ -116,7 +116,7 @@ export default function RestaurantDemo({ onBack, onAdmin }) {
 
           {/* Categories */}
           <section className="sticky top-16 z-40 bg-[#fbfbe2]/95 backdrop-blur-sm shadow-sm border-b border-[#ddc0ba]/20">
-            <div className="py-8 px-6 flex overflow-x-auto gap-3 hide-scrollbar">
+            <div className="py-4 px-6 flex overflow-x-auto gap-3 hide-scrollbar">
               {categories.map((cat) => (
                 <button
                   key={cat.id}
@@ -135,7 +135,7 @@ export default function RestaurantDemo({ onBack, onAdmin }) {
           </section>
 
           {/* Menu Items */}
-          <section className="px-6 py-10 space-y-8 min-h-[400px]">
+          <section className="px-6 pt-6 pb-12 space-y-8 min-h-[400px]">
             {loading ? (
               <div className="py-20 text-center flex flex-col items-center justify-center space-y-4">
                 <div className="w-10 h-10 border-4 border-[#ddc0ba] border-t-[#9f402d] rounded-full animate-spin"></div>
