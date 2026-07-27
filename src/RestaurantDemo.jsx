@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from './firebase';
 import { proxy } from './utils/proxy';
@@ -21,6 +21,22 @@ export default function RestaurantDemo({ onBack, onAdmin }) {
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [orderName, setOrderName] = useState('');
+  
+  const [showRightScroll, setShowRightScroll] = useState(true);
+  const categoriesRef = useRef(null);
+
+  const handleCategoriesScroll = () => {
+    if (categoriesRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = categoriesRef.current;
+      setShowRightScroll(scrollLeft + clientWidth < scrollWidth - 10);
+    }
+  };
+
+  useEffect(() => {
+    handleCategoriesScroll();
+    window.addEventListener('resize', handleCategoriesScroll);
+    return () => window.removeEventListener('resize', handleCategoriesScroll);
+  }, []);
 
   const addToCart = (item) => {
     setCart(prev => {
@@ -96,21 +112,34 @@ export default function RestaurantDemo({ onBack, onAdmin }) {
           </section>
 
           {/* Categories */}
-          <section className="py-8 px-6 sticky top-16 z-40 bg-[#fbfbe2]/95 backdrop-blur-sm shadow-sm flex overflow-x-auto gap-3 hide-scrollbar border-b border-[#ddc0ba]/20">
-            {categories.map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => setActiveCategory(cat.id)}
-                className={`flex items-center gap-2 px-5 py-2.5 rounded-full whitespace-nowrap transition-all text-xs font-bold font-label tracking-wide border ${
-                  activeCategory === cat.id
-                  ? 'bg-[#9f402d] text-white border-[#9f402d] shadow-md shadow-[#9f402d]/20'
-                  : 'bg-white text-[#795c51] border-[#ddc0ba]/40 hover:border-[#9f402d]/50'
-                }`}
-              >
-                <span className="material-symbols-outlined text-lg">{cat.icon}</span>
-                {cat.label}
-              </button>
-            ))}
+          <section className="sticky top-16 z-40 bg-[#fbfbe2]/95 backdrop-blur-sm shadow-sm border-b border-[#ddc0ba]/20 relative">
+            <div 
+              ref={categoriesRef}
+              onScroll={handleCategoriesScroll}
+              className="py-8 px-6 flex overflow-x-auto gap-3 hide-scrollbar relative"
+            >
+              {categories.map((cat) => (
+                <button
+                  key={cat.id}
+                  onClick={() => setActiveCategory(cat.id)}
+                  className={`flex items-center gap-2 px-5 py-2.5 rounded-full whitespace-nowrap transition-all text-xs font-bold font-label tracking-wide border ${
+                    activeCategory === cat.id
+                    ? 'bg-[#9f402d] text-white border-[#9f402d] shadow-md shadow-[#9f402d]/20'
+                    : 'bg-white text-[#795c51] border-[#ddc0ba]/40 hover:border-[#9f402d]/50'
+                  }`}
+                >
+                  <span className="material-symbols-outlined text-lg">{cat.icon}</span>
+                  {cat.label}
+                </button>
+              ))}
+            </div>
+            
+            {/* Scroll Indicator */}
+            {showRightScroll && (
+              <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-[#fbfbe2] to-transparent pointer-events-none flex items-center justify-end pr-2 z-10">
+                <span className="material-symbols-outlined text-[#9f402d] animate-pulse">chevron_right</span>
+              </div>
+            )}
           </section>
 
           {/* Menu Items */}
