@@ -1,16 +1,55 @@
-# React + Vite
+# Menusclic - Plataforma de Menús Digitales
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Menusclic es una plataforma SaaS (Software as a Service) diseñada para crear menús digitales interactivos para restaurantes, cafeterías, taquerías y bares. Permite a los negocios tener una presencia web moderna y recibir pedidos directamente a través de WhatsApp sin intermediarios ni comisiones.
 
-Currently, two official plugins are available:
+## 🚀 Características Principales
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Menús Interactivos:** Catálogos de productos organizados por categorías.
+- **Carrito de Compras Integrado:** Los clientes pueden agregar productos, modificar cantidades y ver el total de su cuenta.
+- **Pedidos por WhatsApp:** Envío de órdenes estructuradas directamente al número del restaurante (incluyendo opciones para "Comer Aquí", "Para Llevar", o "A Domicilio").
+- **Cero Comisiones:** Alternativa directa a plataformas de delivery de terceros.
+- **Panel de Administración (Firebase):** Gestión en tiempo real de productos, categorías, configuración del restaurante, banners y horarios.
 
-## React Compiler
+## 🛠️ Tecnologías Utilizadas
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Frontend:** React + Vite
+- **Estilos:** Tailwind CSS
+- **Base de Datos y Backend:** Firebase (Firestore)
+- **Despliegue:** GitHub Pages (`gh-pages`)
 
-## Expanding the ESLint configuration
+## ⚙️ Configuración y Desarrollo Local
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. **Instalar dependencias:**
+   ```bash
+   npm install
+   ```
+
+2. **Configurar Firebase:**
+   Asegúrate de que tus credenciales de Firebase estén correctamente configuradas en el archivo `src/firebase.js`.
+
+3. **Iniciar el servidor de desarrollo:**
+   ```bash
+   npm run dev
+   ```
+   El proyecto estará disponible localmente (usualmente en `http://localhost:5173`).
+
+## ☁️ Despliegue a Producción
+
+El proyecto está configurado para desplegarse automáticamente en GitHub Pages.
+
+Para subir los cambios a producción, simplemente ejecuta en tu terminal:
+```bash
+npm run deploy
+```
+Este comando construirá la versión optimizada de la aplicación (`npm run build`) y la publicará en la rama `gh-pages` de tu repositorio.
+
+## 📦 Estructura del Proyecto
+
+- `/src`: Código fuente de la aplicación React.
+  - `/components`: Componentes reutilizables.
+  - `RestaurantDemo.jsx`: La vista principal del menú para el cliente final (carrito, categorías, modificadores).
+  - `AdminDashboard.jsx`: El panel de administración protegido para gestionar el menú.
+  - `firebase.js`: Configuración de conexión a la base de datos Firestore.
+
+---
+*Desarrollado para modernizar y agilizar la operación de negocios gastronómicos locales.*
