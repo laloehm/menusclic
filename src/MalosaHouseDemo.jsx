@@ -13,9 +13,74 @@ export default function MalosaHouseDemo() {
     maps: 'https://maps.app.goo.gl/b73bW97w4iQDNVWc9'
   });
 
+  const [cart, setCart] = useState([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [orderName, setOrderName] = useState('');
+  const [orderType, setOrderType] = useState('restaurante'); // 'restaurante', 'llevar', 'domicilio'
+  const [orderDetail, setOrderDetail] = useState(''); // Mesa o Dirección
+  
+  const [itemToAdd, setItemToAdd] = useState(null);
+  const [itemNotes, setItemNotes] = useState('');
+  const [selectedSalsa, setSelectedSalsa] = useState('');
+  
+  const [toastMessage, setToastMessage] = useState('');
+
+  const getDisplayName = (item) => {
+    const cat = item.category ? item.category.charAt(0).toUpperCase() + item.category.slice(1).toLowerCase() : '';
+    const title = item.title || item.name || '';
+    return cat ? `${cat} - ${title}` : title;
+  };
+
+  const addToCart = (item, notes = '') => {
+    const cartId = `${item.docId || getDisplayName(item)}-${notes.trim().toLowerCase()}`;
+    setCart(prev => {
+      const existing = prev.find(i => i.cartId === cartId);
+      if (existing) {
+        return prev.map(i => i.cartId === cartId ? { ...i, qty: i.qty + 1 } : i);
+      }
+      return [...prev, { ...item, cartId, notes: notes.trim(), qty: 1 }];
+    });
+    setToastMessage(`Añadido: ${getDisplayName(item)}`);
+    setTimeout(() => setToastMessage(''), 2500);
+  };
+
+  const removeFromCart = (cartId) => {
+    setCart(prev => {
+      const existing = prev.find(i => i.cartId === cartId);
+      if (existing.qty > 1) {
+        return prev.map(i => i.cartId === cartId ? { ...i, qty: i.qty - 1 } : i);
+      }
+      return prev.filter(i => i.cartId !== cartId);
+    });
+  };
+
+  const handleSendWhatsApp = () => {
+    if (cart.length === 0 || !orderName.trim()) return;
+    if (orderType === 'domicilio' && !orderDetail.trim()) return;
+    
+    let tipoTexto = "";
+    if (orderType === 'llevar') tipoTexto = `\n*Para pasar a recoger*`;
+    if (orderType === 'domicilio') tipoTexto = `\n*Para enviar a domicilio*\nDirección: ${orderDetail.trim()}`;
+
+    let text = `Hola, soy *${orderName.trim()}*.${tipoTexto}\n\nMe gustaría ordenar lo siguiente:\n\n`;
+    let total = 0;
+    cart.forEach(item => {
+      text += `*${item.qty}x ${getDisplayName(item)}* - $${parseFloat(item.price || 0) * item.qty}\n`;
+      if (item.notes) text += `Notas: ${item.notes}\n`;
+      text += `\n`;
+      total += parseFloat(item.price || 0) * item.qty;
+    });
+    text += `*Total estimado: $${total}*\n\n¡Gracias!`;
+    
+    const phoneNumber = contactInfo.whatsapp || "5518083608";
+    const encodedText = encodeURIComponent(text);
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedText}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
   useEffect(() => {
     const unsubscribeItems = onSnapshot(collection(db, 'malosahouse_items'), (snapshot) => {
-      const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      const data = snapshot.docs.map(doc => ({ docId: doc.id, id: doc.data().id || doc.id, ...doc.data() }));
       setItems(data);
     });
     
@@ -34,6 +99,8 @@ export default function MalosaHouseDemo() {
     return () => { unsubscribeItems(); unsubscribeLayout(); unsubscribeContact(); };
   }, []);
 
+  const ordersEnabled = contactInfo.whatsappOrdersEnabled !== false;
+
   // Helper para filtrar por categoría y excluir los no disponibles si se requiere (o mostrarlos con opacidad)
   const getItems = (category, defaultItems) => {
     const firebaseItems = items.filter(item => {
@@ -41,7 +108,7 @@ export default function MalosaHouseDemo() {
       return cat === category.toLowerCase() && item.available !== false;
     }).sort((a, b) => (a.id || 0) - (b.id || 0));
     // Si hay items en Firebase para esta categoría, úsalos; de lo contrario usa los por defecto.
-    return firebaseItems.length > 0 ? firebaseItems : defaultItems;
+    return firebaseItems.length > 0 ? firebaseItems : defaultItems.map(item => ({...item, category}));
   };
 
   const sortMenu = (a, b) => {
@@ -107,18 +174,33 @@ export default function MalosaHouseDemo() {
   ));
 
   const renderItemLine = (item) => (
-    <div key={item.id || item.title} className="flex justify-between items-baseline text-lg">
-      <div className="flex items-center gap-2">
-        <span className="font-malosa font-medium uppercase text-malosa-text-light">{item.title || item.name}</span>
-        {(item.tag || item.badge) && (
-          <span className="bg-gradient-to-r from-red-600 to-red-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-widest shadow-sm border border-red-400/50 whitespace-nowrap ml-1 transform -translate-y-0.5 flex items-center gap-1">
-            <span className="material-symbols-outlined text-[10px] leading-none">stars</span>
-            {item.tag || item.badge}
-          </span>
-        )}
+    <div key={item.docId || item.id || item.title} className="flex flex-col mb-2 group">
+      <div className="flex justify-between items-baseline text-lg w-full">
+        <div className="flex items-center gap-2">
+          <span className="font-malosa font-medium uppercase text-malosa-text-light">{item.title || item.name}</span>
+          {(item.tag || item.badge) && (
+            <span className="bg-gradient-to-r from-red-600 to-red-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-widest shadow-sm border border-red-400/50 whitespace-nowrap ml-1 transform -translate-y-0.5 flex items-center gap-1">
+              <span className="material-symbols-outlined text-[10px] leading-none">stars</span>
+              {item.tag || item.badge}
+            </span>
+          )}
+        </div>
+        <span className="malosa-dot-leader"></span>
+        <div className="flex items-center gap-3">
+          <span className="font-malosa font-normal text-malosa-primary">${item.price}</span>
+          {ordersEnabled && item.price && (
+            <button 
+              onClick={() => { setItemToAdd(item); setItemNotes(''); setSelectedSalsa(''); }}
+              className="bg-malosa-primary hover:bg-white text-malosa-bg w-7 h-7 rounded-full flex items-center justify-center transition-colors shrink-0"
+            >
+              <span className="material-symbols-outlined text-[16px]">add</span>
+            </button>
+          )}
+        </div>
       </div>
-      <span className="malosa-dot-leader"></span>
-      <span className="font-malosa font-normal pr-2 text-malosa-primary">${item.price}</span>
+      {item.desc && (
+        <p className="text-sm font-malosa opacity-80 mt-1 text-malosa-text-light">{item.desc}</p>
+      )}
     </div>
   );
 
@@ -187,11 +269,27 @@ export default function MalosaHouseDemo() {
           <h3 className="font-malosa text-4xl font-bold uppercase">Papas</h3>
           <span className="ml-auto font-malosa text-3xl text-malosa-primary">${papasBasePrice}</span>
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-3">
           {papas.map((p, idx) => (
-            <p key={p.id || idx} className="font-malosa uppercase font-medium tracking-tight text-malosa-text-light">
-              {p.title || p.name}
-            </p>
+            <div key={p.docId || p.id || idx} className="flex justify-between items-center group">
+              <div className="flex flex-col">
+                <p className="font-malosa uppercase font-medium tracking-tight text-malosa-text-light">
+                  {p.title || p.name}
+                </p>
+                {p.desc && <p className="text-xs font-sans text-malosa-text-light opacity-70 mt-0.5">{p.desc}</p>}
+              </div>
+              {ordersEnabled && (
+                <button 
+                  onClick={() => { 
+                    const papaItem = { ...p, price: p.price || papasBasePrice, category: 'Papas' };
+                    setItemToAdd(papaItem); setItemNotes(''); setSelectedSalsa('');
+                  }}
+                  className="bg-malosa-primary hover:bg-white text-malosa-bg w-7 h-7 rounded-full flex items-center justify-center transition-colors shrink-0"
+                >
+                  <span className="material-symbols-outlined text-[16px]">add</span>
+                </button>
+              )}
+            </div>
           ))}
         </div>
       </section>
@@ -214,7 +312,7 @@ export default function MalosaHouseDemo() {
           </div>
           <div className="space-y-2 mb-6">
             {hamburguesas.map((h, idx) => (
-              <div key={h.id || idx} className="group p-2 -mx-2 hover:bg-malosa-primary hover:text-malosa-on-primary transition-all malosa-brutalist-border border-transparent hover:border-malosa-primary cursor-pointer">
+              <div key={h.docId || h.id || idx} className="group p-2 -mx-2 hover:bg-malosa-surface-container-high transition-all malosa-brutalist-border border-transparent hover:border-malosa-primary flex flex-col">
                 <div className="flex justify-between items-baseline">
                   <div className="flex items-center gap-2">
                     <p className="font-malosa font-medium uppercase text-malosa-text-light">{h.title || h.name}</p>
@@ -225,8 +323,18 @@ export default function MalosaHouseDemo() {
                       </span>
                     )}
                   </div>
-                  <span className="malosa-dot-leader group-hover:border-malosa-on-primary"></span>
-                  <span className="font-malosa font-normal pr-2 text-malosa-primary">${h.price}</span>
+                  <span className="malosa-dot-leader group-hover:border-malosa-primary"></span>
+                  <div className="flex items-center gap-3">
+                    <span className="font-malosa font-normal text-malosa-primary">${h.price}</span>
+                    {ordersEnabled && (
+                      <button 
+                        onClick={() => { setItemToAdd(h); setItemNotes(''); setSelectedSalsa(''); }}
+                        className="bg-malosa-primary hover:bg-white text-malosa-bg w-7 h-7 rounded-full flex items-center justify-center transition-colors shrink-0"
+                      >
+                        <span className="material-symbols-outlined text-[16px]">add</span>
+                      </button>
+                    )}
+                  </div>
                 </div>
                 {h.desc && (
                   <p className="text-sm font-malosa opacity-80 mt-1 text-malosa-text-light">{h.desc}</p>
@@ -325,6 +433,8 @@ export default function MalosaHouseDemo() {
     }
   });
 
+  const needsSalsa = itemToAdd && ['alitas', 'boneless', 'costillas'].includes((itemToAdd.category || '').toLowerCase());
+
   return (
     <div className="text-malosa-primary selection:bg-malosa-secondary-container font-malosa min-h-screen bg-malosa-bg pb-12 text-lg">
       
@@ -416,15 +526,185 @@ export default function MalosaHouseDemo() {
       </footer>
 
       {/* Floating WhatsApp Button */}
-      {contactInfo.whatsapp && (
-        <a href={`https://wa.me/${contactInfo.whatsapp}`} target="_blank" rel="noreferrer" className="fixed bottom-6 right-4 z-50 flex items-center justify-center group outline-none">
-          <div className="absolute inset-0 bg-[#25D366] rounded-full animate-ping opacity-75"></div>
-          <div className="relative bg-[#25D366] text-white p-3 rounded-full shadow-lg group-hover:scale-110 transition-transform">
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
-              <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c-.003 1.396.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z" />
-            </svg>
+      <a href={`https://wa.me/${contactInfo.whatsapp || '5518083608'}`} target="_blank" rel="noreferrer" className="fixed bottom-6 right-4 z-50 flex items-center justify-center group outline-none">
+        <div className="absolute inset-0 bg-[#25D366] rounded-full animate-ping opacity-75"></div>
+        <div className="relative bg-[#25D366] text-white p-3 rounded-full shadow-lg group-hover:scale-110 transition-transform">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c-.003 1.396.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z" />
+          </svg>
+        </div>
+      </a>
+
+      {/* Floating Cart Button */}
+      {ordersEnabled && cart.length > 0 && (
+        <button 
+          onClick={() => setIsCartOpen(true)}
+          className="fixed bottom-24 right-4 z-[90] bg-malosa-primary text-malosa-bg w-14 h-14 rounded-full shadow-2xl hover:scale-105 transition-transform flex items-center justify-center border-2 border-malosa-on-primary"
+        >
+          <div className="relative flex items-center justify-center">
+            <span className="material-symbols-outlined text-[24px]">shopping_cart</span>
+            <span className="absolute -top-3 -right-3 bg-malosa-surface-dim text-malosa-primary border border-malosa-primary text-[10px] w-5 h-5 flex items-center justify-center rounded-full font-bold">
+              {cart.reduce((sum, item) => sum + item.qty, 0)}
+            </span>
           </div>
-        </a>
+        </button>
+      )}
+
+      {/* Cart Modal */}
+      {isCartOpen && (
+        <div className="fixed inset-0 bg-black/80 z-[100] flex justify-end font-sans">
+          <div className="bg-malosa-bg w-full max-w-sm h-full flex flex-col shadow-2xl border-l-2 border-malosa-primary">
+            <div className="py-4 px-4 border-b-2 border-malosa-primary flex justify-between items-center bg-malosa-surface-dim">
+              <h2 className="font-malosa text-2xl uppercase font-bold text-malosa-primary">Tu Pedido</h2>
+              <button onClick={() => setIsCartOpen(false)} className="text-malosa-primary hover:text-white bg-malosa-surface-container-high p-1.5 rounded-full flex items-center justify-center border border-malosa-primary">
+                <span className="material-symbols-outlined text-[20px]">close</span>
+              </button>
+            </div>
+            
+            <div className="flex-1 overflow-y-auto p-6 space-y-4">
+              {cart.length === 0 ? (
+                <p className="text-center text-malosa-text-light mt-10 font-malosa">Tu carrito está vacío.</p>
+              ) : (
+                cart.map(item => (
+                  <div key={item.cartId} className="flex justify-between items-start bg-malosa-surface-container-high p-3 rounded-none malosa-brutalist-border">
+                    <div className="flex-1 pr-2">
+                      <h4 className="font-malosa font-bold text-malosa-text-light text-lg uppercase leading-tight">{getDisplayName(item)}</h4>
+                      {item.notes && <p className="text-malosa-primary text-xs italic mt-1 border-l-2 border-malosa-primary pl-2">{item.notes}</p>}
+                      <span className="text-malosa-primary font-bold text-sm inline-block mt-1">${parseFloat(item.price || 0) * item.qty}</span>
+                    </div>
+                    <div className="flex items-center gap-3 bg-malosa-bg rounded-none px-2 py-1 border border-malosa-primary mt-1">
+                      <button onClick={() => removeFromCart(item.cartId)} className="text-malosa-text-light hover:text-malosa-primary flex items-center justify-center"><span className="material-symbols-outlined text-sm">remove</span></button>
+                      <span className="font-bold text-xs w-4 text-center text-malosa-text-light">{item.qty}</span>
+                      <button onClick={() => addToCart(item, item.notes)} className="text-malosa-text-light hover:text-malosa-primary flex items-center justify-center"><span className="material-symbols-outlined text-sm">add</span></button>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+            
+            {cart.length > 0 && (
+              <div className="p-6 bg-malosa-surface-dim border-t-2 border-malosa-primary shadow-[0_-10px_30px_rgba(0,0,0,0.5)] flex flex-col gap-4 overflow-y-auto max-h-[55vh]">
+                
+                {/* Order Type Selector */}
+                <div>
+                  <label className="block text-xs font-bold text-malosa-primary uppercase tracking-wide mb-2">Tipo de Pedido:</label>
+                  <div className="grid grid-cols-3 gap-2">
+                    <button onClick={() => setOrderType('restaurante')} className={`py-2 px-1 text-[10px] uppercase font-bold rounded-none border ${orderType === 'restaurante' ? 'bg-malosa-primary text-malosa-bg border-malosa-primary' : 'bg-malosa-bg text-malosa-text-light border-malosa-primary/50 hover:border-malosa-primary'}`}>Comer Aquí</button>
+                    <button onClick={() => setOrderType('llevar')} className={`py-2 px-1 text-[10px] uppercase font-bold rounded-none border ${orderType === 'llevar' ? 'bg-malosa-primary text-malosa-bg border-malosa-primary' : 'bg-malosa-bg text-malosa-text-light border-malosa-primary/50 hover:border-malosa-primary'}`}>Para Llevar</button>
+                    <button onClick={() => setOrderType('domicilio')} className={`py-2 px-1 text-[10px] uppercase font-bold rounded-none border ${orderType === 'domicilio' ? 'bg-malosa-primary text-malosa-bg border-malosa-primary' : 'bg-malosa-bg text-malosa-text-light border-malosa-primary/50 hover:border-malosa-primary'}`}>A Domicilio</button>
+                  </div>
+                </div>
+
+                {/* Name Field */}
+                <div>
+                  <label className="block text-xs font-bold text-malosa-primary uppercase tracking-wide mb-1">Tu Nombre:</label>
+                  <input 
+                    type="text" 
+                    placeholder="Ej. Juan Pérez" 
+                    value={orderName}
+                    onChange={(e) => setOrderName(e.target.value)}
+                    className="w-full bg-malosa-bg border border-malosa-primary/50 rounded-none p-2.5 text-malosa-text-light text-sm font-medium outline-none focus:border-malosa-primary focus:ring-1 focus:ring-malosa-primary transition-all"
+                  />
+                </div>
+
+                {/* Dynamic Field */}
+                {orderType === 'domicilio' && (
+                  <div>
+                    <label className="block text-xs font-bold text-malosa-primary uppercase tracking-wide mb-1">Dirección:</label>
+                    <textarea placeholder="Calle, número, colonia..." rows="2" value={orderDetail} onChange={(e) => setOrderDetail(e.target.value)} className="w-full bg-malosa-bg border border-malosa-primary/50 rounded-none p-2.5 text-malosa-text-light text-sm font-medium outline-none focus:border-malosa-primary focus:ring-1 focus:ring-malosa-primary transition-all resize-none"></textarea>
+                  </div>
+                )}
+
+                <div className="flex justify-between items-center text-xl font-bold mt-2 font-malosa">
+                  <span className="uppercase text-malosa-text-light">Total:</span>
+                  <span className="text-malosa-primary">${cart.reduce((sum, item) => sum + (parseFloat(item.price || 0) * item.qty), 0)}</span>
+                </div>
+                <button 
+                  disabled={!orderName.trim() || (orderType === 'domicilio' && !orderDetail.trim())}
+                  onClick={handleSendWhatsApp} 
+                  className="w-full disabled:opacity-50 disabled:cursor-not-allowed bg-malosa-primary hover:bg-white text-malosa-bg font-bold py-3.5 rounded-none border-2 border-malosa-primary flex justify-center items-center gap-2 transition-colors shadow-lg font-malosa text-lg uppercase"
+                >
+                  <span className="material-symbols-outlined">send</span>
+                  Hacer Pedido
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Item Modifiers Modal */}
+      {itemToAdd && (
+        <div className="fixed inset-0 bg-black/80 z-[110] flex justify-center items-end sm:items-center">
+          <div className="bg-malosa-bg w-full sm:max-w-sm rounded-none border-2 border-malosa-primary shadow-2xl overflow-hidden animate-slide-in sm:animate-none font-sans">
+            {itemToAdd.img && (
+              <div className="relative h-48 w-full">
+                <img src={itemToAdd.img} alt={itemToAdd.title || itemToAdd.name} className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-malosa-bg to-transparent"></div>
+              </div>
+            )}
+            <div className={`px-6 pb-6 ${itemToAdd.img ? 'pt-2' : 'pt-6'} relative z-10`}>
+              <div className="flex justify-between items-start">
+                <h3 className="font-malosa font-bold text-2xl uppercase text-malosa-text-light">{getDisplayName(itemToAdd)}</h3>
+                <button onClick={() => setItemToAdd(null)} className="text-malosa-primary hover:text-white bg-malosa-surface-dim w-8 h-8 flex justify-center items-center rounded-full border border-malosa-primary shrink-0 ml-2">
+                  <span className="material-symbols-outlined text-sm">close</span>
+                </button>
+              </div>
+              <p className="text-malosa-primary font-bold text-xl mt-1 font-malosa">${itemToAdd.price}</p>
+              {itemToAdd.desc && <p className="text-malosa-text-light opacity-80 text-sm mt-2 font-sans">{itemToAdd.desc}</p>}
+              
+              {needsSalsa && (
+                <div className="mt-4 font-sans">
+                  <label className="block text-xs font-bold text-malosa-primary uppercase tracking-wide mb-1">Elige tu salsa (Obligatorio):</label>
+                  <select 
+                    value={selectedSalsa}
+                    onChange={(e) => setSelectedSalsa(e.target.value)}
+                    className="w-full bg-malosa-surface-container-high border border-malosa-primary/50 rounded-none p-3 text-malosa-text-light text-sm outline-none focus:border-malosa-primary transition-all"
+                  >
+                    <option value="" disabled>Selecciona una salsa...</option>
+                    {salsas.map(s => (
+                      <option key={s.docId || s.id || s.title} value={s.title || s.name}>
+                        {s.title || s.name} {s.special ? '(Especial)' : ''}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+              
+              <div className="mt-4 font-sans">
+                <label className="block text-xs font-bold text-malosa-primary uppercase tracking-wide mb-2">Notas especiales (opcional):</label>
+                <textarea 
+                  placeholder="Ej. Sin cebolla..." 
+                  rows="2"
+                  value={itemNotes}
+                  onChange={(e) => setItemNotes(e.target.value)}
+                  className="w-full bg-malosa-surface-container-high border border-malosa-primary/50 rounded-none p-3 text-malosa-text-light text-sm outline-none focus:border-malosa-primary transition-all resize-none"
+                ></textarea>
+              </div>
+              
+              <button 
+                disabled={needsSalsa && !selectedSalsa}
+                onClick={() => { 
+                  const finalNotes = needsSalsa ? `Salsa: ${selectedSalsa}${itemNotes ? '. ' + itemNotes : ''}` : itemNotes;
+                  addToCart(itemToAdd, finalNotes); 
+                  setItemToAdd(null); 
+                }}
+                className="w-full mt-6 disabled:opacity-50 disabled:cursor-not-allowed bg-malosa-primary hover:bg-white text-malosa-bg font-bold py-3.5 rounded-none border-2 border-malosa-primary flex items-center justify-center gap-2 transition-colors font-malosa text-lg uppercase"
+              >
+                <span className="material-symbols-outlined">add_shopping_cart</span>
+                Añadir al Pedido
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Toast Notification */}
+      {toastMessage && (
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-[120] bg-malosa-primary text-malosa-bg px-5 py-3 rounded-none malosa-brutalist-border shadow-2xl flex items-center gap-2 font-sans font-bold uppercase text-sm">
+          <span className="material-symbols-outlined text-malosa-bg text-sm">check_circle</span>
+          <span>{toastMessage}</span>
+        </div>
       )}
     </div>
   );

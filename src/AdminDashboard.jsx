@@ -348,7 +348,7 @@ export default function AdminDashboard({ onBack, domain }) {
 
 function ContactSettingsModal({ initialData, onClose }) {
   const [formData, setFormData] = useState({
-    phone: '', whatsapp: '', facebook: '', instagram: '', maps: '', schedule: '',
+    phone: '', whatsapp: '', facebook: '', instagram: '', maps: '', schedule: '', whatsappOrdersEnabled: true,
     ...initialData
   });
 
@@ -377,6 +377,10 @@ function ContactSettingsModal({ initialData, onClose }) {
         <p className="text-sm text-gray-500 mb-4">Actualiza la información visible en la vista del cliente (Footer).</p>
         
         <div className="flex flex-col gap-3 mb-6">
+          <div className="flex items-center gap-2 mb-2 p-3 bg-gray-50 border rounded-lg">
+            <input type="checkbox" id="whatsappOrdersEnabled" name="whatsappOrdersEnabled" checked={formData.whatsappOrdersEnabled !== false} onChange={(e) => setFormData({...formData, whatsappOrdersEnabled: e.target.checked})} className="w-5 h-5 accent-purple-600" />
+            <label htmlFor="whatsappOrdersEnabled" className="text-sm font-bold text-gray-700 cursor-pointer">Habilitar Pedidos por WhatsApp (Carrito activo)</label>
+          </div>
           <div><label className="block text-sm font-bold text-gray-700 mb-1">Horario (Ej. Mar-Dom 2pm a 10pm)</label><input type="text" name="schedule" value={formData.schedule || ''} onChange={handleChange} className="w-full bg-white text-black border p-2 rounded text-sm" placeholder="Horario" /></div>
           <div><label className="block text-sm font-bold text-gray-700 mb-1">Teléfono (Llamadas)</label><input type="text" name="phone" value={formData.phone || ''} onChange={handleChange} className="w-full bg-white text-black border p-2 rounded text-sm" placeholder="Ej. 2221234567" /></div>
           <div><label className="block text-sm font-bold text-gray-700 mb-1">WhatsApp (Número sin espacios)</label><input type="text" name="whatsapp" value={formData.whatsapp || ''} onChange={handleChange} className="w-full bg-white text-black border p-2 rounded text-sm" placeholder="Ej. 522221234567" /></div>
